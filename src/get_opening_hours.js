@@ -35,19 +35,19 @@ export default function getOpeningHours(openingHoursString) {
       const weekdayRanges = joinedWeekdayRanges.split(',');
 
       weekdayRanges.forEach((weekdayRange) => {
-        const [from, to = from] = weekdayRange.split('-');
+        const [fromWeekday, toWeekday = fromWeekday] = weekdayRange.split('-');
 
-        if (!isValidWeekday(from) || !isValidWeekday(to)) {
+        if (!isValidWeekday(fromWeekday) || !isValidWeekday(toWeekday)) {
           throw new Error('Invalid weekday range');
         }
 
         const hourRanges = joinedHourRanges.split(',');
-        const hours = hourRanges.map(toHourObject);
+        const hourObjects = hourRanges.map(toHourObject);
 
         openingHoursArray.push({
-          from,
-          to,
-          hours,
+          from: fromWeekday,
+          to: toWeekday,
+          hours: hourObjects,
         });
       });
     })
