@@ -3,6 +3,7 @@ import {
   getNextOpenAt,
   getNextOpenNow,
   getOpeningHours,
+  encodeOpeningHours,
   isOpenAt,
   isOpenNow,
 } from './index';
@@ -22,6 +23,10 @@ describe('index', () => {
 
   it('has getOpeningHours exported properly', () => {
     expect(getOpeningHours).toBeInstanceOf(Function);
+  });
+
+  it('has encodeOpeningHours exported properly', () => {
+    expect(encodeOpeningHours).toBeInstanceOf(Function);
   });
 
   it('has isOpenAt exported properly', () => {

@@ -21,6 +21,7 @@ A collection of opening hours-related utilities.
 - [`getOpeningHours()`](#getOpeningHours)
 - [`getNextOpenAt()`](#getNextOpenAt)
 - [`getNextOpenNow()`](#getNextOpenNow)
+- [`encodeOpeningHours()`](#encodeOpeningHours)
 - [`isOpenAt()`](#isOpenAt)
 - [`isOpenNow()`](#isOpenNow)
 
@@ -88,6 +89,24 @@ Gets the next opening time. Returns null if place is currently open.
 import { getNextOpenNow } from '@wojtekmaj/opening-hours-utils';
 
 getNextOpenNow('Mo-Fr 08:00-17:30'); // 'Mo 08:00'
+```
+
+#### `encodeOpeningHours()`
+
+Returns opening hours string given an array of objects with `from`, `to`, and `hours` properties.
+
+##### Sample usage
+
+```js
+import { encodeOpeningHours } from '@wojtekmaj/opening-hours-utils';
+
+encodeOpeningHours([
+  {
+    from: 'Mo',
+    to: 'Fr',
+    hours: [{ from: '08:00', to: '17:30' }],
+  },
+]); // 'Mo-Fr 08:00-17:30'
 ```
 
 #### `isOpenAt()`
