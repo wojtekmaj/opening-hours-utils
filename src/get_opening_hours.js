@@ -19,7 +19,7 @@ export default function getOpeningHours(openingHoursString) {
     openingHoursString = 'Mo-Su 00:00-24:00';
   }
 
-  const dayGroups = openingHoursString.split(';');
+  const dayGroups = openingHoursString.split(/;\s*/);
 
   const openingHoursArray = dayGroups
     .filter(Boolean)

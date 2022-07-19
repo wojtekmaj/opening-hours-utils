@@ -68,7 +68,7 @@ export const multipleOpeningIntervals = {
 };
 
 export const openOnWeekends = {
-  string: 'Sa 08:00-17:30;Su 08:00-12:00',
+  string: 'Sa 08:00-17:30; Su 08:00-12:00',
   array: [
     {
       from: 'Sa',
