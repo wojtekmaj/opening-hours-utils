@@ -10,7 +10,11 @@ function toHourObject(hourRange) {
   return { from, to };
 }
 
-export default function getOpeningHours(openingHoursString = '') {
+export default function getOpeningHours(openingHoursString) {
+  if (!openingHoursString) {
+    return null;
+  }
+
   if (openingHoursString === '24/7') {
     openingHoursString = 'Mo-Su 00:00-24:00';
   }

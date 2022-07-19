@@ -23,4 +23,12 @@ describe('getOpeningHours()', () => {
 
     expect(result).toEqual(expectedResult);
   });
+
+  it('returns empty string given undefined', () => {
+    expect(encodeOpeningHours(undefined)).toBe('');
+  });
+
+  it('returns empty string given []', () => {
+    expect(encodeOpeningHours([])).toBe('');
+  });
 });

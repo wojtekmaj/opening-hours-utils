@@ -5,6 +5,10 @@ import { getDay, getWeekday } from './utils';
 export default function getDailyOpeningHours(openingHoursString = '') {
   const openingHoursArray = getOpeningHours(openingHoursString);
 
+  if (!openingHoursArray) {
+    return null;
+  }
+
   const dailyOpeningHoursArray = [];
 
   openingHoursArray.forEach((dayGroup) => {

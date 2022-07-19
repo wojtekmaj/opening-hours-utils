@@ -3,6 +3,14 @@ import getDailyOpeningHours from './get_daily_opening_hours';
 import { getDay, getMinutesFromMidnightFromDate, getMinutesFromMidnightFromString } from './utils';
 
 export default function isOpenAt(openingHoursString, date) {
+  if (!openingHoursString) {
+    return null;
+  }
+
+  if (!date) {
+    throw new Error('date is required');
+  }
+
   const dailyOpeningHoursArray = getDailyOpeningHours(openingHoursString);
 
   const day = date.getDay();

@@ -41,6 +41,10 @@ function groupDaysByDaysToOpening(dayGroups, day) {
 }
 
 export default function getNextOpenAt(openingHoursString, date) {
+  if (!openingHoursString) {
+    return null;
+  }
+
   if (isOpenAt(openingHoursString, date)) {
     return null;
   }

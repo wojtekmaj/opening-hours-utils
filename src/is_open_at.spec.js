@@ -80,6 +80,18 @@ describe('isOpenAt()', () => {
     },
   );
 
+  it('returns null given undefined', () => {
+    expect(isOpenAt(undefined, mondayMorning)).toBe(null);
+  });
+
+  it('returns null given empty string', () => {
+    expect(isOpenAt('', mondayMorning)).toBe(null);
+  });
+
+  it('throws given no date', () => {
+    expect(() => isOpenAt(openOnWeekdays.string)).toThrow();
+  });
+
   it.each`
     input
     ${invalidString1}

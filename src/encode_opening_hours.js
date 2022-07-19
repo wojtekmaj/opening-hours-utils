@@ -13,6 +13,10 @@ function toHourRange(hourObject) {
 }
 
 export default function encodeOpeningHours(openingHoursArray) {
+  if (!openingHoursArray) {
+    return '';
+  }
+
   return openingHoursArray
     .map(({ from, to = from, hours }) => {
       if (!from || !hours || !hours.length) {
