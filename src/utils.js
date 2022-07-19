@@ -19,7 +19,12 @@ export function getWeekday(day) {
 }
 
 export function isValidHour(hour) {
-  return /^(([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]|24:00)$/.test(hour);
+  const [hoursString, minutesString] = hour.split(':');
+
+  const hours = Number(hoursString);
+  const minutes = Number(minutesString);
+
+  return hours >= 0 && hours <= 48 && minutes >= 0 && minutes <= 59;
 }
 
 export function isValidWeekday(weekday) {
