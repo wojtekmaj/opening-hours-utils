@@ -1,0 +1,19 @@
+# Cache and IDE-related files
+.cache
+.idea
+
+# Yarn-related files
+**/.yarn/*
+!**/.yarn/releases
+!**/.yarn/plugins
+!**/.yarn/sdks
+yarn-error.log
+
+# Project-generated directories
+coverage
+dist
+node_modules
+
+# Other
+**/.DS_Store
+**/.env

@@ -1,0 +1,19 @@
+export const WEEKDAYS = {
+  SUNDAY: 0,
+  MONDAY: 1,
+  TUESDAY: 2,
+  WEDNESDAY: 3,
+  THURSDAY: 4,
+  FRIDAY: 5,
+  SATURDAY: 6,
+};
+
+export const WEEKDAY_NAMES = {
+  [WEEKDAYS.SUNDAY]: 'Su',
+  [WEEKDAYS.MONDAY]: 'Mo',
+  [WEEKDAYS.TUESDAY]: 'Tu',
+  [WEEKDAYS.WEDNESDAY]: 'We',
+  [WEEKDAYS.THURSDAY]: 'Th',
+  [WEEKDAYS.FRIDAY]: 'Fr',
+  [WEEKDAYS.SATURDAY]: 'Sa',
+};
