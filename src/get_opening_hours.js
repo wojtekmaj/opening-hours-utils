@@ -21,29 +21,35 @@ export default function getOpeningHours(openingHoursString) {
 
   const dayGroups = openingHoursString.split(/;\s*/);
 
-  const openingHoursArray = dayGroups
+  const openingHoursArray = [];
+
+  dayGroups
     .filter(Boolean)
     .map((dayGroup) => {
-      const [weekdayRange, joinedHourRanges] = dayGroup.split(' ');
+      const [joinedWeekdayRanges, joinedHourRanges] = dayGroup.split(' ');
 
       if (!joinedHourRanges) {
         return null;
       }
 
-      const [from, to = from] = weekdayRange.split('-');
+      const weekdayRanges = joinedWeekdayRanges.split(',');
 
-      if (!isValidWeekday(from) || !isValidWeekday(to)) {
-        throw new Error('Invalid weekday range');
-      }
+      weekdayRanges.forEach((weekdayRange) => {
+        const [from, to = from] = weekdayRange.split('-');
 
-      const hourRanges = joinedHourRanges.split(',');
-      const hours = hourRanges.map(toHourObject);
+        if (!isValidWeekday(from) || !isValidWeekday(to)) {
+          throw new Error('Invalid weekday range');
+        }
 
-      return {
-        from,
-        to,
-        hours,
-      };
+        const hourRanges = joinedHourRanges.split(',');
+        const hours = hourRanges.map(toHourObject);
+
+        openingHoursArray.push({
+          from,
+          to,
+          hours,
+        });
+      });
     })
     .filter(Boolean);
 

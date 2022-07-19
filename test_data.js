@@ -16,6 +16,27 @@ export const openOnWeekdays = {
   ],
 };
 
+export const openOnMondaysAndWednesdays = {
+  string: 'Mo,We 08:00-17:30',
+  altString: 'Mo 08:00-17:30; We 08:00-17:30',
+  array: [
+    {
+      from: 'Mo',
+      to: 'Mo',
+      hours: [{ from: '08:00', to: '17:30' }],
+    },
+    {
+      from: 'We',
+      to: 'We',
+      hours: [{ from: '08:00', to: '17:30' }],
+    },
+  ],
+  dailyArray: [
+    { day: 'Mo', hours: [{ from: '08:00', to: '17:30' }] },
+    { day: 'We', hours: [{ from: '08:00', to: '17:30' }] },
+  ],
+};
+
 export const multipleOpeningIntervals = {
   string: 'Mo-Fr 08:00-12:00,13:00-17:30',
   array: [

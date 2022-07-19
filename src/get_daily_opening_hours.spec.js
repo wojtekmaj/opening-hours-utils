@@ -8,19 +8,21 @@ import {
   openFridayToTuesday,
   openNonStop,
   openNonStopOnWeekends,
+  openOnMondaysAndWednesdays,
   openOnWeekdays,
   openOnWeekends,
 } from '../test_data';
 
 describe('getDailyOpeningHours()', () => {
   it.each`
-    input                              | expectedResult
-    ${openOnWeekdays.string}           | ${openOnWeekdays.dailyArray}
-    ${multipleOpeningIntervals.string} | ${multipleOpeningIntervals.dailyArray}
-    ${openOnWeekends.string}           | ${openOnWeekends.dailyArray}
-    ${openFridayToTuesday.string}      | ${openFridayToTuesday.dailyArray}
-    ${openNonStop.string}              | ${openNonStop.dailyArray}
-    ${openNonStopOnWeekends.string}    | ${openNonStopOnWeekends.dailyArray}
+    input                                | expectedResult
+    ${openOnWeekdays.string}             | ${openOnWeekdays.dailyArray}
+    ${openOnMondaysAndWednesdays.string} | ${openOnMondaysAndWednesdays.dailyArray}
+    ${multipleOpeningIntervals.string}   | ${multipleOpeningIntervals.dailyArray}
+    ${openOnWeekends.string}             | ${openOnWeekends.dailyArray}
+    ${openFridayToTuesday.string}        | ${openFridayToTuesday.dailyArray}
+    ${openNonStop.string}                | ${openNonStop.dailyArray}
+    ${openNonStopOnWeekends.string}      | ${openNonStopOnWeekends.dailyArray}
   `('returns proper object given $input', ({ input, expectedResult }) => {
     const result = getDailyOpeningHours(input);
 

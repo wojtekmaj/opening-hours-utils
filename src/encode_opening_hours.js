@@ -42,5 +42,5 @@ export default function encodeOpeningHours(openingHoursArray) {
       return `${weekdayRange} ${joinedHourRanges}`;
     })
     .filter(Boolean)
-    .join(';');
+    .join('; ');
 }

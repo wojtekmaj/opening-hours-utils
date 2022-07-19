@@ -5,19 +5,21 @@ import {
   openFridayToTuesday,
   openNonStop,
   openNonStopOnWeekends,
+  openOnMondaysAndWednesdays,
   openOnWeekdays,
   openOnWeekends,
 } from '../test_data';
 
 describe('getOpeningHours()', () => {
   it.each`
-    input                             | expectedResult
-    ${openOnWeekdays.array}           | ${openOnWeekdays.string}
-    ${multipleOpeningIntervals.array} | ${multipleOpeningIntervals.string}
-    ${openOnWeekends.array}           | ${openOnWeekends.string}
-    ${openFridayToTuesday.array}      | ${openFridayToTuesday.string}
-    ${openNonStop.array}              | ${openNonStop.string}
-    ${openNonStopOnWeekends.array}    | ${openNonStopOnWeekends.string}
+    input                               | expectedResult
+    ${openOnWeekdays.array}             | ${openOnWeekdays.string}
+    ${openOnMondaysAndWednesdays.array} | ${openOnMondaysAndWednesdays.altString}
+    ${multipleOpeningIntervals.array}   | ${multipleOpeningIntervals.string}
+    ${openOnWeekends.array}             | ${openOnWeekends.string}
+    ${openFridayToTuesday.array}        | ${openFridayToTuesday.string}
+    ${openNonStop.array}                | ${openNonStop.string}
+    ${openNonStopOnWeekends.array}      | ${openNonStopOnWeekends.string}
   `('returns proper object given $input', ({ input, expectedResult }) => {
     const result = encodeOpeningHours(input);
 
