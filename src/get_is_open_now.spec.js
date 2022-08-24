@@ -1,14 +1,14 @@
-import isOpenNow from './is_open_now';
+import getIsOpenNow from './get_is_open_now';
 
 import { invalidString1, invalidString2, invalidString3 } from '../test_data';
 
-describe('isOpenNow()', () => {
+describe('getIsOpenNow()', () => {
   it('returns null given undefined', () => {
-    expect(isOpenNow(undefined)).toBe(null);
+    expect(getIsOpenNow(undefined)).toBe(null);
   });
 
   it('returns null given empty string', () => {
-    expect(isOpenNow('')).toBe(null);
+    expect(getIsOpenNow('')).toBe(null);
   });
 
   it.each`
@@ -17,6 +17,6 @@ describe('isOpenNow()', () => {
     ${invalidString2}
     ${invalidString3}
   `('throws an error given $input', ({ input }) => {
-    expect(() => isOpenNow(input)).toThrow();
+    expect(() => getIsOpenNow(input)).toThrow();
   });
 });

@@ -1,16 +1,28 @@
 import {
+  encodeOpeningHours,
   getDailyOpeningHours,
+  getIsOpenAt,
+  getIsOpenNow,
   getNextOpenAt,
   getNextOpenNow,
   getOpeningHours,
-  encodeOpeningHours,
-  isOpenAt,
-  isOpenNow,
 } from './index';
 
 describe('index', () => {
+  it('has encodeOpeningHours exported properly', () => {
+    expect(encodeOpeningHours).toBeInstanceOf(Function);
+  });
+
   it('has getDailyOpeningHours exported properly', () => {
     expect(getDailyOpeningHours).toBeInstanceOf(Function);
+  });
+
+  it('has getIsOpenAt exported properly', () => {
+    expect(getIsOpenAt).toBeInstanceOf(Function);
+  });
+
+  it('has getIsOpenNow exported properly', () => {
+    expect(getIsOpenNow).toBeInstanceOf(Function);
   });
 
   it('has getNextOpenAt exported properly', () => {
@@ -23,17 +35,5 @@ describe('index', () => {
 
   it('has getOpeningHours exported properly', () => {
     expect(getOpeningHours).toBeInstanceOf(Function);
-  });
-
-  it('has encodeOpeningHours exported properly', () => {
-    expect(encodeOpeningHours).toBeInstanceOf(Function);
-  });
-
-  it('has isOpenAt exported properly', () => {
-    expect(isOpenAt).toBeInstanceOf(Function);
-  });
-
-  it('has isOpenNow exported properly', () => {
-    expect(isOpenNow).toBeInstanceOf(Function);
   });
 });

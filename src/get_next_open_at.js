@@ -1,5 +1,5 @@
 import getDailyOpeningHours from './get_daily_opening_hours';
-import isOpenAt from './is_open_at';
+import getIsOpenAt from './get_is_open_at';
 
 import {
   getDay,
@@ -45,7 +45,7 @@ export default function getNextOpenAt(openingHoursString, date) {
     return null;
   }
 
-  if (isOpenAt(openingHoursString, date)) {
+  if (getIsOpenAt(openingHoursString, date)) {
     return null;
   }
 

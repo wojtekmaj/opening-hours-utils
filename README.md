@@ -17,13 +17,31 @@ A collection of opening hours-related utilities.
 
 ### Table of contents
 
+- [`encodeOpeningHours()`](#encodeOpeningHours)
 - [`getDailyOpeningHours()`](#getDailyOpeningHours)
-- [`getOpeningHours()`](#getOpeningHours)
+- [`getIsOpenAt()`](#getIsOpenAt)
+- [`getIsOpenNow()`](#getIsOpenNow)
 - [`getNextOpenAt()`](#getNextOpenAt)
 - [`getNextOpenNow()`](#getNextOpenNow)
-- [`encodeOpeningHours()`](#encodeOpeningHours)
-- [`isOpenAt()`](#isOpenAt)
-- [`isOpenNow()`](#isOpenNow)
+- [`getOpeningHours()`](#getOpeningHours)
+
+#### `encodeOpeningHours()`
+
+Returns opening hours string given an array of objects with `from`, `to`, and `hours` properties.
+
+##### Sample usage
+
+```js
+import { encodeOpeningHours } from '@wojtekmaj/opening-hours-utils';
+
+encodeOpeningHours([
+  {
+    from: 'Mo',
+    to: 'Fr',
+    hours: [{ from: '08:00', to: '17:30' }],
+  },
+]); // 'Mo-Fr 08:00-17:30'
+```
 
 #### `getDailyOpeningHours()`
 
@@ -46,25 +64,28 @@ getDailyOpeningHours('Mo-Fr 08:00-17:30');
  */
 ```
 
-#### `getOpeningHours()`
+#### `getIsOpenAt()`
 
-Parses opening hours string and returns an array of objects with `from`, `to`, and `hours` properties.
+Checks if place is open at a given date.
 
 ##### Sample usage
 
 ```js
-import { getOpeningHours } from '@wojtekmaj/opening-hours-utils';
+import { getIsOpenAt } from '@wojtekmaj/opening-hours-utils';
 
-getOpeningHours('Mo-Fr 08:00-17:30');
-/**
- * [
- *   {
- *     from: 'Mo',
- *     to: 'Fr',
- *     hours: [{ from: '08:00', to: '17:30' }],
- *   },
- * ]
- */
+getIsOpenAt('Mo-Fr 08:00-17:30', mondayNoon); // true
+```
+
+#### `getIsOpenNow()`
+
+Checks if place is open.
+
+##### Sample usage
+
+```js
+import { getIsOpenNow } from '@wojtekmaj/opening-hours-utils';
+
+getIsOpenNow('Mo-Fr 08:00-17:30'); // true
 ```
 
 #### `getNextOpenAt()`
@@ -91,46 +112,25 @@ import { getNextOpenNow } from '@wojtekmaj/opening-hours-utils';
 getNextOpenNow('Mo-Fr 08:00-17:30'); // 'Mo 08:00'
 ```
 
-#### `encodeOpeningHours()`
+#### `getOpeningHours()`
 
-Returns opening hours string given an array of objects with `from`, `to`, and `hours` properties.
-
-##### Sample usage
-
-```js
-import { encodeOpeningHours } from '@wojtekmaj/opening-hours-utils';
-
-encodeOpeningHours([
-  {
-    from: 'Mo',
-    to: 'Fr',
-    hours: [{ from: '08:00', to: '17:30' }],
-  },
-]); // 'Mo-Fr 08:00-17:30'
-```
-
-#### `isOpenAt()`
-
-Checks if place is open at a given date.
+Parses opening hours string and returns an array of objects with `from`, `to`, and `hours` properties.
 
 ##### Sample usage
 
 ```js
-import { isOpenAt } from '@wojtekmaj/opening-hours-utils';
+import { getOpeningHours } from '@wojtekmaj/opening-hours-utils';
 
-isOpenAt('Mo-Fr 08:00-17:30', mondayNoon); // true
-```
-
-#### `isOpenNow()`
-
-Checks if place is open.
-
-##### Sample usage
-
-```js
-import { isOpenNow } from '@wojtekmaj/opening-hours-utils';
-
-isOpenNow('Mo-Fr 08:00-17:30'); // true
+getOpeningHours('Mo-Fr 08:00-17:30');
+/**
+ * [
+ *   {
+ *     from: 'Mo',
+ *     to: 'Fr',
+ *     hours: [{ from: '08:00', to: '17:30' }],
+ *   },
+ * ]
+ */
 ```
 
 ## License

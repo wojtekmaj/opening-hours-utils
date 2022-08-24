@@ -1,4 +1,4 @@
-import isOpenAt from './is_open_at';
+import getIsOpenAt from './get_is_open_at';
 
 import {
   invalidString1,
@@ -21,7 +21,7 @@ import {
   saturdayMidnight,
 } from '../test_data';
 
-describe('isOpenAt()', () => {
+describe('getIsOpenAt()', () => {
   it.each`
     openingHoursString                   | date                  | expectedResult
     ${openOnWeekdays.string}             | ${saturdayMidnight}   | ${false}
@@ -83,22 +83,22 @@ describe('isOpenAt()', () => {
   `(
     'returns $expectedResult given $openingHoursString and $date',
     ({ openingHoursString, date, expectedResult }) => {
-      const result = isOpenAt(openingHoursString, date);
+      const result = getIsOpenAt(openingHoursString, date);
 
       expect(result).toBe(expectedResult);
     },
   );
 
   it('returns null given undefined', () => {
-    expect(isOpenAt(undefined, mondayMorning)).toBe(null);
+    expect(getIsOpenAt(undefined, mondayMorning)).toBe(null);
   });
 
   it('returns null given empty string', () => {
-    expect(isOpenAt('', mondayMorning)).toBe(null);
+    expect(getIsOpenAt('', mondayMorning)).toBe(null);
   });
 
   it('throws given no date', () => {
-    expect(() => isOpenAt(openOnWeekdays.string)).toThrow();
+    expect(() => getIsOpenAt(openOnWeekdays.string)).toThrow();
   });
 
   it.each`
@@ -107,6 +107,6 @@ describe('isOpenAt()', () => {
     ${invalidString2}
     ${invalidString3}
   `('throws an error given $input', ({ input }) => {
-    expect(() => isOpenAt(input)).toThrow();
+    expect(() => getIsOpenAt(input)).toThrow();
   });
 });

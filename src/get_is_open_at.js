@@ -2,7 +2,7 @@ import getDailyOpeningHours from './get_daily_opening_hours';
 
 import { getDay, getMinutesFromMidnightFromDate, getMinutesFromMidnightFromString } from './utils';
 
-export default function isOpenAt(openingHoursString, date) {
+export default function getIsOpenAt(openingHoursString, date) {
   if (!openingHoursString) {
     return null;
   }
