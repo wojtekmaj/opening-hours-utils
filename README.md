@@ -21,6 +21,8 @@ A collection of opening hours-related utilities.
 - [`getDailyOpeningHours()`](#getDailyOpeningHours)
 - [`getIsOpenAt()`](#getIsOpenAt)
 - [`getIsOpenNow()`](#getIsOpenNow)
+- [`getNextClosedAt()`](#getNextClosedAt)
+- [`getNextClosedNow()`](#getNextClosedNow)
 - [`getNextOpenAt()`](#getNextOpenAt)
 - [`getNextOpenNow()`](#getNextOpenNow)
 - [`getOpeningHours()`](#getOpeningHours)
@@ -86,6 +88,30 @@ Checks if place is open.
 import { getIsOpenNow } from '@wojtekmaj/opening-hours-utils';
 
 getIsOpenNow('Mo-Fr 08:00-17:30'); // true
+```
+
+#### `getNextClosedAt()`
+
+Gets the next closing time for a given date. Returns null if for a given date place is closed.
+
+##### Sample usage
+
+```js
+import { getNextClosedAt } from '@wojtekmaj/opening-hours-utils';
+
+getNextClosedAt('Mo-Fr 08:00-17:30', mondayNoon); // 'Mo 17:30'
+```
+
+#### `getNextClosedNow()`
+
+Gets the next closing time. Returns null if place is currently closed.
+
+##### Sample usage
+
+```js
+import { getNextClosedNow } from '@wojtekmaj/opening-hours-utils';
+
+getNextClosedNow('Mo-Fr 08:00-17:30'); // 'Mo 17:30'
 ```
 
 #### `getNextOpenAt()`
