@@ -10,7 +10,7 @@ A collection of opening hours-related utilities.
 - Import by adding `import * as openingHoursUtils from '@wojtekmaj/opening-hours-utils'`.
 - Do stuff with it!
   ```js
-  const openingHoursArray = getOpeningHoursArray('Mo-Fr 08:00-18:00;Sa 08:00-12:00');
+  const openingHours = getOpeningHours('Mo-Fr 08:00-18:00;Sa 08:00-12:00');
   ```
 
 ## User guide
