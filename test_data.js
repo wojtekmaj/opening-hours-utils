@@ -161,6 +161,18 @@ export const openNonStopOnWeekends = {
   ],
 };
 
+export const unspecifiedClosingTime = {
+  string: 'Sa 10:00+',
+  array: [
+    {
+      from: 'Sa',
+      to: 'Sa',
+      hours: [{ from: '10:00', to: null }],
+    },
+  ],
+  dailyArray: [{ day: 'Sa', hours: [{ from: '10:00', to: null }] }],
+};
+
 export const invalidString1 = 'Fo-Ba 08:00-17:30';
 export const invalidString2 = 'Mo-Fr 08:00-49:00';
 export const invalidString3 = 'Mo-Fr 08:00-17:65';

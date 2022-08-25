@@ -19,6 +19,7 @@ import {
   saturdayEightAm,
   saturdayMidday,
   saturdayMidnight,
+  unspecifiedClosingTime,
 } from '../test_data';
 
 describe('getNextClosedAt()', () => {
@@ -80,6 +81,14 @@ describe('getNextClosedAt()', () => {
     ${openNonStopOnWeekends.string}      | ${mondayMidday}       | ${null}
     ${openNonStopOnWeekends.string}      | ${mondayTwelveThirty} | ${null}
     ${openNonStopOnWeekends.string}      | ${mondayEvening}      | ${null}
+    ${unspecifiedClosingTime.string}     | ${saturdayMidnight}   | ${null}
+    ${unspecifiedClosingTime.string}     | ${saturdayEightAm}    | ${null}
+    ${unspecifiedClosingTime.string}     | ${saturdayMidday}     | ${null}
+    ${unspecifiedClosingTime.string}     | ${mondayMidnight}     | ${null}
+    ${unspecifiedClosingTime.string}     | ${mondayMorning}      | ${null}
+    ${unspecifiedClosingTime.string}     | ${mondayMidday}       | ${null}
+    ${unspecifiedClosingTime.string}     | ${mondayTwelveThirty} | ${null}
+    ${unspecifiedClosingTime.string}     | ${mondayEvening}      | ${null}
   `(
     'returns $expectedResult given $openingHoursString and $date',
     ({ openingHoursString, date, expectedResult }) => {

@@ -8,6 +8,7 @@ import {
   openOnMondaysAndWednesdays,
   openOnWeekdays,
   openOnWeekends,
+  unspecifiedClosingTime,
 } from '../test_data';
 
 describe('encodeOpeningHours()', () => {
@@ -20,6 +21,7 @@ describe('encodeOpeningHours()', () => {
     ${openFridayToTuesday.array}        | ${openFridayToTuesday.string}
     ${openNonStop.array}                | ${openNonStop.string}
     ${openNonStopOnWeekends.array}      | ${openNonStopOnWeekends.string}
+    ${unspecifiedClosingTime.array}     | ${unspecifiedClosingTime.string}
   `('returns proper object given $input', ({ input, expectedResult }) => {
     const result = encodeOpeningHours(input);
 

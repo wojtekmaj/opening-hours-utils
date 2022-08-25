@@ -45,7 +45,10 @@ export default function getNextOpenAt(openingHoursString, date) {
     return null;
   }
 
-  if (getIsOpenAt(openingHoursString, date)) {
+  const isOpenAt = getIsOpenAt(openingHoursString, date);
+
+  // If open or unspecified closing time, return null.
+  if (isOpenAt !== false) {
     return null;
   }
 

@@ -1,6 +1,12 @@
 import { isValidHour, isValidWeekday } from './utils';
 
 function toHourObject(hourRange) {
+  if (hourRange.endsWith('+')) {
+    const from = hourRange.slice(0, -1);
+
+    return { from, to: null };
+  }
+
   const [from, to] = hourRange.split('-');
 
   if (!isValidHour(from) || !isValidHour(to)) {

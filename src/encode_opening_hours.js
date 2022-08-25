@@ -1,12 +1,24 @@
-import { getDay } from './utils';
+import { getDay, isValidHour } from './utils';
 
 function isValidHourObject(hourObject) {
-  return hourObject.from && hourObject.to;
+  if (!isValidHour(hourObject.from)) {
+    return false;
+  }
+
+  if (hourObject.to && !isValidHour(hourObject.to)) {
+    return false;
+  }
+
+  return true;
 }
 
 function toHourRange(hourObject) {
   if (!isValidHourObject(hourObject)) {
     return null;
+  }
+
+  if (!hourObject.to) {
+    return `${hourObject.from}+`;
   }
 
   return `${hourObject.from}-${hourObject.to}`;
