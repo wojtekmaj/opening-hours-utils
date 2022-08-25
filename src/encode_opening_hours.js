@@ -1,4 +1,4 @@
-import { getDay, isValidHour } from './utils';
+import { getDay, getDayDiff, isValidHour } from './utils';
 
 function isValidHourObject(hourObject) {
   if (!isValidHour(hourObject.from)) {
@@ -45,7 +45,7 @@ export default function encodeOpeningHours(openingHoursArray) {
       const hourRanges = validHours.map(toHourRange);
       const joinedHourRanges = hourRanges.join(',');
 
-      const dayDiff = (7 + (getDay(to) - getDay(from))) % 7;
+      const dayDiff = getDayDiff(getDay(from), getDay(to));
 
       if (dayDiff === 6 && joinedHourRanges === '00:00-24:00') {
         return '24/7';

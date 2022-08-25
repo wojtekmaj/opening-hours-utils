@@ -4,6 +4,16 @@ export function getDay(weekday) {
   return Number(Object.entries(WEEKDAY_NAMES).find(([, value]) => value === weekday)[0]);
 }
 
+export function getDayDiff(from, to) {
+  return (7 + (to - from)) % 7;
+}
+
+export function getHourGroups(dayGroups) {
+  return dayGroups.reduce((acc, dayGroup) => {
+    return acc.concat(dayGroup.hours);
+  }, []);
+}
+
 export function getMinutesFromMidnightFromDate(date) {
   return date.getHours() * 60 + date.getMinutes();
 }

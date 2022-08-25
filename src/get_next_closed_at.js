@@ -3,6 +3,8 @@ import getIsOpenAt from './get_is_open_at';
 
 import {
   getDay,
+  getDayDiff,
+  getHourGroups,
   getMinutesFromMidnightFromDate,
   getMinutesFromMidnightFromString,
   getWeekday,
@@ -11,19 +13,13 @@ import {
 function getDaysToClosing(dayGroup, weekday) {
   const from = getDay(dayGroup.day);
 
-  return (7 + (from - weekday)) % 7;
+  return getDayDiff(weekday, from);
 }
 
 function getMinutesToClosing(hourGroup, minutesFromMidnight) {
   const fromMinutes = getMinutesFromMidnightFromString(hourGroup.to);
 
   return fromMinutes - minutesFromMidnight;
-}
-
-function getHourGroups(dayGroups) {
-  return dayGroups.reduce((acc, dayGroup) => {
-    return acc.concat(dayGroup.hours);
-  }, []);
 }
 
 function groupDaysByDaysToClosing(dayGroups, day) {
@@ -42,10 +38,6 @@ function groupDaysByDaysToClosing(dayGroups, day) {
 
 function addMinutes(date, minutes) {
   return new Date(date.getTime() + minutes * 60000);
-}
-
-function getDifferenceInDays(day1, day2) {
-  return (7 + (day2 - day1)) % 7;
 }
 
 export default function getNextClosedAt(openingHoursString, date) {
@@ -88,7 +80,7 @@ export default function getNextClosedAt(openingHoursString, date) {
     const isToday = day === dayGroupDay;
 
     for (const hourGroup of sortedHourGroups) {
-      const differenceInDays = getDifferenceInDays(day, dayGroupDay);
+      const differenceInDays = getDayDiff(day, dayGroupDay);
 
       const minutesToClosing = getMinutesToClosing(
         hourGroup,

@@ -3,6 +3,7 @@ import getIsOpenAt from './get_is_open_at';
 
 import {
   getDay,
+  getHourGroups,
   getMinutesFromMidnightFromDate,
   getMinutesFromMidnightFromString,
   getWeekday,
@@ -18,12 +19,6 @@ function getMinutesToOpening(hourGroup, minutesFromMidnight) {
   const fromMinutes = getMinutesFromMidnightFromString(hourGroup.from);
 
   return fromMinutes - minutesFromMidnight;
-}
-
-function getHourGroups(dayGroups) {
-  return dayGroups.reduce((acc, dayGroup) => {
-    return acc.concat(dayGroup.hours);
-  }, []);
 }
 
 function groupDaysByDaysToOpening(dayGroups, day) {

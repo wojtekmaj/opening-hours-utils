@@ -1,6 +1,6 @@
 import getOpeningHours from './get_opening_hours';
 
-import { getDay, getWeekday } from './utils';
+import { getDay, getDayDiff, getWeekday } from './utils';
 
 export default function getDailyOpeningHours(openingHoursString = '') {
   const openingHoursArray = getOpeningHours(openingHoursString);
@@ -15,7 +15,7 @@ export default function getDailyOpeningHours(openingHoursString = '') {
     const from = getDay(dayGroup.from);
     const to = getDay(dayGroup.to);
 
-    const dayDiff = (7 + (to - from)) % 7;
+    const dayDiff = getDayDiff(from, to);
     const numberOfDays = dayDiff + 1;
 
     for (let i = 0; i < numberOfDays; i++) {
