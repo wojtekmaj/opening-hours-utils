@@ -2,7 +2,7 @@ import getOpeningHours from './get_opening_hours';
 
 import { getDay, getDayDiff, getWeekday } from './utils';
 
-export default function getDailyOpeningHours(openingHoursString = '') {
+export default function getDailyOpeningHours(openingHoursString) {
   const openingHoursArray = getOpeningHours(openingHoursString);
 
   if (!openingHoursArray) {
