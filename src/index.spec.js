@@ -3,6 +3,8 @@ import {
   getDailyOpeningHours,
   getIsOpenAt,
   getIsOpenNow,
+  getNextClosedAt,
+  getNextClosedNow,
   getNextOpenAt,
   getNextOpenNow,
   getOpeningHours,
@@ -23,6 +25,14 @@ describe('index', () => {
 
   it('has getIsOpenNow exported properly', () => {
     expect(getIsOpenNow).toBeInstanceOf(Function);
+  });
+
+  it('has getNextClosedAt exported properly', () => {
+    expect(getNextClosedAt).toBeInstanceOf(Function);
+  });
+
+  it('has getNextClosedNow exported properly', () => {
+    expect(getNextClosedNow).toBeInstanceOf(Function);
   });
 
   it('has getNextOpenAt exported properly', () => {
