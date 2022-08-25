@@ -9,6 +9,8 @@ import {
   openOnWeekdays,
   openOnWeekends,
   unspecifiedClosingTime,
+  overrideWithDifferentHours,
+  overrideWithOff,
 } from '../test_data';
 
 describe('encodeOpeningHours()', () => {
@@ -22,6 +24,8 @@ describe('encodeOpeningHours()', () => {
     ${openNonStop.array}                | ${openNonStop.string}
     ${openNonStopOnWeekends.array}      | ${openNonStopOnWeekends.string}
     ${unspecifiedClosingTime.array}     | ${unspecifiedClosingTime.string}
+    ${overrideWithDifferentHours.array} | ${overrideWithDifferentHours.string}
+    ${overrideWithOff.array}            | ${overrideWithOff.string}
   `('returns proper object given $input', ({ input, expectedResult }) => {
     const result = encodeOpeningHours(input);
 

@@ -12,6 +12,8 @@ import {
   openOnWeekdays,
   openOnWeekends,
   unspecifiedClosingTime,
+  overrideWithDifferentHours,
+  overrideWithOff,
 } from '../test_data';
 
 describe('getOpeningHours()', () => {
@@ -25,6 +27,8 @@ describe('getOpeningHours()', () => {
     ${openNonStop.string}                | ${openNonStop.array}
     ${openNonStopOnWeekends.string}      | ${openNonStopOnWeekends.array}
     ${unspecifiedClosingTime.string}     | ${unspecifiedClosingTime.array}
+    ${overrideWithDifferentHours.string} | ${overrideWithDifferentHours.array}
+    ${overrideWithOff.string}            | ${overrideWithOff.array}
   `('returns proper object given $input', ({ input, expectedResult }) => {
     const result = getOpeningHours(input);
 

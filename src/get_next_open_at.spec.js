@@ -16,9 +16,12 @@ import {
   openOnMondaysAndWednesdays,
   openOnWeekdays,
   openOnWeekends,
+  overrideWithDifferentHours,
+  overrideWithOff,
   saturdayEightAm,
   saturdayMidday,
   saturdayMidnight,
+  tuesdayAfternoon,
   unspecifiedClosingTime,
 } from '../test_data';
 
@@ -89,6 +92,24 @@ describe('getNextOpenAt()', () => {
     ${unspecifiedClosingTime.string}     | ${mondayMidday}       | ${'Sa 10:00'}
     ${unspecifiedClosingTime.string}     | ${mondayTwelveThirty} | ${'Sa 10:00'}
     ${unspecifiedClosingTime.string}     | ${mondayEvening}      | ${'Sa 10:00'}
+    ${overrideWithDifferentHours.string} | ${saturdayMidnight}   | ${'Sa 10:00'}
+    ${overrideWithDifferentHours.string} | ${saturdayEightAm}    | ${'Sa 10:00'}
+    ${overrideWithDifferentHours.string} | ${saturdayMidday}     | ${null}
+    ${overrideWithDifferentHours.string} | ${mondayMidnight}     | ${'Mo 10:00'}
+    ${overrideWithDifferentHours.string} | ${mondayMorning}      | ${'Mo 10:00'}
+    ${overrideWithDifferentHours.string} | ${mondayMidday}       | ${null}
+    ${overrideWithDifferentHours.string} | ${mondayTwelveThirty} | ${null}
+    ${overrideWithDifferentHours.string} | ${mondayEvening}      | ${null}
+    ${overrideWithDifferentHours.string} | ${tuesdayAfternoon}   | ${'We 10:00'}
+    ${overrideWithOff.string}            | ${saturdayMidnight}   | ${'Sa 10:00'}
+    ${overrideWithOff.string}            | ${saturdayEightAm}    | ${'Sa 10:00'}
+    ${overrideWithOff.string}            | ${saturdayMidday}     | ${null}
+    ${overrideWithOff.string}            | ${mondayMidnight}     | ${'Mo 10:00'}
+    ${overrideWithOff.string}            | ${mondayMorning}      | ${'Mo 10:00'}
+    ${overrideWithOff.string}            | ${mondayMidday}       | ${null}
+    ${overrideWithOff.string}            | ${mondayTwelveThirty} | ${null}
+    ${overrideWithOff.string}            | ${mondayEvening}      | ${null}
+    ${overrideWithOff.string}            | ${tuesdayAfternoon}   | ${'We 10:00'}
   `(
     'returns $expectedResult given $openingHoursString and $date',
     ({ openingHoursString, date, expectedResult }) => {

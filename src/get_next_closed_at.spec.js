@@ -16,9 +16,12 @@ import {
   openOnMondaysAndWednesdays,
   openOnWeekdays,
   openOnWeekends,
+  overrideWithDifferentHours,
+  overrideWithOff,
   saturdayEightAm,
   saturdayMidday,
   saturdayMidnight,
+  tuesdayAfternoon,
   unspecifiedClosingTime,
 } from '../test_data';
 
@@ -89,6 +92,24 @@ describe('getNextClosedAt()', () => {
     ${unspecifiedClosingTime.string}     | ${mondayMidday}       | ${null}
     ${unspecifiedClosingTime.string}     | ${mondayTwelveThirty} | ${null}
     ${unspecifiedClosingTime.string}     | ${mondayEvening}      | ${null}
+    ${overrideWithDifferentHours.string} | ${saturdayMidnight}   | ${null}
+    ${overrideWithDifferentHours.string} | ${saturdayEightAm}    | ${null}
+    ${overrideWithDifferentHours.string} | ${saturdayMidday}     | ${'Sa 20:00'}
+    ${overrideWithDifferentHours.string} | ${mondayMidnight}     | ${null}
+    ${overrideWithDifferentHours.string} | ${mondayMorning}      | ${null}
+    ${overrideWithDifferentHours.string} | ${mondayMidday}       | ${'Mo 20:00'}
+    ${overrideWithDifferentHours.string} | ${mondayTwelveThirty} | ${'Mo 20:00'}
+    ${overrideWithDifferentHours.string} | ${mondayEvening}      | ${'Mo 20:00'}
+    ${overrideWithDifferentHours.string} | ${tuesdayAfternoon}   | ${null}
+    ${overrideWithOff.string}            | ${saturdayMidnight}   | ${null}
+    ${overrideWithOff.string}            | ${saturdayEightAm}    | ${null}
+    ${overrideWithOff.string}            | ${saturdayMidday}     | ${'Sa 20:00'}
+    ${overrideWithOff.string}            | ${mondayMidnight}     | ${null}
+    ${overrideWithOff.string}            | ${mondayMorning}      | ${null}
+    ${overrideWithOff.string}            | ${mondayMidday}       | ${'Mo 20:00'}
+    ${overrideWithOff.string}            | ${mondayTwelveThirty} | ${'Mo 20:00'}
+    ${overrideWithOff.string}            | ${mondayEvening}      | ${'Mo 20:00'}
+    ${overrideWithOff.string}            | ${tuesdayAfternoon}   | ${null}
   `(
     'returns $expectedResult given $openingHoursString and $date',
     ({ openingHoursString, date, expectedResult }) => {

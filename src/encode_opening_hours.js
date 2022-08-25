@@ -31,17 +31,17 @@ export default function encodeOpeningHours(openingHoursArray) {
 
   return openingHoursArray
     .map(({ from, to = from, hours }) => {
-      if (!from || !hours || !hours.length) {
+      if (!from || !hours) {
         return null;
       }
 
       const validHours = hours.filter(isValidHourObject);
+      const weekdayRange = from === to ? from : `${from}-${to}`;
 
       if (!validHours.length) {
-        return null;
+        return `${weekdayRange} off`;
       }
 
-      const weekdayRange = from === to ? from : `${from}-${to}`;
       const hourRanges = validHours.map(toHourRange);
       const joinedHourRanges = hourRanges.join(',');
 

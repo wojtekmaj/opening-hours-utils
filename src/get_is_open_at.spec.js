@@ -16,9 +16,12 @@ import {
   openOnMondaysAndWednesdays,
   openOnWeekdays,
   openOnWeekends,
+  overrideWithDifferentHours,
+  overrideWithOff,
   saturdayEightAm,
   saturdayMidday,
   saturdayMidnight,
+  tuesdayAfternoon,
   unspecifiedClosingTime,
 } from '../test_data';
 
@@ -89,6 +92,24 @@ describe('getIsOpenAt()', () => {
     ${unspecifiedClosingTime.string}     | ${mondayMidday}       | ${false}
     ${unspecifiedClosingTime.string}     | ${mondayTwelveThirty} | ${false}
     ${unspecifiedClosingTime.string}     | ${mondayEvening}      | ${false}
+    ${overrideWithDifferentHours.string} | ${saturdayMidnight}   | ${false}
+    ${overrideWithDifferentHours.string} | ${saturdayEightAm}    | ${false}
+    ${overrideWithDifferentHours.string} | ${saturdayMidday}     | ${true}
+    ${overrideWithDifferentHours.string} | ${mondayMidnight}     | ${false}
+    ${overrideWithDifferentHours.string} | ${mondayMorning}      | ${false}
+    ${overrideWithDifferentHours.string} | ${mondayMidday}       | ${true}
+    ${overrideWithDifferentHours.string} | ${mondayTwelveThirty} | ${true}
+    ${overrideWithDifferentHours.string} | ${mondayEvening}      | ${true}
+    ${overrideWithDifferentHours.string} | ${tuesdayAfternoon}   | ${false}
+    ${overrideWithOff.string}            | ${saturdayMidnight}   | ${false}
+    ${overrideWithOff.string}            | ${saturdayEightAm}    | ${false}
+    ${overrideWithOff.string}            | ${saturdayMidday}     | ${true}
+    ${overrideWithOff.string}            | ${mondayMidnight}     | ${false}
+    ${overrideWithOff.string}            | ${mondayMorning}      | ${false}
+    ${overrideWithOff.string}            | ${mondayMidday}       | ${true}
+    ${overrideWithOff.string}            | ${mondayTwelveThirty} | ${true}
+    ${overrideWithOff.string}            | ${mondayEvening}      | ${true}
+    ${overrideWithOff.string}            | ${tuesdayAfternoon}   | ${false}
   `(
     'returns $expectedResult given $openingHoursString and $date',
     ({ openingHoursString, date, expectedResult }) => {
