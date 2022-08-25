@@ -10,7 +10,7 @@ import {
   openOnWeekends,
 } from '../test_data';
 
-describe('getOpeningHours()', () => {
+describe('encodeOpeningHours()', () => {
   it.each`
     input                               | expectedResult
     ${openOnWeekdays.array}             | ${openOnWeekdays.string}
