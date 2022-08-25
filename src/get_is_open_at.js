@@ -11,6 +11,10 @@ export default function getIsOpenAt(openingHoursString, date) {
     throw new Error('date is required');
   }
 
+  if (openingHoursString === '24/7') {
+    return true;
+  }
+
   const dailyOpeningHoursArray = getDailyOpeningHours(openingHoursString);
 
   const day = date.getDay();
