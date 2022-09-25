@@ -14,11 +14,13 @@ import {
   openNonStop,
   openNonStopOnWeekends,
   openOnMondaysAndWednesdays,
+  openOnSaturday,
   openOnWeekdays,
   openOnWeekends,
   overrideWithDifferentHours,
   overrideWithOff,
   saturdayEightAm,
+  saturdayEvening,
   saturdayMidday,
   saturdayMidnight,
   tuesdayAfternoon,
@@ -31,6 +33,7 @@ describe('getIsOpenAt()', () => {
     ${openOnWeekdays.string}             | ${saturdayMidnight}   | ${false}
     ${openOnWeekdays.string}             | ${saturdayEightAm}    | ${false}
     ${openOnWeekdays.string}             | ${saturdayMidday}     | ${false}
+    ${openOnWeekdays.string}             | ${saturdayEvening}    | ${false}
     ${openOnWeekdays.string}             | ${mondayMidnight}     | ${false}
     ${openOnWeekdays.string}             | ${mondayMorning}      | ${true}
     ${openOnWeekdays.string}             | ${mondayMidday}       | ${true}
@@ -39,6 +42,7 @@ describe('getIsOpenAt()', () => {
     ${openOnMondaysAndWednesdays.string} | ${saturdayMidnight}   | ${false}
     ${openOnMondaysAndWednesdays.string} | ${saturdayEightAm}    | ${false}
     ${openOnMondaysAndWednesdays.string} | ${saturdayMidday}     | ${false}
+    ${openOnMondaysAndWednesdays.string} | ${saturdayEvening}    | ${false}
     ${openOnMondaysAndWednesdays.string} | ${mondayMidnight}     | ${false}
     ${openOnMondaysAndWednesdays.string} | ${mondayMorning}      | ${true}
     ${openOnMondaysAndWednesdays.string} | ${mondayMidday}       | ${true}
@@ -47,14 +51,25 @@ describe('getIsOpenAt()', () => {
     ${multipleOpeningIntervals.string}   | ${saturdayMidnight}   | ${false}
     ${multipleOpeningIntervals.string}   | ${saturdayEightAm}    | ${false}
     ${multipleOpeningIntervals.string}   | ${saturdayMidday}     | ${false}
+    ${multipleOpeningIntervals.string}   | ${saturdayEvening}    | ${false}
     ${multipleOpeningIntervals.string}   | ${mondayMidnight}     | ${false}
     ${multipleOpeningIntervals.string}   | ${mondayMorning}      | ${true}
     ${multipleOpeningIntervals.string}   | ${mondayMidday}       | ${true}
     ${multipleOpeningIntervals.string}   | ${mondayTwelveThirty} | ${false}
     ${multipleOpeningIntervals.string}   | ${mondayEvening}      | ${false}
+    ${openOnSaturday.string}             | ${saturdayMidnight}   | ${false}
+    ${openOnSaturday.string}             | ${saturdayEightAm}    | ${true}
+    ${openOnSaturday.string}             | ${saturdayMidday}     | ${true}
+    ${openOnSaturday.string}             | ${saturdayEvening}    | ${false}
+    ${openOnSaturday.string}             | ${mondayMidnight}     | ${false}
+    ${openOnSaturday.string}             | ${mondayMorning}      | ${false}
+    ${openOnSaturday.string}             | ${mondayMidday}       | ${false}
+    ${openOnSaturday.string}             | ${mondayTwelveThirty} | ${false}
+    ${openOnSaturday.string}             | ${mondayEvening}      | ${false}
     ${openOnWeekends.string}             | ${saturdayMidnight}   | ${false}
     ${openOnWeekends.string}             | ${saturdayEightAm}    | ${true}
     ${openOnWeekends.string}             | ${saturdayMidday}     | ${true}
+    ${openOnWeekends.string}             | ${saturdayEvening}    | ${false}
     ${openOnWeekends.string}             | ${mondayMidnight}     | ${false}
     ${openOnWeekends.string}             | ${mondayMorning}      | ${false}
     ${openOnWeekends.string}             | ${mondayMidday}       | ${false}
@@ -63,6 +78,7 @@ describe('getIsOpenAt()', () => {
     ${openFridayToTuesday.string}        | ${saturdayMidnight}   | ${false}
     ${openFridayToTuesday.string}        | ${saturdayEightAm}    | ${true}
     ${openFridayToTuesday.string}        | ${saturdayMidday}     | ${true}
+    ${openFridayToTuesday.string}        | ${saturdayEvening}    | ${false}
     ${openFridayToTuesday.string}        | ${mondayMidnight}     | ${false}
     ${openFridayToTuesday.string}        | ${mondayMorning}      | ${true}
     ${openFridayToTuesday.string}        | ${mondayMidday}       | ${true}
@@ -71,6 +87,7 @@ describe('getIsOpenAt()', () => {
     ${openNonStop.string}                | ${saturdayMidnight}   | ${true}
     ${openNonStop.string}                | ${saturdayEightAm}    | ${true}
     ${openNonStop.string}                | ${saturdayMidday}     | ${true}
+    ${openNonStop.string}                | ${saturdayEvening}    | ${true}
     ${openNonStop.string}                | ${mondayMidnight}     | ${true}
     ${openNonStop.string}                | ${mondayMorning}      | ${true}
     ${openNonStop.string}                | ${mondayMidday}       | ${true}
@@ -79,6 +96,7 @@ describe('getIsOpenAt()', () => {
     ${openNonStopOnWeekends.string}      | ${saturdayMidnight}   | ${true}
     ${openNonStopOnWeekends.string}      | ${saturdayEightAm}    | ${true}
     ${openNonStopOnWeekends.string}      | ${saturdayMidday}     | ${true}
+    ${openNonStopOnWeekends.string}      | ${saturdayEvening}    | ${true}
     ${openNonStopOnWeekends.string}      | ${mondayMidnight}     | ${false}
     ${openNonStopOnWeekends.string}      | ${mondayMorning}      | ${false}
     ${openNonStopOnWeekends.string}      | ${mondayMidday}       | ${false}
@@ -87,6 +105,7 @@ describe('getIsOpenAt()', () => {
     ${unspecifiedClosingTime.string}     | ${saturdayMidnight}   | ${false}
     ${unspecifiedClosingTime.string}     | ${saturdayEightAm}    | ${false}
     ${unspecifiedClosingTime.string}     | ${saturdayMidday}     | ${null}
+    ${unspecifiedClosingTime.string}     | ${saturdayEvening}    | ${null}
     ${unspecifiedClosingTime.string}     | ${mondayMidnight}     | ${false}
     ${unspecifiedClosingTime.string}     | ${mondayMorning}      | ${false}
     ${unspecifiedClosingTime.string}     | ${mondayMidday}       | ${false}
@@ -95,6 +114,7 @@ describe('getIsOpenAt()', () => {
     ${overrideWithDifferentHours.string} | ${saturdayMidnight}   | ${false}
     ${overrideWithDifferentHours.string} | ${saturdayEightAm}    | ${false}
     ${overrideWithDifferentHours.string} | ${saturdayMidday}     | ${true}
+    ${overrideWithDifferentHours.string} | ${saturdayEvening}    | ${true}
     ${overrideWithDifferentHours.string} | ${mondayMidnight}     | ${false}
     ${overrideWithDifferentHours.string} | ${mondayMorning}      | ${false}
     ${overrideWithDifferentHours.string} | ${mondayMidday}       | ${true}
@@ -104,6 +124,7 @@ describe('getIsOpenAt()', () => {
     ${overrideWithOff.string}            | ${saturdayMidnight}   | ${false}
     ${overrideWithOff.string}            | ${saturdayEightAm}    | ${false}
     ${overrideWithOff.string}            | ${saturdayMidday}     | ${true}
+    ${overrideWithOff.string}            | ${saturdayEvening}    | ${true}
     ${overrideWithOff.string}            | ${mondayMidnight}     | ${false}
     ${overrideWithOff.string}            | ${mondayMorning}      | ${false}
     ${overrideWithOff.string}            | ${mondayMidday}       | ${true}

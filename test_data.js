@@ -88,6 +88,18 @@ export const multipleOpeningIntervals = {
   ],
 };
 
+export const openOnSaturday = {
+  string: 'Sa 08:00-17:30',
+  array: [
+    {
+      from: 'Sa',
+      to: 'Sa',
+      hours: [{ from: '08:00', to: '17:30' }],
+    },
+  ],
+  dailyArray: [{ day: 'Sa', hours: [{ from: '08:00', to: '17:30' }] }],
+};
+
 export const openOnWeekends = {
   string: 'Sa 08:00-17:30; Su 08:00-12:00',
   array: [
@@ -228,6 +240,7 @@ export const invalidString3 = 'Mo-Fr 08:00-17:65';
 export const saturdayMidnight = new Date(2022, 0, 1);
 export const saturdayEightAm = new Date(2022, 0, 1, 8);
 export const saturdayMidday = new Date(2022, 0, 1, 12);
+export const saturdayEvening = new Date(2022, 0, 1, 18);
 
 export const mondayMidnight = new Date(2022, 0, 3);
 export const mondayMorning = new Date(2022, 0, 3, 8);

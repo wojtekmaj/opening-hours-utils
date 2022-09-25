@@ -9,6 +9,7 @@ import {
   openNonStop,
   openNonStopOnWeekends,
   openOnMondaysAndWednesdays,
+  openOnSaturday,
   openOnWeekdays,
   openOnWeekends,
   unspecifiedClosingTime,
@@ -22,6 +23,7 @@ describe('getOpeningHours()', () => {
     ${openOnWeekdays.string}             | ${openOnWeekdays.array}
     ${openOnMondaysAndWednesdays.string} | ${openOnMondaysAndWednesdays.array}
     ${multipleOpeningIntervals.string}   | ${multipleOpeningIntervals.array}
+    ${openOnSaturday.string}             | ${openOnSaturday.array}
     ${openOnWeekends.string}             | ${openOnWeekends.array}
     ${openFridayToTuesday.string}        | ${openFridayToTuesday.array}
     ${openNonStop.string}                | ${openNonStop.array}

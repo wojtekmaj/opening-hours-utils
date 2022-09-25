@@ -14,11 +14,13 @@ import {
   openNonStop,
   openNonStopOnWeekends,
   openOnMondaysAndWednesdays,
+  openOnSaturday,
   openOnWeekdays,
   openOnWeekends,
   overrideWithDifferentHours,
   overrideWithOff,
   saturdayEightAm,
+  saturdayEvening,
   saturdayMidday,
   saturdayMidnight,
   tuesdayAfternoon,
@@ -31,6 +33,7 @@ describe('getNextClosedAt()', () => {
     ${openOnWeekdays.string}             | ${saturdayMidnight}   | ${null}
     ${openOnWeekdays.string}             | ${saturdayEightAm}    | ${null}
     ${openOnWeekdays.string}             | ${saturdayMidday}     | ${null}
+    ${openOnWeekdays.string}             | ${saturdayEvening}    | ${null}
     ${openOnWeekdays.string}             | ${mondayMidnight}     | ${null}
     ${openOnWeekdays.string}             | ${mondayMorning}      | ${'Mo 17:30'}
     ${openOnWeekdays.string}             | ${mondayMidday}       | ${'Mo 17:30'}
@@ -39,6 +42,7 @@ describe('getNextClosedAt()', () => {
     ${openOnMondaysAndWednesdays.string} | ${saturdayMidnight}   | ${null}
     ${openOnMondaysAndWednesdays.string} | ${saturdayEightAm}    | ${null}
     ${openOnMondaysAndWednesdays.string} | ${saturdayMidday}     | ${null}
+    ${openOnMondaysAndWednesdays.string} | ${saturdayEvening}    | ${null}
     ${openOnMondaysAndWednesdays.string} | ${mondayMidnight}     | ${null}
     ${openOnMondaysAndWednesdays.string} | ${mondayMorning}      | ${'Mo 17:30'}
     ${openOnMondaysAndWednesdays.string} | ${mondayMidday}       | ${'Mo 17:30'}
@@ -47,14 +51,26 @@ describe('getNextClosedAt()', () => {
     ${multipleOpeningIntervals.string}   | ${saturdayMidnight}   | ${null}
     ${multipleOpeningIntervals.string}   | ${saturdayEightAm}    | ${null}
     ${multipleOpeningIntervals.string}   | ${saturdayMidday}     | ${null}
+    ${multipleOpeningIntervals.string}   | ${saturdayEvening}    | ${null}
     ${multipleOpeningIntervals.string}   | ${mondayMidnight}     | ${null}
     ${multipleOpeningIntervals.string}   | ${mondayMorning}      | ${'Mo 12:00'}
     ${multipleOpeningIntervals.string}   | ${mondayMidday}       | ${'Mo 12:00'}
     ${multipleOpeningIntervals.string}   | ${mondayTwelveThirty} | ${null}
     ${multipleOpeningIntervals.string}   | ${mondayEvening}      | ${null}
+    ${openOnSaturday.string}             | ${saturdayMidnight}   | ${null}
+    ${openOnSaturday.string}             | ${saturdayEightAm}    | ${'Sa 17:30'}
+    ${openOnSaturday.string}             | ${saturdayMidday}     | ${'Sa 17:30'}
+    ${openOnSaturday.string}             | ${saturdayEvening}    | ${null}
+    ${openOnSaturday.string}             | ${saturdayEvening}    | ${null}
+    ${openOnSaturday.string}             | ${mondayMidnight}     | ${null}
+    ${openOnSaturday.string}             | ${mondayMorning}      | ${null}
+    ${openOnSaturday.string}             | ${mondayMidday}       | ${null}
+    ${openOnSaturday.string}             | ${mondayTwelveThirty} | ${null}
+    ${openOnSaturday.string}             | ${mondayEvening}      | ${null}
     ${openOnWeekends.string}             | ${saturdayMidnight}   | ${null}
     ${openOnWeekends.string}             | ${saturdayEightAm}    | ${'Sa 17:30'}
     ${openOnWeekends.string}             | ${saturdayMidday}     | ${'Sa 17:30'}
+    ${openOnWeekends.string}             | ${saturdayEvening}    | ${null}
     ${openOnWeekends.string}             | ${mondayMidnight}     | ${null}
     ${openOnWeekends.string}             | ${mondayMorning}      | ${null}
     ${openOnWeekends.string}             | ${mondayMidday}       | ${null}
@@ -63,6 +79,7 @@ describe('getNextClosedAt()', () => {
     ${openFridayToTuesday.string}        | ${saturdayMidnight}   | ${null}
     ${openFridayToTuesday.string}        | ${saturdayEightAm}    | ${'Sa 17:30'}
     ${openFridayToTuesday.string}        | ${saturdayMidday}     | ${'Sa 17:30'}
+    ${openFridayToTuesday.string}        | ${saturdayEvening}    | ${null}
     ${openFridayToTuesday.string}        | ${mondayMidnight}     | ${null}
     ${openFridayToTuesday.string}        | ${mondayMorning}      | ${'Mo 17:30'}
     ${openFridayToTuesday.string}        | ${mondayMidday}       | ${'Mo 17:30'}
@@ -71,6 +88,7 @@ describe('getNextClosedAt()', () => {
     ${openNonStop.string}                | ${saturdayMidnight}   | ${null}
     ${openNonStop.string}                | ${saturdayEightAm}    | ${null}
     ${openNonStop.string}                | ${saturdayMidday}     | ${null}
+    ${openNonStop.string}                | ${saturdayEvening}    | ${null}
     ${openNonStop.string}                | ${mondayMidnight}     | ${null}
     ${openNonStop.string}                | ${mondayMorning}      | ${null}
     ${openNonStop.string}                | ${mondayMidday}       | ${null}
@@ -79,6 +97,7 @@ describe('getNextClosedAt()', () => {
     ${openNonStopOnWeekends.string}      | ${saturdayMidnight}   | ${'Su 24:00'}
     ${openNonStopOnWeekends.string}      | ${saturdayEightAm}    | ${'Su 24:00'}
     ${openNonStopOnWeekends.string}      | ${saturdayMidday}     | ${'Su 24:00'}
+    ${openNonStopOnWeekends.string}      | ${saturdayEvening}    | ${'Su 24:00'}
     ${openNonStopOnWeekends.string}      | ${mondayMidnight}     | ${null}
     ${openNonStopOnWeekends.string}      | ${mondayMorning}      | ${null}
     ${openNonStopOnWeekends.string}      | ${mondayMidday}       | ${null}
@@ -87,6 +106,7 @@ describe('getNextClosedAt()', () => {
     ${unspecifiedClosingTime.string}     | ${saturdayMidnight}   | ${null}
     ${unspecifiedClosingTime.string}     | ${saturdayEightAm}    | ${null}
     ${unspecifiedClosingTime.string}     | ${saturdayMidday}     | ${null}
+    ${unspecifiedClosingTime.string}     | ${saturdayEvening}    | ${null}
     ${unspecifiedClosingTime.string}     | ${mondayMidnight}     | ${null}
     ${unspecifiedClosingTime.string}     | ${mondayMorning}      | ${null}
     ${unspecifiedClosingTime.string}     | ${mondayMidday}       | ${null}
@@ -95,6 +115,7 @@ describe('getNextClosedAt()', () => {
     ${overrideWithDifferentHours.string} | ${saturdayMidnight}   | ${null}
     ${overrideWithDifferentHours.string} | ${saturdayEightAm}    | ${null}
     ${overrideWithDifferentHours.string} | ${saturdayMidday}     | ${'Sa 20:00'}
+    ${overrideWithDifferentHours.string} | ${saturdayEvening}    | ${'Sa 20:00'}
     ${overrideWithDifferentHours.string} | ${mondayMidnight}     | ${null}
     ${overrideWithDifferentHours.string} | ${mondayMorning}      | ${null}
     ${overrideWithDifferentHours.string} | ${mondayMidday}       | ${'Mo 20:00'}
@@ -104,6 +125,7 @@ describe('getNextClosedAt()', () => {
     ${overrideWithOff.string}            | ${saturdayMidnight}   | ${null}
     ${overrideWithOff.string}            | ${saturdayEightAm}    | ${null}
     ${overrideWithOff.string}            | ${saturdayMidday}     | ${'Sa 20:00'}
+    ${overrideWithOff.string}            | ${saturdayEvening}    | ${'Sa 20:00'}
     ${overrideWithOff.string}            | ${mondayMidnight}     | ${null}
     ${overrideWithOff.string}            | ${mondayMorning}      | ${null}
     ${overrideWithOff.string}            | ${mondayMidday}       | ${'Mo 20:00'}
