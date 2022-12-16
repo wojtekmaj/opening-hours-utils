@@ -12,6 +12,8 @@ import {
   unspecifiedClosingTime,
   overrideWithDifferentHours,
   overrideWithOff,
+  incompleteString1,
+  incompleteArray1,
 } from '../test_data';
 
 describe('encodeOpeningHours()', () => {
@@ -40,5 +42,9 @@ describe('encodeOpeningHours()', () => {
 
   it('returns empty string given []', () => {
     expect(encodeOpeningHours([])).toBe('');
+  });
+
+  it('returns weekday range without hours given array with no "from" value', () => {
+    expect(encodeOpeningHours(incompleteArray1)).toBe(incompleteString1);
   });
 });

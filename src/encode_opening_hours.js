@@ -35,11 +35,16 @@ export default function encodeOpeningHours(openingHoursArray) {
         return null;
       }
 
-      const validHours = hours.filter(isValidHourObject);
       const weekdayRange = from === to ? from : `${from}-${to}`;
 
-      if (!validHours.length) {
+      if (!hours.length) {
         return `${weekdayRange} off`;
+      }
+
+      const validHours = hours.filter(isValidHourObject);
+
+      if (!validHours.length) {
+        return weekdayRange;
       }
 
       const hourRanges = validHours.map(toHourRange);

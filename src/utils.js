@@ -29,6 +29,10 @@ export function getWeekday(day) {
 }
 
 export function isValidHour(hour) {
+  if (!hour) {
+    return false;
+  }
+
   const [hoursString, minutesString] = hour.split(':');
 
   const hours = Number(hoursString);

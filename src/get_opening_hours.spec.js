@@ -15,6 +15,7 @@ import {
   unspecifiedClosingTime,
   overrideWithDifferentHours,
   overrideWithOff,
+  incompleteString1,
 } from '../test_data';
 
 describe('getOpeningHours()', () => {
@@ -43,6 +44,16 @@ describe('getOpeningHours()', () => {
 
   it('returns null given empty string', () => {
     expect(getOpeningHours('')).toBe(null);
+  });
+
+  it('returns array with 00:00-24:00 hour range given weekday range without hours', () => {
+    expect(getOpeningHours(incompleteString1)).toEqual([
+      {
+        from: 'Mo',
+        to: 'We',
+        hours: [{ from: '00:00', to: '24:00' }],
+      },
+    ]);
   });
 
   it.each`
