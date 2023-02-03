@@ -6,7 +6,7 @@ export const WEEKDAYS = {
   THURSDAY: 4,
   FRIDAY: 5,
   SATURDAY: 6,
-};
+} as const;
 
 export const WEEKDAY_NAMES = {
   [WEEKDAYS.SUNDAY]: 'Su',
@@ -16,4 +16,4 @@ export const WEEKDAY_NAMES = {
   [WEEKDAYS.THURSDAY]: 'Th',
   [WEEKDAYS.FRIDAY]: 'Fr',
   [WEEKDAYS.SATURDAY]: 'Sa',
-};
+} as const;

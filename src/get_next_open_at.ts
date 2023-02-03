@@ -9,31 +9,37 @@ import {
   getWeekdayName,
 } from './utils';
 
-function getDaysToOpening(dayGroup, weekday) {
+import type { DayGroup, DayGroups, HourGroup, Weekday, ZeroToSix } from './types';
+
+function getDaysToOpening(dayGroup: DayGroup, weekday: Weekday): ZeroToSix {
   const from = getWeekday(dayGroup.day);
 
-  return (7 + (from - weekday)) % 7;
+  return ((7 + (from - weekday)) % 7) as ZeroToSix;
 }
 
-function getMinutesToOpening(hourGroup, minutesFromMidnight) {
+function getMinutesToOpening(hourGroup: HourGroup, minutesFromMidnight: number) {
   const fromMinutes = getMinutesFromMidnightFromString(hourGroup.from);
 
   return fromMinutes - minutesFromMidnight;
 }
 
-function groupDaysByDaysToOpening(dayGroups, day) {
-  const groupedDays = new Map(Array.from({ length: 7 }, (_, index) => [index, []]));
+function groupDaysByDaysToOpening(dayGroups: DayGroups, day: Weekday) {
+  const groupedDays = new Map<ZeroToSix, DayGroups>(
+    Array.from({ length: 7 }, (_, index) => [index as ZeroToSix, []]),
+  );
 
   dayGroups.forEach((dayGroup) => {
     const daysToOpening = getDaysToOpening(dayGroup, day);
 
-    groupedDays.get(daysToOpening).push(dayGroup);
+    const dayArray = groupedDays.get(daysToOpening) as DayGroups;
+
+    dayArray.push(dayGroup);
   });
 
   return groupedDays;
 }
 
-export default function getNextOpenAt(openingHoursString, date) {
+export default function getNextOpenAt(openingHoursString: string, date: Date) {
   if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
     throw new Error('openingHoursString is required');
   }
@@ -55,17 +61,19 @@ export default function getNextOpenAt(openingHoursString, date) {
 
   const dailyOpeningHoursArray = getDailyOpeningHours(openingHoursString);
 
-  const day = date.getDay();
+  const day = date.getDay() as Weekday;
   const minutesFromMidnight = getMinutesFromMidnightFromDate(date);
 
   const daysSortedByDaysToOpening = groupDaysByDaysToOpening(dailyOpeningHoursArray, day);
 
-  function checkDayGroups(dayGroups, letFirstGroup) {
-    if (!dayGroups.length) {
+  function checkDayGroups(dayGroups: DayGroups, letFirstGroup?: boolean) {
+    const firstDayGroup = dayGroups[0];
+
+    if (!firstDayGroup) {
       return null;
     }
 
-    const dayGroupDay = getWeekday(dayGroups[0].day);
+    const dayGroupDay = getWeekday(firstDayGroup.day);
     const hourGroups = getHourGroups(dayGroups);
 
     const sortedHourGroups = [...hourGroups].sort(
@@ -92,7 +100,7 @@ export default function getNextOpenAt(openingHoursString, date) {
   }
 
   // If we got to this point, opening hour must be some time the same day next week
-  const firstDayGroups = daysSortedByDaysToOpening.get(0);
+  const firstDayGroups = daysSortedByDaysToOpening.get(0) as DayGroups;
 
   return checkDayGroups(firstDayGroups, true);
 }

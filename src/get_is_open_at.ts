@@ -6,7 +6,12 @@ import {
   getWeekday,
 } from './utils';
 
-export default function getIsOpenAt(openingHoursString, date) {
+import type { Weekday } from './types';
+
+function getIsOpenAt(openingHoursString: '', date: Date): null;
+function getIsOpenAt(openingHoursString: '24/7', date: Date): true;
+function getIsOpenAt(openingHoursString: string, date: Date): boolean;
+function getIsOpenAt(openingHoursString: string, date: Date): boolean | null {
   if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
     throw new Error('openingHoursString is required');
   }
@@ -25,7 +30,7 @@ export default function getIsOpenAt(openingHoursString, date) {
 
   const dailyOpeningHoursArray = getDailyOpeningHours(openingHoursString);
 
-  const day = date.getDay();
+  const day = date.getDay() as Weekday;
 
   const dayGroups = dailyOpeningHoursArray.filter((dayGroup) => getWeekday(dayGroup.day) === day);
 
@@ -64,3 +69,5 @@ export default function getIsOpenAt(openingHoursString, date) {
 
   return false;
 }
+
+export default getIsOpenAt;
