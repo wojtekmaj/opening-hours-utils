@@ -1,6 +1,6 @@
 {
   "name": "@wojtekmaj/opening-hours-utils",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A collection of opening hours-related utilities.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
