@@ -2,15 +2,15 @@ import getDailyOpeningHours from './get_daily_opening_hours';
 import getIsOpenAt from './get_is_open_at';
 
 import {
-  getDay,
   getHourGroups,
   getMinutesFromMidnightFromDate,
   getMinutesFromMidnightFromString,
   getWeekday,
+  getWeekdayName,
 } from './utils';
 
 function getDaysToOpening(dayGroup, weekday) {
-  const from = getDay(dayGroup.day);
+  const from = getWeekday(dayGroup.day);
 
   return (7 + (from - weekday)) % 7;
 }
@@ -61,7 +61,7 @@ export default function getNextOpenAt(openingHoursString, date) {
       continue;
     }
 
-    const dayGroupDay = getDay(dayGroups[0].day);
+    const dayGroupDay = getWeekday(dayGroups[0].day);
     const hourGroups = getHourGroups(dayGroups);
 
     const sortedHourGroups = [...hourGroups].sort((hourGroupA, hourGroupB) => {
@@ -75,7 +75,7 @@ export default function getNextOpenAt(openingHoursString, date) {
 
     for (const hourGroup of sortedHourGroups) {
       if (!isToday || getMinutesToOpening(hourGroup, minutesFromMidnight) > 0) {
-        return `${getWeekday(dayGroupDay)} ${hourGroup.from}`;
+        return `${getWeekdayName(dayGroupDay)} ${hourGroup.from}`;
       }
     }
   }
@@ -83,7 +83,7 @@ export default function getNextOpenAt(openingHoursString, date) {
   // If we got to this point, opening hour must be some time the same day next week
   const firstDayGroups = daysSortedByDaysToOpening[0];
 
-  const dayGroupDay = getDay(firstDayGroups[0].day);
+  const dayGroupDay = getWeekday(firstDayGroups[0].day);
   const hourGroups = getHourGroups(firstDayGroups);
 
   const sortedHourGroups = [...hourGroups].sort((hourGroupA, hourGroupB) => {
@@ -95,5 +95,5 @@ export default function getNextOpenAt(openingHoursString, date) {
 
   const firstHourGroup = sortedHourGroups[0];
 
-  return `${getWeekday(dayGroupDay)} ${firstHourGroup.from}`;
+  return `${getWeekdayName(dayGroupDay)} ${firstHourGroup.from}`;
 }

@@ -1,4 +1,4 @@
-import { isValidHour, isValidWeekday } from './utils';
+import { isValidHour, isValidWeekdayName } from './utils';
 
 function toHourObject(hourRange) {
   if (hourRange === 'off') {
@@ -43,7 +43,7 @@ export default function getOpeningHours(openingHoursString) {
       weekdayRanges.forEach((weekdayRange) => {
         const [fromWeekday, toWeekday = fromWeekday] = weekdayRange.split('-');
 
-        if (!isValidWeekday(fromWeekday) || !isValidWeekday(toWeekday)) {
+        if (!isValidWeekdayName(fromWeekday) || !isValidWeekdayName(toWeekday)) {
           throw new Error('Invalid weekday range');
         }
 

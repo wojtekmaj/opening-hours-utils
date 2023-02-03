@@ -1,6 +1,10 @@
 import getDailyOpeningHours from './get_daily_opening_hours';
 
-import { getDay, getMinutesFromMidnightFromDate, getMinutesFromMidnightFromString } from './utils';
+import {
+  getMinutesFromMidnightFromDate,
+  getMinutesFromMidnightFromString,
+  getWeekday,
+} from './utils';
 
 export default function getIsOpenAt(openingHoursString, date) {
   if (!openingHoursString) {
@@ -19,7 +23,7 @@ export default function getIsOpenAt(openingHoursString, date) {
 
   const day = date.getDay();
 
-  const dayGroups = dailyOpeningHoursArray.filter((dayGroup) => getDay(dayGroup.day) === day);
+  const dayGroups = dailyOpeningHoursArray.filter((dayGroup) => getWeekday(dayGroup.day) === day);
 
   if (!dayGroups.length) {
     return false;

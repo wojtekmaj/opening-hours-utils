@@ -2,16 +2,16 @@ import getDailyOpeningHours from './get_daily_opening_hours';
 import getIsOpenAt from './get_is_open_at';
 
 import {
-  getDay,
   getDayDiff,
   getHourGroups,
   getMinutesFromMidnightFromDate,
   getMinutesFromMidnightFromString,
   getWeekday,
+  getWeekdayName,
 } from './utils';
 
 function getDaysToClosing(dayGroup, weekday) {
-  const from = getDay(dayGroup.day);
+  const from = getWeekday(dayGroup.day);
 
   return getDayDiff(weekday, from);
 }
@@ -67,7 +67,7 @@ export default function getNextClosedAt(openingHoursString, date) {
       continue;
     }
 
-    const dayGroupDay = getDay(dayGroups[0].day);
+    const dayGroupDay = getWeekday(dayGroups[0].day);
     const hourGroups = getHourGroups(dayGroups);
 
     const sortedHourGroups = [...hourGroups].sort((hourGroupA, hourGroupB) => {
@@ -95,7 +95,7 @@ export default function getNextClosedAt(openingHoursString, date) {
           continue;
         }
 
-        return `${getWeekday(dayGroupDay)} ${hourGroup.to}`;
+        return `${getWeekdayName(dayGroupDay)} ${hourGroup.to}`;
       }
     }
   }

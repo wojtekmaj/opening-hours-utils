@@ -1,9 +1,5 @@
 import { WEEKDAY_NAMES } from './constants';
 
-export function getDay(weekday) {
-  return Number(Object.entries(WEEKDAY_NAMES).find(([, value]) => value === weekday)[0]);
-}
-
 export function getDayDiff(from, to) {
   return (7 + (to - from)) % 7;
 }
@@ -24,8 +20,12 @@ export function getMinutesFromMidnightFromString(hour) {
   return Number(hours) * 60 + Number(minutes);
 }
 
-export function getWeekday(day) {
-  return WEEKDAY_NAMES[day];
+export function getWeekday(weekdayName) {
+  return Number(Object.entries(WEEKDAY_NAMES).find(([, value]) => value === weekdayName)[0]);
+}
+
+export function getWeekdayName(weekday) {
+  return WEEKDAY_NAMES[weekday];
 }
 
 export function isValidHour(hour) {
@@ -41,6 +41,6 @@ export function isValidHour(hour) {
   return hours >= 0 && hours <= 48 && minutes >= 0 && minutes <= 59;
 }
 
-export function isValidWeekday(weekday) {
+export function isValidWeekdayName(weekday) {
   return Object.values(WEEKDAY_NAMES).includes(weekday);
 }
