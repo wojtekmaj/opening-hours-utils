@@ -103,4 +103,6 @@ export default function getNextClosedAt(openingHoursString, date) {
       }
     }
   }
+
+  throw new Error('Could not find closing time');
 }
