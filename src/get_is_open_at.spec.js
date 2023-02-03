@@ -140,10 +140,6 @@ describe('getIsOpenAt()', () => {
     },
   );
 
-  it('returns null given undefined', () => {
-    expect(getIsOpenAt(undefined, mondayMorning)).toBe(null);
-  });
-
   it('returns null given empty string', () => {
     expect(getIsOpenAt('', mondayMorning)).toBe(null);
   });
@@ -154,6 +150,7 @@ describe('getIsOpenAt()', () => {
 
   it.each`
     input
+    ${null}
     ${invalidString1}
     ${invalidString2}
     ${invalidString3}

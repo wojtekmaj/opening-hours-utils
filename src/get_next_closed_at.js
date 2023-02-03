@@ -39,6 +39,14 @@ function addMinutes(date, minutes) {
 }
 
 export default function getNextClosedAt(openingHoursString, date) {
+  if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
+    throw new Error('openingHoursString is required');
+  }
+
+  if (!date) {
+    throw new Error('date is required');
+  }
+
   if (!openingHoursString) {
     return null;
   }
