@@ -60,44 +60,39 @@ export default function getNextOpenAt(openingHoursString, date) {
 
   const daysSortedByDaysToOpening = groupDaysByDaysToOpening(dailyOpeningHoursArray, day);
 
-  for (const dayGroups of daysSortedByDaysToOpening.values()) {
+  function checkDayGroups(dayGroups, letFirstGroup) {
     if (!dayGroups.length) {
-      continue;
+      return null;
     }
 
     const dayGroupDay = getWeekday(dayGroups[0].day);
     const hourGroups = getHourGroups(dayGroups);
 
-    const sortedHourGroups = [...hourGroups].sort((hourGroupA, hourGroupB) => {
-      return (
+    const sortedHourGroups = [...hourGroups].sort(
+      (hourGroupA, hourGroupB) =>
         getMinutesToOpening(hourGroupA, minutesFromMidnight) -
-        getMinutesToOpening(hourGroupB, minutesFromMidnight)
-      );
-    });
+        getMinutesToOpening(hourGroupB, minutesFromMidnight),
+    );
 
     const isToday = day === dayGroupDay;
 
     for (const hourGroup of sortedHourGroups) {
-      if (!isToday || getMinutesToOpening(hourGroup, minutesFromMidnight) > 0) {
+      if (!isToday || getMinutesToOpening(hourGroup, minutesFromMidnight) > 0 || letFirstGroup) {
         return `${getWeekdayName(dayGroupDay)} ${hourGroup.from}`;
       }
+    }
+  }
+
+  for (const dayGroups of daysSortedByDaysToOpening.values()) {
+    const nextOpenAt = checkDayGroups(dayGroups);
+
+    if (nextOpenAt) {
+      return nextOpenAt;
     }
   }
 
   // If we got to this point, opening hour must be some time the same day next week
   const firstDayGroups = daysSortedByDaysToOpening.get(0);
 
-  const dayGroupDay = getWeekday(firstDayGroups[0].day);
-  const hourGroups = getHourGroups(firstDayGroups);
-
-  const sortedHourGroups = [...hourGroups].sort((hourGroupA, hourGroupB) => {
-    return (
-      getMinutesToOpening(hourGroupA, minutesFromMidnight) -
-      getMinutesToOpening(hourGroupB, minutesFromMidnight)
-    );
-  });
-
-  const firstHourGroup = sortedHourGroups[0];
-
-  return `${getWeekdayName(dayGroupDay)} ${firstHourGroup.from}`;
+  return checkDayGroups(firstDayGroups, true);
 }
