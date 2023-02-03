@@ -41,6 +41,7 @@ describe('encodeOpeningHours()', () => {
   });
 
   it('returns weekday range without hours given array with no "from" value', () => {
+    // @ts-expect-error-next-line
     expect(encodeOpeningHours(incompleteArray1)).toBe(incompleteString1);
   });
 

@@ -1,17 +1,19 @@
 import { isValidHour, isValidWeekdayName } from './utils';
 
-function toHourGroup(hourRange) {
+import type { FromHourPlus, Hour, HourGroup, HourRange, OpeningHoursArray } from './types';
+
+function toHourGroup(hourRange: HourRange): HourGroup | null {
   if (hourRange === 'off') {
     return null;
   }
 
   if (hourRange.endsWith('+')) {
-    const from = hourRange.slice(0, -1);
+    const from = (hourRange as FromHourPlus).slice(0, -1) as Hour;
 
     return { from, to: null };
   }
 
-  const [from, to] = hourRange.split('-');
+  const [from, to] = hourRange.split('-') as [Hour, Hour];
 
   if (!isValidHour(from) || !isValidHour(to)) {
     throw new Error('Invalid hour range');
@@ -20,7 +22,9 @@ function toHourGroup(hourRange) {
   return { from, to };
 }
 
-export default function getOpeningHours(openingHoursString) {
+function getOpeningHours(openingHoursString: ''): null;
+function getOpeningHours(openingHoursString: string): OpeningHoursArray;
+function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
   if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
     throw new Error('openingHoursString is required');
   }
@@ -35,10 +39,13 @@ export default function getOpeningHours(openingHoursString) {
 
   const dayGroups = openingHoursString.split(/;\s*/);
 
-  const openingHoursArray = [];
+  const openingHoursArray: OpeningHoursArray = [];
 
   dayGroups.filter(Boolean).map((dayGroup) => {
-    const [joinedWeekdayRanges, joinedHourRanges] = dayGroup.split(' ');
+    const [joinedWeekdayRanges, joinedHourRanges] = dayGroup.split(' ') as [
+      string,
+      string | undefined,
+    ];
 
     const weekdayRanges = joinedWeekdayRanges.split(',');
 
@@ -62,8 +69,8 @@ export default function getOpeningHours(openingHoursString) {
         });
       }
 
-      const hourRanges = joinedHourRanges.split(',');
-      const hourGroups = hourRanges.map(toHourGroup).filter(Boolean);
+      const hourRanges = joinedHourRanges.split(',') as HourRange[];
+      const hourGroups = hourRanges.map(toHourGroup).filter(Boolean) as HourGroup[];
 
       openingHoursArray.push({
         from: fromWeekday,
@@ -75,3 +82,5 @@ export default function getOpeningHours(openingHoursString) {
 
   return openingHoursArray;
 }
+
+export default getOpeningHours;

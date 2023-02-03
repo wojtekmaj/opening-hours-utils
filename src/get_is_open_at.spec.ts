@@ -145,6 +145,7 @@ describe('getIsOpenAt()', () => {
   });
 
   it('throws given no date', () => {
+    // @ts-expect-error-next-line
     expect(() => getIsOpenAt(openOnWeekdays.string)).toThrow();
   });
 
@@ -155,6 +156,7 @@ describe('getIsOpenAt()', () => {
     ${invalidString2}
     ${invalidString3}
   `('throws an error given $input', ({ input }) => {
+    // @ts-expect-error-next-line
     expect(() => getIsOpenAt(input)).toThrow();
   });
 });

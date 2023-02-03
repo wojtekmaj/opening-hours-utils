@@ -10,35 +10,47 @@ import {
   getWeekdayName,
 } from './utils';
 
-function getDaysToClosing(dayGroup, weekday) {
+import type { DayGroup, DayGroups, HourGroup, Weekday, ZeroToSix, Hour } from './types';
+
+type RequiredHourGroup = Required<HourGroup> & {
+  to: Hour;
+};
+
+type RequiredHourGroups = RequiredHourGroup[];
+
+function getDaysToClosing(dayGroup: DayGroup, weekday: Weekday): ZeroToSix {
   const from = getWeekday(dayGroup.day);
 
-  return getDayDiff(weekday, from);
+  return getDayDiff(weekday, from) as ZeroToSix;
 }
 
-function getMinutesToClosing(hourGroup, minutesFromMidnight) {
+function getMinutesToClosing(hourGroup: RequiredHourGroup, minutesFromMidnight: number) {
   const fromMinutes = getMinutesFromMidnightFromString(hourGroup.to);
 
   return fromMinutes - minutesFromMidnight;
 }
 
-function groupDaysByDaysToClosing(dayGroups, day) {
-  const groupedDays = new Map(Array.from({ length: 7 }, (_, index) => [index, []]));
+function groupDaysByDaysToClosing(dayGroups: DayGroups, day: Weekday) {
+  const groupedDays = new Map<ZeroToSix, DayGroups>(
+    Array.from({ length: 7 }, (_, index: number) => [index as ZeroToSix, []]),
+  );
 
   dayGroups.forEach((dayGroup) => {
     const daysToClosing = getDaysToClosing(dayGroup, day);
 
-    groupedDays.get(daysToClosing).push(dayGroup);
+    const dayArray = groupedDays.get(daysToClosing) as DayGroups;
+
+    dayArray.push(dayGroup);
   });
 
   return groupedDays;
 }
 
-function addMinutes(date, minutes) {
+function addMinutes(date: Date, minutes: number) {
   return new Date(date.getTime() + minutes * 60000);
 }
 
-export default function getNextClosedAt(openingHoursString, date) {
+export default function getNextClosedAt(openingHoursString: string, date: Date): string | null {
   if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
     throw new Error('openingHoursString is required');
   }
@@ -55,24 +67,31 @@ export default function getNextClosedAt(openingHoursString, date) {
     return null;
   }
 
+  /**
+   * At this point, because getIsOpenAt() returned true, we know that there are no unspecified
+   * closing times. So, we can be sure that all HourGroups have a 'to' property.
+   */
+
   if (openingHoursString === '24/7') {
     return null;
   }
 
   const dailyOpeningHoursArray = getDailyOpeningHours(openingHoursString);
 
-  const day = date.getDay();
+  const day = date.getDay() as Weekday;
   const minutesFromMidnight = getMinutesFromMidnightFromDate(date);
 
   const daysSortedByDaysToClosing = groupDaysByDaysToClosing(dailyOpeningHoursArray, day);
 
   for (const dayGroups of daysSortedByDaysToClosing.values()) {
-    if (!dayGroups.length) {
+    const firstDayGroup = dayGroups[0];
+
+    if (!firstDayGroup) {
       continue;
     }
 
-    const dayGroupDay = getWeekday(dayGroups[0].day);
-    const hourGroups = getHourGroups(dayGroups);
+    const dayGroupDay = getWeekday(firstDayGroup.day);
+    const hourGroups = getHourGroups(dayGroups) as RequiredHourGroups;
 
     const sortedHourGroups = [...hourGroups].sort((hourGroupA, hourGroupB) => {
       return (
