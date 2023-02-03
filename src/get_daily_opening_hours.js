@@ -9,7 +9,7 @@ export default function getDailyOpeningHours(openingHoursString) {
     return null;
   }
 
-  const dailyOpeningHoursObject = {};
+  const dailyOpeningHoursMap = new Map();
 
   openingHoursArray.forEach((dayGroup) => {
     const from = getWeekday(dayGroup.from);
@@ -21,14 +21,18 @@ export default function getDailyOpeningHours(openingHoursString) {
     for (let i = 0; i < numberOfDays; i++) {
       const day = (from + i) % 7;
 
-      dailyOpeningHoursObject[getWeekdayName(day)] = dayGroup.hours;
+      dailyOpeningHoursMap.set(getWeekdayName(day), dayGroup.hours);
     }
   });
 
-  const dailyOpeningHoursArray = Object.entries(dailyOpeningHoursObject).map(([day, hours]) => ({
-    day,
-    hours,
-  }));
+  const dailyOpeningHoursArray = [];
+
+  for (const [day, hours] of dailyOpeningHoursMap.entries()) {
+    dailyOpeningHoursArray.push({
+      day,
+      hours,
+    });
+  }
 
   return dailyOpeningHoursArray;
 }
