@@ -135,7 +135,7 @@ describe('getNextClosedAt()', () => {
   `(
     'returns $expectedResult given $openingHoursString and $date',
     ({ openingHoursString, date, expectedResult }) => {
-      const result = getNextClosedAt(openingHoursString, date, expectedResult);
+      const result = getNextClosedAt(openingHoursString, date);
 
       expect(result).toBe(expectedResult);
     },
