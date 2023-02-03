@@ -1,6 +1,6 @@
 import { isValidHour, isValidWeekdayName } from './utils';
 
-function toHourObject(hourRange) {
+function toHourGroup(hourRange) {
   if (hourRange === 'off') {
     return null;
   }
@@ -61,12 +61,12 @@ export default function getOpeningHours(openingHoursString) {
         }
 
         const hourRanges = joinedHourRanges.split(',');
-        const hourObjects = hourRanges.map(toHourObject).filter(Boolean);
+        const hourGroups = hourRanges.map(toHourGroup).filter(Boolean);
 
         openingHoursArray.push({
           from: fromWeekday,
           to: toWeekday,
-          hours: hourObjects,
+          hours: hourGroups,
         });
       });
     })

@@ -1,27 +1,27 @@
 import { getDayDiff, getWeekday, isValidHour } from './utils';
 
-function isValidHourObject(hourObject) {
-  if (!isValidHour(hourObject.from)) {
+function isValidHourGroup(hourGroup) {
+  if (!isValidHour(hourGroup.from)) {
     return false;
   }
 
-  if (hourObject.to && !isValidHour(hourObject.to)) {
+  if (hourGroup.to && !isValidHour(hourGroup.to)) {
     return false;
   }
 
   return true;
 }
 
-function toHourRange(hourObject) {
-  if (!isValidHourObject(hourObject)) {
+function toHourRange(hourGroup) {
+  if (!isValidHourGroup(hourGroup)) {
     return null;
   }
 
-  if (!hourObject.to) {
-    return `${hourObject.from}+`;
+  if (!hourGroup.to) {
+    return `${hourGroup.from}+`;
   }
 
-  return `${hourObject.from}-${hourObject.to}`;
+  return `${hourGroup.from}-${hourGroup.to}`;
 }
 
 export default function encodeOpeningHours(openingHoursArray) {
@@ -41,7 +41,7 @@ export default function encodeOpeningHours(openingHoursArray) {
         return `${weekdayRange} off`;
       }
 
-      const validHours = hours.filter(isValidHourObject);
+      const validHours = hours.filter(isValidHourGroup);
 
       if (!validHours.length) {
         return weekdayRange;
