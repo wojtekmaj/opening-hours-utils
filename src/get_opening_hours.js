@@ -37,44 +37,41 @@ export default function getOpeningHours(openingHoursString) {
 
   const openingHoursArray = [];
 
-  dayGroups
-    .filter(Boolean)
-    .map((dayGroup) => {
-      const [joinedWeekdayRanges, joinedHourRanges] = dayGroup.split(' ');
+  dayGroups.filter(Boolean).map((dayGroup) => {
+    const [joinedWeekdayRanges, joinedHourRanges] = dayGroup.split(' ');
 
-      const weekdayRanges = joinedWeekdayRanges.split(',');
+    const weekdayRanges = joinedWeekdayRanges.split(',');
 
-      weekdayRanges.forEach((weekdayRange) => {
-        const [fromWeekday, toWeekday = fromWeekday] = weekdayRange.split('-');
+    weekdayRanges.forEach((weekdayRange) => {
+      const [fromWeekday, toWeekday = fromWeekday] = weekdayRange.split('-');
 
-        if (!isValidWeekdayName(fromWeekday) || !isValidWeekdayName(toWeekday)) {
-          throw new Error('Invalid weekday range');
-        }
+      if (!isValidWeekdayName(fromWeekday) || !isValidWeekdayName(toWeekday)) {
+        throw new Error('Invalid weekday range');
+      }
 
-        if (!joinedHourRanges) {
-          return openingHoursArray.push({
-            from: fromWeekday,
-            to: toWeekday,
-            hours: [
-              {
-                from: '00:00',
-                to: '24:00',
-              },
-            ],
-          });
-        }
-
-        const hourRanges = joinedHourRanges.split(',');
-        const hourGroups = hourRanges.map(toHourGroup).filter(Boolean);
-
-        openingHoursArray.push({
+      if (!joinedHourRanges) {
+        return openingHoursArray.push({
           from: fromWeekday,
           to: toWeekday,
-          hours: hourGroups,
+          hours: [
+            {
+              from: '00:00',
+              to: '24:00',
+            },
+          ],
         });
+      }
+
+      const hourRanges = joinedHourRanges.split(',');
+      const hourGroups = hourRanges.map(toHourGroup).filter(Boolean);
+
+      openingHoursArray.push({
+        from: fromWeekday,
+        to: toWeekday,
+        hours: hourGroups,
       });
-    })
-    .filter(Boolean);
+    });
+  });
 
   return openingHoursArray;
 }
