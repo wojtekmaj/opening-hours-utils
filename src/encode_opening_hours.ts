@@ -1,7 +1,13 @@
 import { getDayDiff, getWeekday, isValidHour } from './utils';
 
-function isValidHourGroup(hourGroup) {
-  if (!isValidHour(hourGroup.from)) {
+import type { HourGroup, HourRange, OpeningHoursArray } from './types';
+
+function isValidHourGroup(hourGroup: HourGroup): hourGroup is HourGroup {
+  if (typeof hourGroup !== 'object' || hourGroup === null) {
+    return false;
+  }
+
+  if (!hourGroup.from || !isValidHour(hourGroup.from)) {
     return false;
   }
 
@@ -12,7 +18,7 @@ function isValidHourGroup(hourGroup) {
   return true;
 }
 
-function toHourRange(hourGroup) {
+function toHourRange(hourGroup: HourGroup): HourRange {
   if (!isValidHourGroup(hourGroup)) {
     throw new Error('Invalid hour object');
   }
@@ -24,7 +30,7 @@ function toHourRange(hourGroup) {
   return `${hourGroup.from}-${hourGroup.to}`;
 }
 
-export default function encodeOpeningHours(openingHoursArray) {
+export default function encodeOpeningHours(openingHoursArray: OpeningHoursArray): string {
   if (typeof openingHoursArray === 'undefined' || openingHoursArray === null) {
     throw new Error('openingHoursArray is required');
   }

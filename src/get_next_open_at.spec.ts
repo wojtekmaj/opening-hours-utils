@@ -145,6 +145,7 @@ describe('getNextOpenAt()', () => {
   });
 
   it('throws given no date', () => {
+    // @ts-expect-error-next-line
     expect(() => getNextOpenAt(openOnWeekdays.string)).toThrow();
   });
 
@@ -156,6 +157,7 @@ describe('getNextOpenAt()', () => {
     ${invalidString2}
     ${invalidString3}
   `('throws an error given $input', ({ input }) => {
+    // @ts-expect-error-next-line
     expect(() => getNextOpenAt(input)).toThrow();
   });
 });
