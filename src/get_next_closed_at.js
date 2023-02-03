@@ -23,17 +23,15 @@ function getMinutesToClosing(hourGroup, minutesFromMidnight) {
 }
 
 function groupDaysByDaysToClosing(dayGroups, day) {
-  return dayGroups.reduce((acc, dayGroup) => {
+  const groupedDays = new Map(Array.from({ length: 7 }, (_, index) => [index, []]));
+
+  dayGroups.forEach((dayGroup) => {
     const daysToClosing = getDaysToClosing(dayGroup, day);
 
-    if (!acc[daysToClosing]) {
-      acc[daysToClosing] = [];
-    }
+    groupedDays.get(daysToClosing).push(dayGroup);
+  });
 
-    acc[daysToClosing].push(dayGroup);
-
-    return acc;
-  }, []);
+  return groupedDays;
 }
 
 function addMinutes(date, minutes) {
@@ -60,9 +58,7 @@ export default function getNextClosedAt(openingHoursString, date) {
 
   const daysSortedByDaysToClosing = groupDaysByDaysToClosing(dailyOpeningHoursArray, day);
 
-  for (const daysToClosing in daysSortedByDaysToClosing) {
-    const dayGroups = daysSortedByDaysToClosing[daysToClosing];
-
+  for (const dayGroups of daysSortedByDaysToClosing.values()) {
     if (!dayGroups.length) {
       continue;
     }

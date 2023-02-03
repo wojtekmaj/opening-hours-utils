@@ -22,17 +22,15 @@ function getMinutesToOpening(hourGroup, minutesFromMidnight) {
 }
 
 function groupDaysByDaysToOpening(dayGroups, day) {
-  return dayGroups.reduce((acc, dayGroup) => {
+  const groupedDays = new Map(Array.from({ length: 7 }, (_, index) => [index, []]));
+
+  dayGroups.forEach((dayGroup) => {
     const daysToOpening = getDaysToOpening(dayGroup, day);
 
-    if (!acc[daysToOpening]) {
-      acc[daysToOpening] = [];
-    }
+    groupedDays.get(daysToOpening).push(dayGroup);
+  });
 
-    acc[daysToOpening].push(dayGroup);
-
-    return acc;
-  }, []);
+  return groupedDays;
 }
 
 export default function getNextOpenAt(openingHoursString, date) {
@@ -54,9 +52,7 @@ export default function getNextOpenAt(openingHoursString, date) {
 
   const daysSortedByDaysToOpening = groupDaysByDaysToOpening(dailyOpeningHoursArray, day);
 
-  for (const daysToOpening in daysSortedByDaysToOpening) {
-    const dayGroups = daysSortedByDaysToOpening[daysToOpening];
-
+  for (const dayGroups of daysSortedByDaysToOpening.values()) {
     if (!dayGroups.length) {
       continue;
     }
@@ -81,7 +77,7 @@ export default function getNextOpenAt(openingHoursString, date) {
   }
 
   // If we got to this point, opening hour must be some time the same day next week
-  const firstDayGroups = daysSortedByDaysToOpening[0];
+  const firstDayGroups = daysSortedByDaysToOpening.get(0);
 
   const dayGroupDay = getWeekday(firstDayGroups[0].day);
   const hourGroups = getHourGroups(firstDayGroups);
