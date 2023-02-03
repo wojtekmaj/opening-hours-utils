@@ -31,31 +31,32 @@ export default function getIsOpenAt(openingHoursString, date) {
 
   const minutesFromMidnight = getMinutesFromMidnightFromDate(date);
 
-  let hasUnspecifiedClosingTime = false;
-
-  const isNotClosedAtSomeDayGroup = dayGroups.some((dayGroup) =>
-    dayGroup.hours.some((hourRange) => {
+  for (const dayGroup of dayGroups) {
+    for (const hourRange of dayGroup.hours) {
       const { from, to } = hourRange;
 
       const fromMinutes = getMinutesFromMidnightFromString(from);
 
+      // Not yet open
       if (fromMinutes > minutesFromMidnight) {
-        return false;
+        continue;
       }
 
-      if (to) {
-        const toMinutes = getMinutesFromMidnightFromString(to);
+      // Unspecified closing time - we can't be sure if it's open or closed
+      if (!to) {
+        return null;
+      }
 
-        if (minutesFromMidnight > toMinutes) {
-          return false;
-        }
-      } else {
-        hasUnspecifiedClosingTime = true;
+      const toMinutes = getMinutesFromMidnightFromString(to);
+
+      // Already closed
+      if (toMinutes < minutesFromMidnight) {
+        continue;
       }
 
       return true;
-    }),
-  );
+    }
+  }
 
-  return hasUnspecifiedClosingTime ? null : isNotClosedAtSomeDayGroup;
+  return false;
 }
