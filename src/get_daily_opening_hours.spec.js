@@ -42,6 +42,10 @@ describe('getDailyOpeningHours()', () => {
     expect(getDailyOpeningHours('')).toBe(null);
   });
 
+  it('returns empty array given ";;;"', () => {
+    expect(getDailyOpeningHours(';;;')).toEqual([]);
+  });
+
   it('returns array with 00:00-24:00 hour range given weekday range without hours', () => {
     expect(getDailyOpeningHours(incompleteString1)).toEqual([
       {
