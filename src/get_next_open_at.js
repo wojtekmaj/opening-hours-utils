@@ -94,5 +94,11 @@ export default function getNextOpenAt(openingHoursString, date) {
   // If we got to this point, opening hour must be some time the same day next week
   const firstDayGroups = daysSortedByDaysToOpening.get(0);
 
-  return checkDayGroups(firstDayGroups, true);
+  const nextOpenAt = checkDayGroups(firstDayGroups, true);
+
+  if (nextOpenAt) {
+    return nextOpenAt;
+  }
+
+  throw new Error('Could not find opening time');
 }
