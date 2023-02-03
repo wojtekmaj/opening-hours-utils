@@ -21,7 +21,11 @@ function toHourGroup(hourRange) {
 }
 
 export default function getOpeningHours(openingHoursString) {
-  if (!openingHoursString) {
+  if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
+    throw new Error('openingHoursString is required');
+  }
+
+  if (openingHoursString === '') {
     return null;
   }
 

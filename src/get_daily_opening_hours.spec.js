@@ -38,10 +38,6 @@ describe('getDailyOpeningHours()', () => {
     expect(result).toEqual(expectedResult);
   });
 
-  it('returns null given undefined', () => {
-    expect(getDailyOpeningHours(undefined)).toBe(null);
-  });
-
   it('returns null given empty string', () => {
     expect(getDailyOpeningHours('')).toBe(null);
   });
@@ -65,6 +61,8 @@ describe('getDailyOpeningHours()', () => {
 
   it.each`
     input
+    ${undefined}
+    ${null}
     ${invalidString1}
     ${invalidString2}
     ${invalidString3}

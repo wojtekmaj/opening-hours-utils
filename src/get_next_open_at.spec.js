@@ -140,10 +140,6 @@ describe('getNextOpenAt()', () => {
     },
   );
 
-  it('returns null given undefined', () => {
-    expect(getNextOpenAt(undefined, mondayMorning)).toBe(null);
-  });
-
   it('returns null given empty string', () => {
     expect(getNextOpenAt('', mondayMorning)).toBe(null);
   });
@@ -154,6 +150,8 @@ describe('getNextOpenAt()', () => {
 
   it.each`
     input
+    ${undefined}
+    ${null}
     ${invalidString1}
     ${invalidString2}
     ${invalidString3}

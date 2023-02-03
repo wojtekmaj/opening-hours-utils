@@ -14,7 +14,7 @@ function isValidHourGroup(hourGroup) {
 
 function toHourRange(hourGroup) {
   if (!isValidHourGroup(hourGroup)) {
-    return null;
+    throw new Error('Invalid hour object');
   }
 
   if (!hourGroup.to) {
@@ -25,7 +25,11 @@ function toHourRange(hourGroup) {
 }
 
 export default function encodeOpeningHours(openingHoursArray) {
-  if (!openingHoursArray) {
+  if (typeof openingHoursArray === 'undefined' || openingHoursArray === null) {
+    throw new Error('openingHoursArray is required');
+  }
+
+  if (!openingHoursArray.length) {
     return '';
   }
 
@@ -43,10 +47,6 @@ export default function encodeOpeningHours(openingHoursArray) {
 
       const validHours = hours.filter(isValidHourGroup);
 
-      if (!validHours.length) {
-        return weekdayRange;
-      }
-
       const hourRanges = validHours.map(toHourRange);
       const joinedHourRanges = hourRanges.join(',');
 
@@ -54,6 +54,10 @@ export default function encodeOpeningHours(openingHoursArray) {
 
       if (dayDiff === 6 && joinedHourRanges === '00:00-24:00') {
         return '24/7';
+      }
+
+      if (!joinedHourRanges) {
+        return weekdayRange;
       }
 
       return `${weekdayRange} ${joinedHourRanges}`;

@@ -3,11 +3,15 @@ import getOpeningHours from './get_opening_hours';
 import { getDayDiff, getWeekday, getWeekdayName } from './utils';
 
 export default function getDailyOpeningHours(openingHoursString) {
-  const openingHoursArray = getOpeningHours(openingHoursString);
+  if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
+    throw new Error('openingHoursString is required');
+  }
 
-  if (!openingHoursArray) {
+  if (openingHoursString === '') {
     return null;
   }
+
+  const openingHoursArray = getOpeningHours(openingHoursString);
 
   const dailyOpeningHoursMap = new Map();
 

@@ -7,12 +7,16 @@ import {
 } from './utils';
 
 export default function getIsOpenAt(openingHoursString, date) {
-  if (!openingHoursString) {
-    return null;
+  if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
+    throw new Error('openingHoursString is required');
   }
 
   if (!date) {
     throw new Error('date is required');
+  }
+
+  if (openingHoursString === '') {
+    return null;
   }
 
   if (openingHoursString === '24/7') {

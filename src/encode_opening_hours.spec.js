@@ -36,15 +36,20 @@ describe('encodeOpeningHours()', () => {
     expect(result).toEqual(expectedResult);
   });
 
-  it('returns empty string given undefined', () => {
-    expect(encodeOpeningHours(undefined)).toBe('');
-  });
-
   it('returns empty string given []', () => {
     expect(encodeOpeningHours([])).toBe('');
   });
 
   it('returns weekday range without hours given array with no "from" value', () => {
     expect(encodeOpeningHours(incompleteArray1)).toBe(incompleteString1);
+  });
+
+  it.each`
+    input
+    ${undefined}
+    ${null}
+    ${'some string'}
+  `('throws error given $input', ({ input }) => {
+    expect(() => encodeOpeningHours(input)).toThrow();
   });
 });
