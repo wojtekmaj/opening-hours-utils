@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import getOpeningHours from './get_opening_hours';
 
 import {

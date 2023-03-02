@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import getNextClosedAt from './get_next_closed_at';
 
 import {

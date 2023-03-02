@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import encodeOpeningHours from './encode_opening_hours';
 
 import {

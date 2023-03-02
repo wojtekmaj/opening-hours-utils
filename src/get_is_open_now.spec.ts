@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import getIsOpenNow from './get_is_open_now';
 
 import { invalidString1, invalidString2, invalidString3 } from '../test_data';

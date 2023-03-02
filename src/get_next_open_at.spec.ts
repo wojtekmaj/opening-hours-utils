@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import getNextOpenAt from './get_next_open_at';
 
 import {
