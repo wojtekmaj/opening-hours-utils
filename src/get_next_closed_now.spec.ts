@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import getNextClosedNow from './get_next_closed_now';
 
 import { invalidString1, invalidString2, invalidString3 } from '../test_data';

@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import getIsOpenAt from './get_is_open_at';
 
 import {
