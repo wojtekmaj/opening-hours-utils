@@ -19,9 +19,9 @@ export type HourGroup = {
 
 export type HourGroups = HourGroup[];
 
-export type Weekday = typeof WEEKDAYS[keyof typeof WEEKDAYS];
+export type Weekday = (typeof WEEKDAYS)[keyof typeof WEEKDAYS];
 
-export type WeekdayName = typeof WEEKDAY_NAMES[keyof typeof WEEKDAY_NAMES];
+export type WeekdayName = (typeof WEEKDAY_NAMES)[keyof typeof WEEKDAY_NAMES];
 
 export type WeekdayRange = `${WeekdayName}-${WeekdayName}` | WeekdayName;
 
