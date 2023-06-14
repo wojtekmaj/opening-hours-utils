@@ -21,18 +21,19 @@ import {
 
 describe('getOpeningHours()', () => {
   it.each`
-    input                                | expectedResult
-    ${openOnWeekdays.string}             | ${openOnWeekdays.array}
-    ${openOnMondaysAndWednesdays.string} | ${openOnMondaysAndWednesdays.array}
-    ${multipleOpeningIntervals.string}   | ${multipleOpeningIntervals.array}
-    ${openOnSaturday.string}             | ${openOnSaturday.array}
-    ${openOnWeekends.string}             | ${openOnWeekends.array}
-    ${openFridayToTuesday.string}        | ${openFridayToTuesday.array}
-    ${openNonStop.string}                | ${openNonStop.array}
-    ${openNonStopOnWeekends.string}      | ${openNonStopOnWeekends.array}
-    ${unspecifiedClosingTime.string}     | ${unspecifiedClosingTime.array}
-    ${overrideWithDifferentHours.string} | ${overrideWithDifferentHours.array}
-    ${overrideWithOff.string}            | ${overrideWithOff.array}
+    input                                 | expectedResult
+    ${openOnWeekdays.string}              | ${openOnWeekdays.array}
+    ${openOnMondaysAndWednesdays.string}  | ${openOnMondaysAndWednesdays.array}
+    ${multipleOpeningIntervals.string}    | ${multipleOpeningIntervals.array}
+    ${multipleOpeningIntervals.altString} | ${multipleOpeningIntervals.array}
+    ${openOnSaturday.string}              | ${openOnSaturday.array}
+    ${openOnWeekends.string}              | ${openOnWeekends.array}
+    ${openFridayToTuesday.string}         | ${openFridayToTuesday.array}
+    ${openNonStop.string}                 | ${openNonStop.array}
+    ${openNonStopOnWeekends.string}       | ${openNonStopOnWeekends.array}
+    ${unspecifiedClosingTime.string}      | ${unspecifiedClosingTime.array}
+    ${overrideWithDifferentHours.string}  | ${overrideWithDifferentHours.array}
+    ${overrideWithOff.string}             | ${overrideWithOff.array}
   `('returns proper object given $input', ({ input, expectedResult }) => {
     const result = getOpeningHours(input);
 

@@ -39,6 +39,7 @@ export const openOnMondaysAndWednesdays = {
 
 export const multipleOpeningIntervals = {
   string: 'Mo-Fr 08:00-12:00,13:00-17:30',
+  altString: 'Mo-Fr 08:00-12:00, 13:00-17:30',
   array: [
     {
       from: 'Mo',
