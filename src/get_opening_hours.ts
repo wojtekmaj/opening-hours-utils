@@ -42,12 +42,12 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
   const openingHoursArray: OpeningHoursArray = [];
 
   dayGroups.filter(Boolean).map((dayGroup) => {
-    const [joinedWeekdayRanges, joinedHourRanges] = dayGroup.split(' ') as [
+    const [joinedWeekdayRanges, joinedHourRanges] = dayGroup.split(/\b\s+/) as [
       string,
       string | undefined,
     ];
 
-    const weekdayRanges = joinedWeekdayRanges.split(',');
+    const weekdayRanges = joinedWeekdayRanges.split(/,\s*/);
 
     weekdayRanges.forEach((weekdayRange) => {
       const [fromWeekday, toWeekday = fromWeekday] = weekdayRange.split('-');
@@ -69,7 +69,7 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
         });
       }
 
-      const hourRanges = joinedHourRanges.split(',') as HourRange[];
+      const hourRanges = joinedHourRanges.split(/,\s*/) as HourRange[];
       const hourGroups = hourRanges.map(toHourGroup).filter(Boolean) as HourGroup[];
 
       openingHoursArray.push({

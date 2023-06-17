@@ -233,6 +233,59 @@ export const overrideWithOff = {
   ],
 };
 
+export const spaces = {
+  string: 'Mo-We, Fr 08:00-12:00, 13:00-17:30',
+  altString: 'Mo-We 08:00-12:00,13:00-17:30; Fr 08:00-12:00,13:00-17:30',
+  array: [
+    {
+      from: 'Mo',
+      to: 'We',
+      hours: [
+        { from: '08:00', to: '12:00' },
+        { from: '13:00', to: '17:30' },
+      ],
+    },
+    {
+      from: 'Fr',
+      to: 'Fr',
+      hours: [
+        { from: '08:00', to: '12:00' },
+        { from: '13:00', to: '17:30' },
+      ],
+    },
+  ],
+  dailyArray: [
+    {
+      day: 'Mo',
+      hours: [
+        { from: '08:00', to: '12:00' },
+        { from: '13:00', to: '17:30' },
+      ],
+    },
+    {
+      day: 'Tu',
+      hours: [
+        { from: '08:00', to: '12:00' },
+        { from: '13:00', to: '17:30' },
+      ],
+    },
+    {
+      day: 'We',
+      hours: [
+        { from: '08:00', to: '12:00' },
+        { from: '13:00', to: '17:30' },
+      ],
+    },
+    {
+      day: 'Fr',
+      hours: [
+        { from: '08:00', to: '12:00' },
+        { from: '13:00', to: '17:30' },
+      ],
+    },
+  ],
+};
+
 export const incompleteString1 = 'Mo-We';
 
 export const incompleteArray1 = [

@@ -17,6 +17,7 @@ import {
   overrideWithDifferentHours,
   overrideWithOff,
   incompleteString1,
+  spaces,
 } from '../test_data';
 
 describe('getDailyOpeningHours()', () => {
@@ -33,6 +34,7 @@ describe('getDailyOpeningHours()', () => {
     ${unspecifiedClosingTime.string}     | ${unspecifiedClosingTime.dailyArray}
     ${overrideWithDifferentHours.string} | ${overrideWithDifferentHours.dailyArray}
     ${overrideWithOff.string}            | ${overrideWithOff.dailyArray}
+    ${spaces.string}                     | ${spaces.dailyArray}
   `('returns proper object given $input', ({ input, expectedResult }) => {
     const result = getDailyOpeningHours(input);
 

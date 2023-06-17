@@ -17,6 +17,7 @@ import {
   overrideWithDifferentHours,
   overrideWithOff,
   incompleteString1,
+  spaces,
 } from '../test_data';
 
 describe('getOpeningHours()', () => {
@@ -33,6 +34,7 @@ describe('getOpeningHours()', () => {
     ${unspecifiedClosingTime.string}     | ${unspecifiedClosingTime.array}
     ${overrideWithDifferentHours.string} | ${overrideWithDifferentHours.array}
     ${overrideWithOff.string}            | ${overrideWithOff.array}
+    ${spaces.string}                     | ${spaces.array}
   `('returns proper object given $input', ({ input, expectedResult }) => {
     const result = getOpeningHours(input);
 

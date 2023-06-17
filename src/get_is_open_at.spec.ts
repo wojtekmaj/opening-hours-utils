@@ -24,6 +24,7 @@ import {
   saturdayEvening,
   saturdayMidday,
   saturdayMidnight,
+  spaces,
   tuesdayAfternoon,
   unspecifiedClosingTime,
 } from '../test_data';
@@ -132,6 +133,15 @@ describe('getIsOpenAt()', () => {
     ${overrideWithOff.string}            | ${mondayTwelveThirty} | ${true}
     ${overrideWithOff.string}            | ${mondayEvening}      | ${true}
     ${overrideWithOff.string}            | ${tuesdayAfternoon}   | ${false}
+    ${spaces.string}                     | ${saturdayMidnight}   | ${false}
+    ${spaces.string}                     | ${saturdayEightAm}    | ${false}
+    ${spaces.string}                     | ${saturdayMidday}     | ${false}
+    ${spaces.string}                     | ${saturdayEvening}    | ${false}
+    ${spaces.string}                     | ${mondayMidnight}     | ${false}
+    ${spaces.string}                     | ${mondayMorning}      | ${true}
+    ${spaces.string}                     | ${mondayMidday}       | ${true}
+    ${spaces.string}                     | ${mondayTwelveThirty} | ${false}
+    ${spaces.string}                     | ${mondayEvening}      | ${false}
   `(
     'returns $expectedResult given $openingHoursString and $date',
     ({ openingHoursString, date, expectedResult }) => {

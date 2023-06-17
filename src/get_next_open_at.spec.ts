@@ -24,6 +24,7 @@ import {
   saturdayEvening,
   saturdayMidday,
   saturdayMidnight,
+  spaces,
   tuesdayAfternoon,
   unspecifiedClosingTime,
 } from '../test_data';
@@ -132,6 +133,15 @@ describe('getNextOpenAt()', () => {
     ${overrideWithOff.string}            | ${mondayTwelveThirty} | ${null}
     ${overrideWithOff.string}            | ${mondayEvening}      | ${null}
     ${overrideWithOff.string}            | ${tuesdayAfternoon}   | ${'We 10:00'}
+    ${spaces.string}                     | ${saturdayMidnight}   | ${'Mo 08:00'}
+    ${spaces.string}                     | ${saturdayEightAm}    | ${'Mo 08:00'}
+    ${spaces.string}                     | ${saturdayMidday}     | ${'Mo 08:00'}
+    ${spaces.string}                     | ${saturdayEvening}    | ${'Mo 08:00'}
+    ${spaces.string}                     | ${mondayMidnight}     | ${'Mo 08:00'}
+    ${spaces.string}                     | ${mondayMorning}      | ${null}
+    ${spaces.string}                     | ${mondayMidday}       | ${null}
+    ${spaces.string}                     | ${mondayTwelveThirty} | ${'Mo 13:00'}
+    ${spaces.string}                     | ${mondayEvening}      | ${'Tu 08:00'}
   `(
     'returns $expectedResult given $openingHoursString and $date',
     ({ openingHoursString, date, expectedResult }) => {
