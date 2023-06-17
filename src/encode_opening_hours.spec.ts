@@ -16,6 +16,7 @@ import {
   incompleteString1,
   incompleteArray1,
   spaces,
+  justHours,
 } from '../test_data';
 
 describe('encodeOpeningHours()', () => {
@@ -33,6 +34,7 @@ describe('encodeOpeningHours()', () => {
     ${overrideWithDifferentHours.array} | ${overrideWithDifferentHours.string}
     ${overrideWithOff.array}            | ${overrideWithOff.string}
     ${spaces.array}                     | ${spaces.altString}
+    ${justHours.array}                  | ${justHours.altString}
   `('returns proper object given $input', ({ input, expectedResult }) => {
     const result = encodeOpeningHours(input);
 

@@ -5,6 +5,7 @@ import {
   invalidString1,
   invalidString2,
   invalidString3,
+  justHours,
   mondayEvening,
   mondayMidday,
   mondayMidnight,
@@ -142,6 +143,16 @@ describe('getNextOpenAt()', () => {
     ${spaces.string}                     | ${mondayMidday}       | ${null}
     ${spaces.string}                     | ${mondayTwelveThirty} | ${'Mo 13:00'}
     ${spaces.string}                     | ${mondayEvening}      | ${'Tu 08:00'}
+    ${justHours.string}                  | ${saturdayMidnight}   | ${'Sa 10:00'}
+    ${justHours.string}                  | ${saturdayEightAm}    | ${'Sa 10:00'}
+    ${justHours.string}                  | ${saturdayMidday}     | ${null}
+    ${justHours.string}                  | ${saturdayEvening}    | ${null}
+    ${justHours.string}                  | ${mondayMidnight}     | ${'Mo 10:00'}
+    ${justHours.string}                  | ${mondayMorning}      | ${'Mo 10:00'}
+    ${justHours.string}                  | ${mondayMidday}       | ${null}
+    ${justHours.string}                  | ${mondayTwelveThirty} | ${null}
+    ${justHours.string}                  | ${mondayEvening}      | ${null}
+    ${justHours.string}                  | ${tuesdayAfternoon}   | ${null}
   `(
     'returns $expectedResult given $openingHoursString and $date',
     ({ openingHoursString, date, expectedResult }) => {

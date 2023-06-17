@@ -5,6 +5,7 @@ import {
   invalidString1,
   invalidString2,
   invalidString3,
+  justHours,
   mondayEvening,
   mondayMidday,
   mondayMidnight,
@@ -142,6 +143,16 @@ describe('getIsOpenAt()', () => {
     ${spaces.string}                     | ${mondayMidday}       | ${true}
     ${spaces.string}                     | ${mondayTwelveThirty} | ${false}
     ${spaces.string}                     | ${mondayEvening}      | ${false}
+    ${justHours.string}                  | ${saturdayMidnight}   | ${false}
+    ${justHours.string}                  | ${saturdayEightAm}    | ${false}
+    ${justHours.string}                  | ${saturdayMidday}     | ${true}
+    ${justHours.string}                  | ${saturdayEvening}    | ${true}
+    ${justHours.string}                  | ${mondayMidnight}     | ${false}
+    ${justHours.string}                  | ${mondayMorning}      | ${false}
+    ${justHours.string}                  | ${mondayMidday}       | ${true}
+    ${justHours.string}                  | ${mondayTwelveThirty} | ${true}
+    ${justHours.string}                  | ${mondayEvening}      | ${true}
+    ${justHours.string}                  | ${tuesdayAfternoon}   | ${true}
   `(
     'returns $expectedResult given $openingHoursString and $date',
     ({ openingHoursString, date, expectedResult }) => {

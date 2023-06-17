@@ -286,6 +286,27 @@ export const spaces = {
   ],
 };
 
+export const justHours = {
+  string: '10:00-20:00',
+  altString: 'Mo-Su 10:00-20:00',
+  array: [
+    {
+      from: 'Mo',
+      to: 'Su',
+      hours: [{ from: '10:00', to: '20:00' }],
+    },
+  ],
+  dailyArray: [
+    { day: 'Mo', hours: [{ from: '10:00', to: '20:00' }] },
+    { day: 'Tu', hours: [{ from: '10:00', to: '20:00' }] },
+    { day: 'We', hours: [{ from: '10:00', to: '20:00' }] },
+    { day: 'Th', hours: [{ from: '10:00', to: '20:00' }] },
+    { day: 'Fr', hours: [{ from: '10:00', to: '20:00' }] },
+    { day: 'Sa', hours: [{ from: '10:00', to: '20:00' }] },
+    { day: 'Su', hours: [{ from: '10:00', to: '20:00' }] },
+  ],
+};
+
 export const incompleteString1 = 'Mo-We';
 
 export const incompleteArray1 = [
