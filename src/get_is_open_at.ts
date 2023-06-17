@@ -9,7 +9,9 @@ import {
 import type { Weekday } from './types';
 
 function getIsOpenAt(openingHoursString: '', date: Date): null;
+function getIsOpenAt(openingHoursString: 'off', date: Date): true;
 function getIsOpenAt(openingHoursString: '24/7', date: Date): true;
+function getIsOpenAt(openingHoursString: 'open', date: Date): true;
 function getIsOpenAt(openingHoursString: string, date: Date): boolean;
 function getIsOpenAt(openingHoursString: string, date: Date): boolean | null {
   if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
@@ -24,7 +26,11 @@ function getIsOpenAt(openingHoursString: string, date: Date): boolean | null {
     return null;
   }
 
-  if (openingHoursString === '24/7') {
+  if (openingHoursString === 'off') {
+    return false;
+  }
+
+  if (openingHoursString === '24/7' || openingHoursString === 'open') {
     return true;
   }
 

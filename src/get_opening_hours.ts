@@ -36,11 +36,11 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
     throw new Error('openingHoursString is required');
   }
 
-  if (openingHoursString === '') {
+  if (openingHoursString === '' || openingHoursString === 'off') {
     return null;
   }
 
-  if (openingHoursString === '24/7') {
+  if (openingHoursString === '24/7' || openingHoursString === 'open') {
     openingHoursString = 'Mo-Su 00:00-24:00';
   }
 
