@@ -16,7 +16,7 @@ function toHourGroup(hourRange: HourRange): HourGroup | null {
   const [from, to] = hourRange.split('-') as [Hour, Hour];
 
   if (!isValidHour(from) || !isValidHour(to)) {
-    throw new Error('Invalid hour range');
+    throw new Error(`Invalid hour range: ${hourRange}`);
   }
 
   return { from, to };
@@ -53,7 +53,7 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
       const [fromWeekday, toWeekday = fromWeekday] = weekdayRange.split('-');
 
       if (!isValidWeekdayName(fromWeekday) || !isValidWeekdayName(toWeekday)) {
-        throw new Error('Invalid weekday range');
+        throw new Error(`Invalid weekday range: ${weekdayRange}`);
       }
 
       if (!joinedHourRanges) {
