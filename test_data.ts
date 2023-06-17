@@ -173,6 +173,22 @@ export const openNonStopOnWeekends = {
   ],
 };
 
+export const openNonStopOnWeekends2 = {
+  string: 'Sa-Su open',
+  altString: 'Sa-Su 00:00-24:00',
+  array: [
+    {
+      from: 'Sa',
+      to: 'Su',
+      hours: [{ from: '00:00', to: '24:00' }],
+    },
+  ],
+  dailyArray: [
+    { day: 'Sa', hours: [{ from: '00:00', to: '24:00' }] },
+    { day: 'Su', hours: [{ from: '00:00', to: '24:00' }] },
+  ],
+};
+
 export const unspecifiedClosingTime = {
   string: 'Sa 10:00+',
   array: [

@@ -19,6 +19,7 @@ import {
   incompleteString1,
   spaces,
   justHours,
+  openNonStopOnWeekends2,
 } from '../test_data';
 
 describe('getDailyOpeningHours()', () => {
@@ -32,6 +33,7 @@ describe('getDailyOpeningHours()', () => {
     ${openFridayToTuesday.string}        | ${openFridayToTuesday.dailyArray}
     ${openNonStop.string}                | ${openNonStop.dailyArray}
     ${openNonStopOnWeekends.string}      | ${openNonStopOnWeekends.dailyArray}
+    ${openNonStopOnWeekends2.string}     | ${openNonStopOnWeekends2.dailyArray}
     ${unspecifiedClosingTime.string}     | ${unspecifiedClosingTime.dailyArray}
     ${overrideWithDifferentHours.string} | ${overrideWithDifferentHours.dailyArray}
     ${overrideWithOff.string}            | ${overrideWithOff.dailyArray}

@@ -6,6 +6,7 @@ import {
   openFridayToTuesday,
   openNonStop,
   openNonStopOnWeekends,
+  openNonStopOnWeekends2,
   openOnMondaysAndWednesdays,
   openOnSaturday,
   openOnWeekdays,
@@ -30,6 +31,7 @@ describe('encodeOpeningHours()', () => {
     ${openFridayToTuesday.array}        | ${openFridayToTuesday.string}
     ${openNonStop.array}                | ${openNonStop.string}
     ${openNonStopOnWeekends.array}      | ${openNonStopOnWeekends.string}
+    ${openNonStopOnWeekends2.array}     | ${openNonStopOnWeekends2.altString}
     ${unspecifiedClosingTime.array}     | ${unspecifiedClosingTime.string}
     ${overrideWithDifferentHours.array} | ${overrideWithDifferentHours.string}
     ${overrideWithOff.array}            | ${overrideWithOff.string}

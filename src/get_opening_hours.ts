@@ -7,6 +7,13 @@ function toHourGroup(hourRange: HourRange): HourGroup | null {
     return null;
   }
 
+  if (hourRange === 'open') {
+    return {
+      from: '00:00',
+      to: '24:00',
+    };
+  }
+
   if (hourRange.endsWith('+')) {
     const from = (hourRange as FromHourPlus).slice(0, -1) as Hour;
 
@@ -43,7 +50,7 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
 
   dayGroups.filter(Boolean).map((dayGroup) => {
     // If day group starts with a valid hour range, prepend with 'Mo-Su'
-    if (dayGroup.startsWith('off') || dayGroup.match(/^\d/)) {
+    if (dayGroup.startsWith('off') || dayGroup.startsWith('open') || dayGroup.match(/^\d/)) {
       dayGroup = `Mo-Su ${dayGroup}`;
     }
 

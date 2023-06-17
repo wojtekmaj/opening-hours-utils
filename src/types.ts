@@ -10,7 +10,9 @@ export type FromHourPlus = `${Hour}+`;
 
 export type Off = 'off';
 
-export type HourRange = FromHourToHour | FromHourPlus | Off;
+export type Open = 'open';
+
+export type HourRange = FromHourToHour | FromHourPlus | Off | Open;
 
 export type HourGroup = {
   from: Hour;

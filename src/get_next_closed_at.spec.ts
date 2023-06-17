@@ -15,6 +15,7 @@ import {
   openFridayToTuesday,
   openNonStop,
   openNonStopOnWeekends,
+  openNonStopOnWeekends2,
   openOnMondaysAndWednesdays,
   openOnSaturday,
   openOnWeekdays,
@@ -106,6 +107,15 @@ describe('getNextClosedAt()', () => {
     ${openNonStopOnWeekends.string}      | ${mondayMidday}       | ${null}
     ${openNonStopOnWeekends.string}      | ${mondayTwelveThirty} | ${null}
     ${openNonStopOnWeekends.string}      | ${mondayEvening}      | ${null}
+    ${openNonStopOnWeekends2.string}     | ${saturdayMidnight}   | ${'Su 24:00'}
+    ${openNonStopOnWeekends2.string}     | ${saturdayEightAm}    | ${'Su 24:00'}
+    ${openNonStopOnWeekends2.string}     | ${saturdayMidday}     | ${'Su 24:00'}
+    ${openNonStopOnWeekends2.string}     | ${saturdayEvening}    | ${'Su 24:00'}
+    ${openNonStopOnWeekends2.string}     | ${mondayMidnight}     | ${null}
+    ${openNonStopOnWeekends2.string}     | ${mondayMorning}      | ${null}
+    ${openNonStopOnWeekends2.string}     | ${mondayMidday}       | ${null}
+    ${openNonStopOnWeekends2.string}     | ${mondayTwelveThirty} | ${null}
+    ${openNonStopOnWeekends2.string}     | ${mondayEvening}      | ${null}
     ${unspecifiedClosingTime.string}     | ${saturdayMidnight}   | ${null}
     ${unspecifiedClosingTime.string}     | ${saturdayEightAm}    | ${null}
     ${unspecifiedClosingTime.string}     | ${saturdayMidday}     | ${null}
