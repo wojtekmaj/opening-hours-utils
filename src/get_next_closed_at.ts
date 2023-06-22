@@ -47,10 +47,6 @@ function groupDaysByDaysToClosing(dayGroups: DayGroups, day: Weekday) {
   return groupedDays;
 }
 
-function addMinutes(date: Date, minutes: number) {
-  return new Date(date.getTime() + minutes * 60000);
-}
-
 export function getNextClosedAt(openingHoursString: string, date: Date, returnDate: true): Date;
 export function getNextClosedAt(
   openingHoursString: string,
