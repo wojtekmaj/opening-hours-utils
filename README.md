@@ -92,7 +92,7 @@ getIsOpenNow('Mo-Fr 08:00-17:30'); // true
 
 #### `getNextClosedAt()`
 
-Gets the next closing time for a given date. Returns null if for a given date place is closed.
+Gets the next closing time for a given date. Returns null if for a given date place is closed. An optional parameter can be used to return a `Date` object instead of a formatted string.
 
 ##### Sample usage
 
@@ -100,11 +100,12 @@ Gets the next closing time for a given date. Returns null if for a given date pl
 import { getNextClosedAt } from '@wojtekmaj/opening-hours-utils';
 
 getNextClosedAt('Mo-Fr 08:00-17:30', mondayNoon); // 'Mo 17:30'
+getNextClosedAt('Mo-Fr 08:00-17:30', mondayNoon, true); // 2022-01-03T17:30:00.000Z
 ```
 
 #### `getNextClosedNow()`
 
-Gets the next closing time. Returns null if place is currently closed.
+Gets the next closing time. Returns null if place is currently closed. An optional parameter can be used to return a `Date` object instead of a formatted string.
 
 ##### Sample usage
 
@@ -112,11 +113,12 @@ Gets the next closing time. Returns null if place is currently closed.
 import { getNextClosedNow } from '@wojtekmaj/opening-hours-utils';
 
 getNextClosedNow('Mo-Fr 08:00-17:30'); // 'Mo 17:30'
+getNextClosedNow('Mo-Fr 08:00-17:30', true); // 2022-01-03T17:30:00.000Z
 ```
 
 #### `getNextOpenAt()`
 
-Gets the next opening time for a given date. Returns null if for a given date place is open.
+Gets the next opening time for a given date. Returns null if for a given date place is open. An optional parameter can be used to return a `Date` object instead of a formatted string.
 
 ##### Sample usage
 
@@ -124,11 +126,12 @@ Gets the next opening time for a given date. Returns null if for a given date pl
 import { getNextOpenAt } from '@wojtekmaj/opening-hours-utils';
 
 getNextOpenAt('Mo-Fr 08:00-17:30', saturdayNoon); // 'Mo 08:00'
+getNextOpenAt('Mo-Fr 08:00-17:30', saturdayNoon, true); // 2022-01-03T08:00:00.000Z
 ```
 
 #### `getNextOpenNow()`
 
-Gets the next opening time. Returns null if place is currently open.
+Gets the next opening time. Returns null if place is currently open. An optional parameter can be used to return a `Date` object instead of a formatted string.
 
 ##### Sample usage
 
@@ -136,6 +139,7 @@ Gets the next opening time. Returns null if place is currently open.
 import { getNextOpenNow } from '@wojtekmaj/opening-hours-utils';
 
 getNextOpenNow('Mo-Fr 08:00-17:30'); // 'Mo 08:00'
+getNextOpenNow('Mo-Fr 08:00-17:30', true); // 2022-01-03T08:00:00.000Z
 ```
 
 #### `getOpeningHours()`

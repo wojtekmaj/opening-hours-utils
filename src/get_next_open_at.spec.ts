@@ -12,6 +12,7 @@ import {
   mondayMorning,
   mondayTwelveThirty,
   multipleOpeningIntervals,
+  openMonday,
   openFridayToTuesday,
   openNonStop,
   openNonStopOnWeekends,
@@ -169,6 +170,66 @@ describe('getNextOpenAt()', () => {
       const result = getNextOpenAt(openingHoursString, date);
 
       expect(result).toBe(expectedResult);
+    },
+  );
+
+  it.each`
+    openingHoursString                   | date                  | expectedResult
+    ${openOnWeekdays.string}             | ${saturdayMidnight}   | ${openMonday}
+    ${openOnWeekdays.string}             | ${saturdayEightAm}    | ${openMonday}
+    ${openOnWeekdays.string}             | ${saturdayMidday}     | ${openMonday}
+    ${openOnWeekdays.string}             | ${saturdayEvening}    | ${openMonday}
+    ${openOnWeekdays.string}             | ${mondayMidnight}     | ${openMonday}
+    ${openOnWeekdays.string}             | ${mondayMorning}      | ${null}
+    ${openOnWeekdays.string}             | ${mondayMidday}       | ${null}
+    ${openOnWeekdays.string}             | ${mondayTwelveThirty} | ${null}
+    ${openOnMondaysAndWednesdays.string} | ${saturdayMidnight}   | ${openMonday}
+    ${openOnMondaysAndWednesdays.string} | ${saturdayEightAm}    | ${openMonday}
+    ${openOnMondaysAndWednesdays.string} | ${saturdayMidday}     | ${openMonday}
+    ${openOnMondaysAndWednesdays.string} | ${saturdayEvening}    | ${openMonday}
+    ${openOnMondaysAndWednesdays.string} | ${mondayMidnight}     | ${openMonday}
+    ${openOnMondaysAndWednesdays.string} | ${mondayMorning}      | ${null}
+    ${openOnMondaysAndWednesdays.string} | ${mondayMidday}       | ${null}
+    ${openOnMondaysAndWednesdays.string} | ${mondayTwelveThirty} | ${null}
+    ${multipleOpeningIntervals.string}   | ${saturdayMidnight}   | ${openMonday}
+    ${multipleOpeningIntervals.string}   | ${saturdayEightAm}    | ${openMonday}
+    ${multipleOpeningIntervals.string}   | ${saturdayMidday}     | ${openMonday}
+    ${multipleOpeningIntervals.string}   | ${saturdayEvening}    | ${openMonday}
+    ${multipleOpeningIntervals.string}   | ${mondayMidnight}     | ${openMonday}
+    ${multipleOpeningIntervals.string}   | ${mondayMorning}      | ${null}
+    ${multipleOpeningIntervals.string}   | ${mondayMidday}       | ${null}
+    ${openFridayToTuesday.string}        | ${mondayMidnight}     | ${openMonday}
+    ${openFridayToTuesday.string}        | ${mondayMorning}      | ${null}
+    ${openFridayToTuesday.string}        | ${mondayMidday}       | ${null}
+    ${openFridayToTuesday.string}        | ${mondayTwelveThirty} | ${null}
+    ${openNonStop.string}                | ${saturdayMidnight}   | ${null}
+    ${openNonStop.string}                | ${saturdayEightAm}    | ${null}
+    ${openNonStop.string}                | ${saturdayMidday}     | ${null}
+    ${openNonStop.string}                | ${saturdayEvening}    | ${null}
+    ${openNonStop.string}                | ${mondayMidnight}     | ${null}
+    ${openNonStop.string}                | ${mondayMorning}      | ${null}
+    ${openNonStop.string}                | ${mondayMidday}       | ${null}
+    ${openNonStop.string}                | ${mondayTwelveThirty} | ${null}
+    ${openNonStop.string}                | ${mondayEvening}      | ${null}
+    ${openNonStopOnWeekends.string}      | ${saturdayMidnight}   | ${null}
+    ${openNonStopOnWeekends.string}      | ${saturdayEightAm}    | ${null}
+    ${openNonStopOnWeekends.string}      | ${saturdayMidday}     | ${null}
+    ${openNonStopOnWeekends.string}      | ${saturdayEvening}    | ${null}
+    ${unspecifiedClosingTime.string}     | ${saturdayMidday}     | ${null}
+    ${unspecifiedClosingTime.string}     | ${saturdayEvening}    | ${null}
+    ${overrideWithDifferentHours.string} | ${saturdayMidday}     | ${null}
+    ${overrideWithDifferentHours.string} | ${saturdayEvening}    | ${null}
+    ${overrideWithDifferentHours.string} | ${mondayMidday}       | ${null}
+    ${overrideWithDifferentHours.string} | ${mondayTwelveThirty} | ${null}
+    ${overrideWithDifferentHours.string} | ${mondayEvening}      | ${null}
+    ${overrideWithOff.string}            | ${saturdayMidday}     | ${null}
+    ${overrideWithOff.string}            | ${saturdayEvening}    | ${null}
+  `(
+    'returns $expectedResult given $openingHoursString and $date',
+    ({ openingHoursString, date, expectedResult }) => {
+      const result = getNextOpenAt(openingHoursString, date, true);
+
+      expect(result).toEqual(expectedResult);
     },
   );
 

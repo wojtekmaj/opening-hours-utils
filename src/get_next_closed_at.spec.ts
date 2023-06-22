@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import getNextClosedAt from './get_next_closed_at';
 
 import {
+  closeMonday,
   invalidString1,
   invalidString2,
   invalidString3,
@@ -170,6 +171,27 @@ describe('getNextClosedAt()', () => {
       const result = getNextClosedAt(openingHoursString, date);
 
       expect(result).toBe(expectedResult);
+    },
+  );
+
+  it.each`
+    openingHoursString                   | date                  | expectedResult
+    ${openOnWeekdays.string}             | ${mondayMorning}      | ${closeMonday}
+    ${openOnWeekdays.string}             | ${mondayMidday}       | ${closeMonday}
+    ${openOnWeekdays.string}             | ${mondayTwelveThirty} | ${closeMonday}
+    ${openOnMondaysAndWednesdays.string} | ${mondayMorning}      | ${closeMonday}
+    ${openOnMondaysAndWednesdays.string} | ${mondayMidday}       | ${closeMonday}
+    ${openOnMondaysAndWednesdays.string} | ${mondayTwelveThirty} | ${closeMonday}
+    ${openFridayToTuesday.string}        | ${mondayMorning}      | ${closeMonday}
+    ${openFridayToTuesday.string}        | ${mondayMidday}       | ${closeMonday}
+    ${openFridayToTuesday.string}        | ${mondayTwelveThirty} | ${closeMonday}
+    ${openOnMondaysAndWednesdays.string} | ${saturdayEvening}    | ${null}
+  `(
+    'returns $expectedResult given $openingHoursString and $date',
+    ({ openingHoursString, date, expectedResult }) => {
+      const result = getNextClosedAt(openingHoursString, date, true);
+
+      expect(result).toEqual(expectedResult);
     },
   );
 

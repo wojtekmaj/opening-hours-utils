@@ -2,6 +2,7 @@ import getDailyOpeningHours from './get_daily_opening_hours';
 import getIsOpenAt from './get_is_open_at';
 
 import {
+  addMinutes,
   getDayDiff,
   getHourGroups,
   getMinutesFromMidnightFromDate,
@@ -50,7 +51,17 @@ function addMinutes(date: Date, minutes: number) {
   return new Date(date.getTime() + minutes * 60000);
 }
 
-export default function getNextClosedAt(openingHoursString: string, date: Date): string | null {
+export function getNextClosedAt(openingHoursString: string, date: Date, returnDate: true): Date;
+export function getNextClosedAt(
+  openingHoursString: string,
+  date: Date,
+  returnDate: false,
+): string | null;
+export default function getNextClosedAt(
+  openingHoursString: string,
+  date: Date,
+  returnDate = false,
+): Date | string | null {
   if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
     throw new Error('openingHoursString is required');
   }
@@ -118,6 +129,9 @@ export default function getNextClosedAt(openingHoursString: string, date: Date):
           continue;
         }
 
+        if (returnDate) {
+          return closingTime;
+        }
         return `${getWeekdayName(dayGroupDay)} ${hourGroup.to}`;
       }
     }
