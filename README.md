@@ -9,7 +9,7 @@ A collection of opening hours-related utilities.
 - Install by executing `npm install @wojtekmaj/opening-hours-utils` or `yarn add @wojtekmaj/opening-hours-utils`.
 - Import by adding `import * as openingHoursUtils from '@wojtekmaj/opening-hours-utils'`.
 - Do stuff with it!
-  ```js
+  ```ts
   const openingHours = getOpeningHours('Mo-Fr 08:00-18:00;Sa 08:00-12:00');
   ```
 
@@ -33,7 +33,7 @@ Returns opening hours string given an array of objects with `from`, `to`, and `h
 
 ##### Sample usage
 
-```js
+```ts
 import { encodeOpeningHours } from '@wojtekmaj/opening-hours-utils';
 
 encodeOpeningHours([
@@ -51,7 +51,7 @@ Parses opening hours string and returns an array of objects with `day` and `hour
 
 ##### Sample usage
 
-```js
+```ts
 import { getDailyOpeningHours } from '@wojtekmaj/opening-hours-utils';
 
 getDailyOpeningHours('Mo-Fr 08:00-17:30');
@@ -72,7 +72,7 @@ Checks if place is open at a given date.
 
 ##### Sample usage
 
-```js
+```ts
 import { getIsOpenAt } from '@wojtekmaj/opening-hours-utils';
 
 getIsOpenAt('Mo-Fr 08:00-17:30', mondayNoon); // true
@@ -84,7 +84,7 @@ Checks if place is open.
 
 ##### Sample usage
 
-```js
+```ts
 import { getIsOpenNow } from '@wojtekmaj/opening-hours-utils';
 
 getIsOpenNow('Mo-Fr 08:00-17:30'); // true
@@ -96,7 +96,7 @@ Gets the next closing time for a given date. Returns null if for a given date pl
 
 ##### Sample usage
 
-```js
+```ts
 import { getNextClosedAt } from '@wojtekmaj/opening-hours-utils';
 
 getNextClosedAt('Mo-Fr 08:00-17:30', mondayNoon); // 'Mo 17:30'
@@ -108,7 +108,7 @@ Gets the next closing time. Returns null if place is currently closed.
 
 ##### Sample usage
 
-```js
+```ts
 import { getNextClosedNow } from '@wojtekmaj/opening-hours-utils';
 
 getNextClosedNow('Mo-Fr 08:00-17:30'); // 'Mo 17:30'
@@ -120,7 +120,7 @@ Gets the next opening time for a given date. Returns null if for a given date pl
 
 ##### Sample usage
 
-```js
+```ts
 import { getNextOpenAt } from '@wojtekmaj/opening-hours-utils';
 
 getNextOpenAt('Mo-Fr 08:00-17:30', saturdayNoon); // 'Mo 08:00'
@@ -132,7 +132,7 @@ Gets the next opening time. Returns null if place is currently open.
 
 ##### Sample usage
 
-```js
+```ts
 import { getNextOpenNow } from '@wojtekmaj/opening-hours-utils';
 
 getNextOpenNow('Mo-Fr 08:00-17:30'); // 'Mo 08:00'
@@ -144,7 +144,7 @@ Parses opening hours string and returns an array of objects with `from`, `to`, a
 
 ##### Sample usage
 
-```js
+```ts
 import { getOpeningHours } from '@wojtekmaj/opening-hours-utils';
 
 getOpeningHours('Mo-Fr 08:00-17:30');
