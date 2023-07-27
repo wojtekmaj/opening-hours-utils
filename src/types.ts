@@ -1,4 +1,4 @@
-import type { WEEKDAYS, WEEKDAY_NAMES } from './constants';
+import type { WEEKDAYS, WEEKDAY_NAMES } from './constants.js';
 
 export type ZeroToSix = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 

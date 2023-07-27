@@ -1,12 +1,12 @@
-import encodeOpeningHours from './encode_opening_hours';
-import getDailyOpeningHours from './get_daily_opening_hours';
-import getIsOpenAt from './get_is_open_at';
-import getIsOpenNow from './get_is_open_now';
-import getNextClosedAt from './get_next_closed_at';
-import getNextClosedNow from './get_next_closed_now';
-import getNextOpenAt from './get_next_open_at';
-import getNextOpenNow from './get_next_open_now';
-import getOpeningHours from './get_opening_hours';
+import encodeOpeningHours from './encode_opening_hours.js';
+import getDailyOpeningHours from './get_daily_opening_hours.js';
+import getIsOpenAt from './get_is_open_at.js';
+import getIsOpenNow from './get_is_open_now.js';
+import getNextClosedAt from './get_next_closed_at.js';
+import getNextClosedNow from './get_next_closed_now.js';
+import getNextOpenAt from './get_next_open_at.js';
+import getNextOpenNow from './get_next_open_now.js';
+import getOpeningHours from './get_opening_hours.js';
 
 export {
   encodeOpeningHours,

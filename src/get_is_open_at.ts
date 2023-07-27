@@ -1,12 +1,12 @@
-import getDailyOpeningHours from './get_daily_opening_hours';
+import getDailyOpeningHours from './get_daily_opening_hours.js';
 
 import {
   getMinutesFromMidnightFromDate,
   getMinutesFromMidnightFromString,
   getWeekday,
-} from './utils';
+} from './utils.js';
 
-import type { Weekday } from './types';
+import type { Weekday } from './types.js';
 
 function getIsOpenAt(openingHoursString: '', date: Date): null;
 function getIsOpenAt(openingHoursString: 'off', date: Date): true;

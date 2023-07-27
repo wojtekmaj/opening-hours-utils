@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import getIsOpenAt from './get_is_open_at';
+import getIsOpenAt from './get_is_open_at.js';
 
 import {
   invalidString1,
@@ -29,7 +29,7 @@ import {
   spaces,
   tuesdayAfternoon,
   unspecifiedClosingTime,
-} from '../test_data';
+} from '../test_data.js';
 
 describe('getIsOpenAt()', () => {
   it.each`

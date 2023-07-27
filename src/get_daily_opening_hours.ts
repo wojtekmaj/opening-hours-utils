@@ -1,8 +1,8 @@
-import getOpeningHours from './get_opening_hours';
+import getOpeningHours from './get_opening_hours.js';
 
-import { getDayDiff, getWeekday, getWeekdayName } from './utils';
+import { getDayDiff, getWeekday, getWeekdayName } from './utils.js';
 
-import type { DayGroups, HourGroups, Weekday, WeekdayName } from './types';
+import type { DayGroups, HourGroups, Weekday, WeekdayName } from './types.js';
 
 function getDailyOpeningHours(openingHoursString: ''): null;
 function getDailyOpeningHours(openingHoursString: string): DayGroups;

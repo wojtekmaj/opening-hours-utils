@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import encodeOpeningHours from './encode_opening_hours';
+import encodeOpeningHours from './encode_opening_hours.js';
 
 import {
   multipleOpeningIntervals,
@@ -18,7 +18,7 @@ import {
   incompleteArray1,
   spaces,
   justHours,
-} from '../test_data';
+} from '../test_data.js';
 
 describe('encodeOpeningHours()', () => {
   it.each`

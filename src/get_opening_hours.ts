@@ -1,6 +1,6 @@
-import { isValidHour, isValidWeekdayName } from './utils';
+import { isValidHour, isValidWeekdayName } from './utils.js';
 
-import type { FromHourPlus, Hour, HourGroup, HourRange, OpeningHoursArray } from './types';
+import type { FromHourPlus, Hour, HourGroup, HourRange, OpeningHoursArray } from './types.js';
 
 function toHourGroup(hourRange: HourRange): HourGroup | null {
   if (hourRange === 'off') {

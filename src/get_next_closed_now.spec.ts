@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import getNextClosedNow from './get_next_closed_now';
+import getNextClosedNow from './get_next_closed_now.js';
 
-import { invalidString1, invalidString2, invalidString3 } from '../test_data';
+import { invalidString1, invalidString2, invalidString3 } from '../test_data.js';
 
 describe('getNextClosedNow()', () => {
   it('returns null given empty string', () => {
