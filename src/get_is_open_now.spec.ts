@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import getIsOpenNow from './get_is_open_now';
+import getIsOpenNow from './get_is_open_now.js';
 
-import { invalidString1, invalidString2, invalidString3 } from '../test_data';
+import { invalidString1, invalidString2, invalidString3 } from '../test_data.js';
 
 describe('getIsOpenNow()', () => {
   it('returns null given empty string', () => {

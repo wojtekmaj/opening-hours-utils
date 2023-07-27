@@ -9,7 +9,7 @@ import {
   getNextOpenAt,
   getNextOpenNow,
   getOpeningHours,
-} from './index';
+} from './index.js';
 
 describe('index', () => {
   it('has encodeOpeningHours exported properly', () => {

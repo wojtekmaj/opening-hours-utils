@@ -1,5 +1,5 @@
-import getDailyOpeningHours from './get_daily_opening_hours';
-import getIsOpenAt from './get_is_open_at';
+import getDailyOpeningHours from './get_daily_opening_hours.js';
+import getIsOpenAt from './get_is_open_at.js';
 
 import {
   getHourGroups,
@@ -7,9 +7,9 @@ import {
   getMinutesFromMidnightFromString,
   getWeekday,
   getWeekdayName,
-} from './utils';
+} from './utils.js';
 
-import type { DayGroup, DayGroups, HourGroup, Weekday, ZeroToSix } from './types';
+import type { DayGroup, DayGroups, HourGroup, Weekday, ZeroToSix } from './types.js';
 
 function getDaysToOpening(dayGroup: DayGroup, weekday: Weekday): ZeroToSix {
   const from = getWeekday(dayGroup.day);

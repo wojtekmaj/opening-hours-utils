@@ -1,4 +1,4 @@
-import getIsOpenAt from './get_is_open_at';
+import getIsOpenAt from './get_is_open_at.js';
 
 function getIsOpenNow(openingHoursString: ''): null;
 function getIsOpenNow(openingHoursString: 'off'): false;

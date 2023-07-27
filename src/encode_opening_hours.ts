@@ -1,6 +1,6 @@
-import { getDayDiff, getWeekday, isValidHour } from './utils';
+import { getDayDiff, getWeekday, isValidHour } from './utils.js';
 
-import type { HourGroup, HourRange, OpeningHoursArray } from './types';
+import type { HourGroup, HourRange, OpeningHoursArray } from './types.js';
 
 function isValidHourGroup(hourGroup: HourGroup): hourGroup is HourGroup {
   if (typeof hourGroup !== 'object' || hourGroup === null) {

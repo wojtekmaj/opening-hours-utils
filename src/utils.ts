@@ -1,6 +1,6 @@
-import { WEEKDAY_NAMES } from './constants';
+import { WEEKDAY_NAMES } from './constants.js';
 
-import type { DayGroups, Hour, HourGroups, Weekday, WeekdayName, ZeroToSix } from './types';
+import type { DayGroups, Hour, HourGroups, Weekday, WeekdayName, ZeroToSix } from './types.js';
 
 export function getDayDiff(from: Weekday, to: Weekday): ZeroToSix {
   return ((7 + (to - from)) % 7) as ZeroToSix;
