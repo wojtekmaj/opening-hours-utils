@@ -1,6 +1,6 @@
 {
   "name": "@wojtekmaj/opening-hours-utils",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "A collection of opening hours-related utilities.",
   "type": "module",
   "sideEffects": false,
