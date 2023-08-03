@@ -27,11 +27,11 @@ A collection of opening hours-related utilities.
 - [`getNextOpenNow()`](#getNextOpenNow)
 - [`getOpeningHours()`](#getOpeningHours)
 
-#### `encodeOpeningHours()`
+### `encodeOpeningHours()`
 
 Returns opening hours string given an array of objects with `from`, `to`, and `hours` properties.
 
-##### Sample usage
+#### Sample usage
 
 ```ts
 import { encodeOpeningHours } from '@wojtekmaj/opening-hours-utils';
@@ -45,11 +45,11 @@ encodeOpeningHours([
 ]); // 'Mo-Fr 08:00-17:30'
 ```
 
-#### `getDailyOpeningHours()`
+### `getDailyOpeningHours()`
 
 Parses opening hours string and returns an array of objects with `day` and `hours` properties.
 
-##### Sample usage
+#### Sample usage
 
 ```ts
 import { getDailyOpeningHours } from '@wojtekmaj/opening-hours-utils';
@@ -66,11 +66,11 @@ getDailyOpeningHours('Mo-Fr 08:00-17:30');
  */
 ```
 
-#### `getIsOpenAt()`
+### `getIsOpenAt()`
 
 Checks if place is open at a given date.
 
-##### Sample usage
+#### Sample usage
 
 ```ts
 import { getIsOpenAt } from '@wojtekmaj/opening-hours-utils';
@@ -78,11 +78,11 @@ import { getIsOpenAt } from '@wojtekmaj/opening-hours-utils';
 getIsOpenAt('Mo-Fr 08:00-17:30', mondayNoon); // true
 ```
 
-#### `getIsOpenNow()`
+### `getIsOpenNow()`
 
 Checks if place is open.
 
-##### Sample usage
+#### Sample usage
 
 ```ts
 import { getIsOpenNow } from '@wojtekmaj/opening-hours-utils';
@@ -90,11 +90,11 @@ import { getIsOpenNow } from '@wojtekmaj/opening-hours-utils';
 getIsOpenNow('Mo-Fr 08:00-17:30'); // true
 ```
 
-#### `getNextClosedAt()`
+### `getNextClosedAt()`
 
 Gets the next closing time for a given date. Returns null if for a given date place is closed.
 
-##### Sample usage
+#### Sample usage
 
 ```ts
 import { getNextClosedAt } from '@wojtekmaj/opening-hours-utils';
@@ -102,11 +102,11 @@ import { getNextClosedAt } from '@wojtekmaj/opening-hours-utils';
 getNextClosedAt('Mo-Fr 08:00-17:30', mondayNoon); // 'Mo 17:30'
 ```
 
-#### `getNextClosedNow()`
+### `getNextClosedNow()`
 
 Gets the next closing time. Returns null if place is currently closed.
 
-##### Sample usage
+#### Sample usage
 
 ```ts
 import { getNextClosedNow } from '@wojtekmaj/opening-hours-utils';
@@ -114,11 +114,11 @@ import { getNextClosedNow } from '@wojtekmaj/opening-hours-utils';
 getNextClosedNow('Mo-Fr 08:00-17:30'); // 'Mo 17:30'
 ```
 
-#### `getNextOpenAt()`
+### `getNextOpenAt()`
 
 Gets the next opening time for a given date. Returns null if for a given date place is open.
 
-##### Sample usage
+#### Sample usage
 
 ```ts
 import { getNextOpenAt } from '@wojtekmaj/opening-hours-utils';
@@ -126,11 +126,11 @@ import { getNextOpenAt } from '@wojtekmaj/opening-hours-utils';
 getNextOpenAt('Mo-Fr 08:00-17:30', saturdayNoon); // 'Mo 08:00'
 ```
 
-#### `getNextOpenNow()`
+### `getNextOpenNow()`
 
 Gets the next opening time. Returns null if place is currently open.
 
-##### Sample usage
+#### Sample usage
 
 ```ts
 import { getNextOpenNow } from '@wojtekmaj/opening-hours-utils';
@@ -138,11 +138,11 @@ import { getNextOpenNow } from '@wojtekmaj/opening-hours-utils';
 getNextOpenNow('Mo-Fr 08:00-17:30'); // 'Mo 08:00'
 ```
 
-#### `getOpeningHours()`
+### `getOpeningHours()`
 
 Parses opening hours string and returns an array of objects with `from`, `to`, and `hours` properties.
 
-##### Sample usage
+#### Sample usage
 
 ```ts
 import { getOpeningHours } from '@wojtekmaj/opening-hours-utils';
