@@ -424,6 +424,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:*":
+  version: 18.15.11
+  resolution: "@types/node@npm:18.15.11"
+  checksum: 670deb1a9daa812dc86b1e8964c0c6b0bef7c32672833c10578c1e5dd2682f2bd99b86d814fde86a5dd4a3da48ea039f41db30a835b245aa7c34c62fa1f23f0d
+  languageName: node
+  linkType: hard
+
 "@types/semver@npm:^7.3.12":
   version: 7.3.13
   resolution: "@types/semver@npm:7.3.13"
@@ -613,6 +620,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@wojtekmaj/opening-hours-utils@workspace:."
   dependencies:
+    "@types/node": "npm:*"
     eslint: "npm:^8.26.0"
     eslint-config-wojtekmaj: "npm:^0.9.0"
     husky: "npm:^8.0.0"
