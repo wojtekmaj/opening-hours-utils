@@ -342,6 +342,8 @@ export const saturdayEightAm = new Date(2022, 0, 1, 8);
 export const saturdayMidday = new Date(2022, 0, 1, 12);
 export const saturdayEvening = new Date(2022, 0, 1, 18);
 
+export const closeMonday = new Date(2022, 0, 3, 17, 30);
+export const openMonday = new Date(2022, 0, 3, 8);
 export const mondayMidnight = new Date(2022, 0, 3);
 export const mondayMorning = new Date(2022, 0, 3, 8);
 export const mondayMidday = new Date(2022, 0, 3, 12);

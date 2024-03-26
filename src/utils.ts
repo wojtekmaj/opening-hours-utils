@@ -54,3 +54,7 @@ export function isValidHour(hour: unknown): hour is Hour {
 export function isValidWeekdayName(weekday: unknown): weekday is WeekdayName {
   return Object.values(WEEKDAY_NAMES).includes(weekday as WeekdayName);
 }
+
+export function addMinutes(date: Date, minutes: number) {
+  return new Date(date.getTime() + minutes * 60000);
+}
