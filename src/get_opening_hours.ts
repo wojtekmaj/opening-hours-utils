@@ -7,7 +7,7 @@ function toHourGroup(hourRange: HourRange): HourGroup | null {
     return null;
   }
 
-  if (hourRange === 'open') {
+  if (hourRange === 'open' || hourRange === '00:00-24:00') {
     return {
       from: '00:00',
       to: '24:00',
