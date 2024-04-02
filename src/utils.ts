@@ -22,10 +22,10 @@ export function getMinutesFromMidnightFromString(hour: Hour): number {
   return Number(hours) * 60 + Number(minutes);
 }
 
+const weekdayNamesEntries = Object.entries(WEEKDAY_NAMES);
+
 export function getWeekday(weekdayName: WeekdayName): Weekday {
-  const weekdayNamesEntry = Object.entries(WEEKDAY_NAMES).find(
-    ([, value]) => value === weekdayName,
-  );
+  const weekdayNamesEntry = weekdayNamesEntries.find(([, value]) => value === weekdayName);
 
   if (!weekdayNamesEntry) {
     throw new Error(`Invalid weekday name: ${weekdayName}`);
