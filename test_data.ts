@@ -1,3 +1,12 @@
+import type { DayGroups, OpeningHoursArray } from './src/types.js';
+
+type TestDataPiece = {
+  string: string;
+  altString?: string;
+  array: OpeningHoursArray;
+  dailyArray: DayGroups;
+};
+
 export const openOnWeekdays = {
   string: 'Mo-Fr 08:00-17:30',
   array: [
@@ -14,7 +23,7 @@ export const openOnWeekdays = {
     { day: 'Th', hours: [{ from: '08:00', to: '17:30' }] },
     { day: 'Fr', hours: [{ from: '08:00', to: '17:30' }] },
   ],
-};
+} satisfies TestDataPiece;
 
 export const openOnMondaysAndWednesdays = {
   string: 'Mo,We 08:00-17:30',
@@ -35,7 +44,7 @@ export const openOnMondaysAndWednesdays = {
     { day: 'Mo', hours: [{ from: '08:00', to: '17:30' }] },
     { day: 'We', hours: [{ from: '08:00', to: '17:30' }] },
   ],
-};
+} satisfies TestDataPiece;
 
 export const multipleOpeningIntervals = {
   string: 'Mo-Fr 08:00-12:00,13:00-17:30',
@@ -86,7 +95,7 @@ export const multipleOpeningIntervals = {
       ],
     },
   ],
-};
+} satisfies TestDataPiece;
 
 export const openOnSaturday = {
   string: 'Sa 08:00-17:30',
@@ -98,7 +107,7 @@ export const openOnSaturday = {
     },
   ],
   dailyArray: [{ day: 'Sa', hours: [{ from: '08:00', to: '17:30' }] }],
-};
+} satisfies TestDataPiece;
 
 export const openOnWeekends = {
   string: 'Sa 08:00-17:30; Su 08:00-12:00',
@@ -118,7 +127,7 @@ export const openOnWeekends = {
     { day: 'Sa', hours: [{ from: '08:00', to: '17:30' }] },
     { day: 'Su', hours: [{ from: '08:00', to: '12:00' }] },
   ],
-};
+} satisfies TestDataPiece;
 
 export const openFridayToTuesday = {
   string: 'Fr-Tu 08:00-17:30',
@@ -136,7 +145,7 @@ export const openFridayToTuesday = {
     { day: 'Mo', hours: [{ from: '08:00', to: '17:30' }] },
     { day: 'Tu', hours: [{ from: '08:00', to: '17:30' }] },
   ],
-};
+} satisfies TestDataPiece;
 
 export const openNonStop = {
   string: '24/7',
@@ -156,7 +165,7 @@ export const openNonStop = {
     { day: 'Sa', hours: [{ from: '00:00', to: '24:00' }] },
     { day: 'Su', hours: [{ from: '00:00', to: '24:00' }] },
   ],
-};
+} satisfies TestDataPiece;
 
 export const openNonStopOnWeekends = {
   string: 'Sa-Su 00:00-24:00',
@@ -171,7 +180,7 @@ export const openNonStopOnWeekends = {
     { day: 'Sa', hours: [{ from: '00:00', to: '24:00' }] },
     { day: 'Su', hours: [{ from: '00:00', to: '24:00' }] },
   ],
-};
+} satisfies TestDataPiece;
 
 export const openNonStopOnWeekends2 = {
   string: 'Sa-Su open',
@@ -187,7 +196,7 @@ export const openNonStopOnWeekends2 = {
     { day: 'Sa', hours: [{ from: '00:00', to: '24:00' }] },
     { day: 'Su', hours: [{ from: '00:00', to: '24:00' }] },
   ],
-};
+} satisfies TestDataPiece;
 
 export const unspecifiedClosingTime = {
   string: 'Sa 10:00+',
@@ -199,7 +208,7 @@ export const unspecifiedClosingTime = {
     },
   ],
   dailyArray: [{ day: 'Sa', hours: [{ from: '10:00', to: null }] }],
-};
+} satisfies TestDataPiece;
 
 export const overrideWithDifferentHours = {
   string: 'Mo-Sa 10:00-20:00; Tu 10:00-14:00',
@@ -223,7 +232,7 @@ export const overrideWithDifferentHours = {
     { day: 'Fr', hours: [{ from: '10:00', to: '20:00' }] },
     { day: 'Sa', hours: [{ from: '10:00', to: '20:00' }] },
   ],
-};
+} satisfies TestDataPiece;
 
 export const overrideWithOff = {
   string: 'Mo-Sa 10:00-20:00; Tu off',
@@ -247,7 +256,7 @@ export const overrideWithOff = {
     { day: 'Fr', hours: [{ from: '10:00', to: '20:00' }] },
     { day: 'Sa', hours: [{ from: '10:00', to: '20:00' }] },
   ],
-};
+} satisfies TestDataPiece;
 
 export const spaces = {
   string: 'Mo-We, Fr 08:00-12:00, 13:00-17:30',
@@ -300,7 +309,7 @@ export const spaces = {
       ],
     },
   ],
-};
+} satisfies TestDataPiece;
 
 export const justHours = {
   string: '10:00-20:00',
@@ -321,7 +330,7 @@ export const justHours = {
     { day: 'Sa', hours: [{ from: '10:00', to: '20:00' }] },
     { day: 'Su', hours: [{ from: '10:00', to: '20:00' }] },
   ],
-};
+} satisfies TestDataPiece;
 
 export const incompleteString1 = 'Mo-We';
 
