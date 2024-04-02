@@ -10,7 +10,15 @@ import {
   getWeekdayName,
 } from './utils.js';
 
-import type { DayGroup, DayGroups, HourGroup, Weekday, ZeroToSix, Hour } from './types.js';
+import type {
+  DayGroup,
+  DayGroups,
+  HolidayCheckers,
+  Hour,
+  HourGroup,
+  Weekday,
+  ZeroToSix,
+} from './types.js';
 
 type RequiredHourGroup = Required<HourGroup> & {
   to: Hour;
@@ -50,7 +58,11 @@ function addMinutes(date: Date, minutes: number) {
   return new Date(date.getTime() + minutes * 60000);
 }
 
-export default function getNextClosedAt(openingHoursString: string, date: Date): string | null {
+export default function getNextClosedAt(
+  openingHoursString: string,
+  date: Date,
+  holidayCheckers?: HolidayCheckers,
+): string | null {
   if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
     throw new Error('openingHoursString is required');
   }
@@ -63,7 +75,7 @@ export default function getNextClosedAt(openingHoursString: string, date: Date):
     return null;
   }
 
-  if (!getIsOpenAt(openingHoursString, date)) {
+  if (!getIsOpenAt(openingHoursString, date, holidayCheckers)) {
     return null;
   }
 
@@ -112,7 +124,11 @@ export default function getNextClosedAt(openingHoursString: string, date: Date):
 
       if (minutesToClosing >= 0) {
         const closingTime = addMinutes(date, minutesToClosing);
-        const isOpenRightAfterClosing = getIsOpenAt(openingHoursString, addMinutes(closingTime, 1));
+        const isOpenRightAfterClosing = getIsOpenAt(
+          openingHoursString,
+          addMinutes(closingTime, 1),
+          holidayCheckers,
+        );
 
         if (isOpenRightAfterClosing) {
           continue;

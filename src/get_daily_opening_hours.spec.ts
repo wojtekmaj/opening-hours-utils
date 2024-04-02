@@ -16,6 +16,8 @@ import {
   unspecifiedClosingTime,
   overrideWithDifferentHours,
   overrideWithOff,
+  closedOnHolidays,
+  differentHoursOnHolidays,
   incompleteString1,
   spaces,
   justHours,
@@ -37,6 +39,8 @@ describe('getDailyOpeningHours()', () => {
     ${unspecifiedClosingTime.string}     | ${unspecifiedClosingTime.dailyArray}
     ${overrideWithDifferentHours.string} | ${overrideWithDifferentHours.dailyArray}
     ${overrideWithOff.string}            | ${overrideWithOff.dailyArray}
+    ${closedOnHolidays.string}           | ${closedOnHolidays.dailyArray}
+    ${differentHoursOnHolidays.string}   | ${differentHoursOnHolidays.dailyArray}
     ${spaces.string}                     | ${spaces.dailyArray}
     ${justHours.string}                  | ${justHours.dailyArray}
   `('returns proper object given $input', ({ input, expectedResult }) => {

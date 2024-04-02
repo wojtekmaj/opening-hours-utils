@@ -249,6 +249,54 @@ export const overrideWithOff = {
   ],
 };
 
+export const closedOnHolidays = {
+  string: 'Mo-Fr 08:00-17:30; PH off',
+  array: [
+    {
+      from: 'Mo',
+      to: 'Fr',
+      hours: [{ from: '08:00', to: '17:30' }],
+    },
+    {
+      from: 'PH',
+      to: 'PH',
+      hours: [],
+    },
+  ],
+  dailyArray: [
+    { day: 'Mo', hours: [{ from: '08:00', to: '17:30' }] },
+    { day: 'Tu', hours: [{ from: '08:00', to: '17:30' }] },
+    { day: 'We', hours: [{ from: '08:00', to: '17:30' }] },
+    { day: 'Th', hours: [{ from: '08:00', to: '17:30' }] },
+    { day: 'Fr', hours: [{ from: '08:00', to: '17:30' }] },
+    { day: 'PH', hours: [] },
+  ],
+};
+
+export const differentHoursOnHolidays = {
+  string: 'Mo-Fr 08:00-17:30; PH 09:00-14:00',
+  array: [
+    {
+      from: 'Mo',
+      to: 'Fr',
+      hours: [{ from: '08:00', to: '17:30' }],
+    },
+    {
+      from: 'PH',
+      to: 'PH',
+      hours: [{ from: '09:00', to: '12:00' }],
+    },
+  ],
+  dailyArray: [
+    { day: 'Mo', hours: [{ from: '08:00', to: '17:30' }] },
+    { day: 'Tu', hours: [{ from: '08:00', to: '17:30' }] },
+    { day: 'We', hours: [{ from: '08:00', to: '17:30' }] },
+    { day: 'Th', hours: [{ from: '08:00', to: '17:30' }] },
+    { day: 'Fr', hours: [{ from: '08:00', to: '17:30' }] },
+    { day: 'PH', hours: [{ from: '09:00', to: '12:00' }] },
+  ],
+};
+
 export const spaces = {
   string: 'Mo-We, Fr 08:00-12:00, 13:00-17:30',
   altString: 'Mo-We 08:00-12:00,13:00-17:30; Fr 08:00-12:00,13:00-17:30',

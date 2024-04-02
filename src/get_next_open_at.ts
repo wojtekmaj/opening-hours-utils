@@ -9,7 +9,14 @@ import {
   getWeekdayName,
 } from './utils.js';
 
-import type { DayGroup, DayGroups, HourGroup, Weekday, ZeroToSix } from './types.js';
+import type {
+  DayGroup,
+  DayGroups,
+  HolidayCheckers,
+  HourGroup,
+  Weekday,
+  ZeroToSix,
+} from './types.js';
 
 function getDaysToOpening(dayGroup: DayGroup, weekday: Weekday): ZeroToSix {
   const from = getWeekday(dayGroup.day);
@@ -39,7 +46,11 @@ function groupDaysByDaysToOpening(dayGroups: DayGroups, day: Weekday) {
   return groupedDays;
 }
 
-export default function getNextOpenAt(openingHoursString: string, date: Date): string | null {
+export default function getNextOpenAt(
+  openingHoursString: string,
+  date: Date,
+  holidayCheckers?: HolidayCheckers,
+): string | null {
   if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
     throw new Error('openingHoursString is required');
   }
@@ -52,7 +63,7 @@ export default function getNextOpenAt(openingHoursString: string, date: Date): s
     return null;
   }
 
-  const isOpenAt = getIsOpenAt(openingHoursString, date);
+  const isOpenAt = getIsOpenAt(openingHoursString, date, holidayCheckers);
 
   // If open or unspecified closing time, return null.
   if (isOpenAt !== false) {

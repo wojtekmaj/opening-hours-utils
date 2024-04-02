@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import getNextOpenAt from './get_next_open_at.js';
 
 import {
+  closedOnHolidays,
+  differentHoursOnHolidays,
   invalidString1,
   invalidString2,
   invalidString3,
@@ -172,6 +174,49 @@ describe('getNextOpenAt()', () => {
     },
   );
 
+  function isPublicHoliday(date: Date): boolean {
+    return date.getMonth() === 3 && date.getDate() === 1;
+  }
+
+  function isSchoolHoliday(date: Date): boolean {
+    return date.getMonth() === 5 || date.getMonth() === 6;
+  }
+
+  const mondayMiddayHoliday = new Date(2022, 5, 1, 12);
+  const mondayEveningHoliday = new Date(2022, 5, 1, 20);
+  const saturdayMiddayHoliday = new Date(2022, 6, 1, 12);
+  const saturdayEveningHoliday = new Date(2022, 6, 1, 18);
+
+  it.each`
+    openingHoursString                 | date                      | expectedResult
+    ${closedOnHolidays.string}         | ${mondayMidday}           | ${null}
+    ${closedOnHolidays.string}         | ${mondayEvening}          | ${'Tu 08:00'}
+    ${closedOnHolidays.string}         | ${saturdayMidday}         | ${'Mo 08:00'}
+    ${closedOnHolidays.string}         | ${saturdayEvening}        | ${'Mo 08:00'}
+    ${closedOnHolidays.string}         | ${mondayMiddayHoliday}    | ${null}
+    ${closedOnHolidays.string}         | ${mondayEveningHoliday}   | ${null}
+    ${closedOnHolidays.string}         | ${saturdayMiddayHoliday}  | ${null}
+    ${closedOnHolidays.string}         | ${saturdayEveningHoliday} | ${null}
+    ${differentHoursOnHolidays.string} | ${mondayMidday}           | ${'Mo 17:30'}
+    ${differentHoursOnHolidays.string} | ${mondayEvening}          | ${null}
+    ${differentHoursOnHolidays.string} | ${saturdayMidday}         | ${null}
+    ${differentHoursOnHolidays.string} | ${saturdayEvening}        | ${null}
+    ${differentHoursOnHolidays.string} | ${mondayMiddayHoliday}    | ${'Mo 12:00'}
+    ${differentHoursOnHolidays.string} | ${mondayEveningHoliday}   | ${null}
+    ${differentHoursOnHolidays.string} | ${saturdayMiddayHoliday}  | ${'Sa 12:00'}
+    ${differentHoursOnHolidays.string} | ${saturdayEveningHoliday} | ${null}
+  `(
+    'returns $expectedResult given $openingHoursString, $date and holiday checkers',
+    ({ openingHoursString, date, expectedResult }) => {
+      const result = getNextOpenAt(openingHoursString, date, {
+        isPublicHoliday,
+        isSchoolHoliday,
+      });
+
+      expect(result).toBe(expectedResult);
+    },
+  );
+
   it('returns null given empty string', () => {
     expect(getNextOpenAt('', mondayMorning)).toBe(null);
   });
@@ -191,5 +236,13 @@ describe('getNextOpenAt()', () => {
   `('throws an error given $input', ({ input }) => {
     // @ts-expect-error-next-line
     expect(() => getNextOpenAt(input)).toThrow();
+  });
+
+  it('throws an error given a string with public holidays and no isPublicHoliday function', () => {
+    expect(() => getNextOpenAt(closedOnHolidays.string, mondayMorning)).toThrow();
+  });
+
+  it('throws an error given a string with school holidays and no isSchoolHoliday function', () => {
+    expect(() => getNextOpenAt(closedOnHolidays.string, mondayMorning)).toThrow();
   });
 });

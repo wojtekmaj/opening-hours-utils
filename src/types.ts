@@ -12,6 +12,11 @@ export type Off = 'off';
 
 export type Open = 'open';
 
+export type HolidayCheckers = {
+  isPublicHoliday: (date: Date) => boolean;
+  isSchoolHoliday: (date: Date) => boolean;
+};
+
 export type HourRange = FromHourToHour | FromHourPlus | Off | Open;
 
 export type HourGroup = {
@@ -25,18 +30,20 @@ export type Weekday = (typeof WEEKDAYS)[keyof typeof WEEKDAYS];
 
 export type WeekdayName = (typeof WEEKDAY_NAMES)[keyof typeof WEEKDAY_NAMES];
 
+export type WeekdayNameOrPhOrSh = WeekdayName | 'PH' | 'SH';
+
 export type WeekdayRange = `${WeekdayName}-${WeekdayName}` | WeekdayName;
 
 export type DayGroup = {
-  day: WeekdayName;
+  day: WeekdayNameOrPhOrSh;
   hours: HourGroups;
 };
 
 export type DayGroups = DayGroup[];
 
 export type OpeningHours = {
-  from: WeekdayName;
-  to: WeekdayName;
+  from: WeekdayNameOrPhOrSh;
+  to: WeekdayNameOrPhOrSh;
   hours: HourGroups;
 };
 

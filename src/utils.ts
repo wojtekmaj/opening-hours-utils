@@ -1,6 +1,14 @@
 import { WEEKDAY_NAMES } from './constants.js';
 
-import type { DayGroups, Hour, HourGroups, Weekday, WeekdayName, ZeroToSix } from './types.js';
+import type {
+  DayGroups,
+  Hour,
+  HourGroups,
+  Weekday,
+  WeekdayName,
+  WeekdayNameOrPhOrSh,
+  ZeroToSix,
+} from './types.js';
 
 export function getDayDiff(from: Weekday, to: Weekday): ZeroToSix {
   return ((7 + (to - from)) % 7) as ZeroToSix;
@@ -51,6 +59,10 @@ export function isValidHour(hour: unknown): hour is Hour {
   return hours >= 0 && hours <= 48 && minutes >= 0 && minutes <= 59;
 }
 
-export function isValidWeekdayName(weekday: unknown): weekday is WeekdayName {
-  return Object.values(WEEKDAY_NAMES).includes(weekday as WeekdayName);
+export function isValidWeekdayName(weekday: unknown): weekday is WeekdayNameOrPhOrSh {
+  return (
+    Object.values(WEEKDAY_NAMES).includes(weekday as WeekdayName) ||
+    weekday === 'PH' ||
+    weekday === 'SH'
+  );
 }

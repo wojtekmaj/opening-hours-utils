@@ -14,6 +14,8 @@ import {
   unspecifiedClosingTime,
   overrideWithDifferentHours,
   overrideWithOff,
+  closedOnHolidays,
+  differentHoursOnHolidays,
   incompleteString1,
   incompleteArray1,
   spaces,
@@ -35,6 +37,8 @@ describe('encodeOpeningHours()', () => {
     ${unspecifiedClosingTime.array}     | ${unspecifiedClosingTime.string}
     ${overrideWithDifferentHours.array} | ${overrideWithDifferentHours.string}
     ${overrideWithOff.array}            | ${overrideWithOff.string}
+    ${closedOnHolidays.array}           | ${closedOnHolidays.string}
+    ${differentHoursOnHolidays.array}   | ${differentHoursOnHolidays.string}
     ${spaces.array}                     | ${spaces.altString}
     ${justHours.array}                  | ${justHours.altString}
   `('returns proper object given $input', ({ input, expectedResult }) => {

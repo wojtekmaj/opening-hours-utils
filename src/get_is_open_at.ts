@@ -6,14 +6,36 @@ import {
   getWeekday,
 } from './utils.js';
 
-import type { Weekday } from './types.js';
+import type { HolidayCheckers, Weekday } from './types.js';
 
-function getIsOpenAt(openingHoursString: '', date: Date): null;
-function getIsOpenAt(openingHoursString: 'off', date: Date): true;
-function getIsOpenAt(openingHoursString: '24/7', date: Date): true;
-function getIsOpenAt(openingHoursString: 'open', date: Date): true;
-function getIsOpenAt(openingHoursString: string, date: Date): boolean;
-function getIsOpenAt(openingHoursString: string, date: Date): boolean | null {
+function getIsOpenAt(openingHoursString: '', date: Date, holidayCheckers?: HolidayCheckers): null;
+function getIsOpenAt(
+  openingHoursString: 'off',
+  date: Date,
+  holidayCheckers?: HolidayCheckers,
+): true;
+function getIsOpenAt(
+  openingHoursString: '24/7',
+  date: Date,
+  holidayCheckers?: HolidayCheckers,
+): true;
+function getIsOpenAt(
+  openingHoursString: 'open',
+  date: Date,
+  holidayCheckers?: HolidayCheckers,
+): true;
+function getIsOpenAt(
+  openingHoursString: string,
+  date: Date,
+  holidayCheckers?: HolidayCheckers,
+): boolean;
+function getIsOpenAt(
+  openingHoursString: string,
+  date: Date,
+  holidayCheckers?: HolidayCheckers,
+): boolean | null {
+  const { isPublicHoliday, isSchoolHoliday } = holidayCheckers || {};
+
   if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
     throw new Error('openingHoursString is required');
   }
@@ -38,7 +60,25 @@ function getIsOpenAt(openingHoursString: string, date: Date): boolean | null {
 
   const day = date.getDay() as Weekday;
 
-  const dayGroups = dailyOpeningHoursArray.filter((dayGroup) => getWeekday(dayGroup.day) === day);
+  const dayGroups = dailyOpeningHoursArray.filter((dayGroup) => {
+    if (dayGroup.day === 'PH') {
+      if (!isPublicHoliday) {
+        throw new Error('isPublicHoliday function is required for public holidays');
+      }
+
+      return isPublicHoliday(date);
+    }
+
+    if (dayGroup.day === 'SH') {
+      if (!isSchoolHoliday) {
+        throw new Error('isSchoolHoliday function is required for school holidays');
+      }
+
+      return isSchoolHoliday(date);
+    }
+
+    return getWeekday(dayGroup.day) === day;
+  });
 
   if (!dayGroups.length) {
     return false;

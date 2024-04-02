@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import getOpeningHours from './get_opening_hours.js';
 
 import {
+  closedOnHolidays,
+  differentHoursOnHolidays,
   invalidString1,
   invalidString2,
   invalidString3,
@@ -37,6 +39,8 @@ describe('getOpeningHours()', () => {
     ${unspecifiedClosingTime.string}     | ${unspecifiedClosingTime.array}
     ${overrideWithDifferentHours.string} | ${overrideWithDifferentHours.array}
     ${overrideWithOff.string}            | ${overrideWithOff.array}
+    ${closedOnHolidays.string}           | ${closedOnHolidays.array}
+    ${differentHoursOnHolidays.string}   | ${differentHoursOnHolidays.array}
     ${spaces.string}                     | ${spaces.array}
     ${justHours.string}                  | ${justHours.array}
   `('returns proper object given $input', ({ input, expectedResult }) => {

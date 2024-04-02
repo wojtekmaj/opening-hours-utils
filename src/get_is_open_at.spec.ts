@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import getIsOpenAt from './get_is_open_at.js';
 
 import {
+  closedOnHolidays,
+  differentHoursOnHolidays,
   invalidString1,
   invalidString2,
   invalidString3,
@@ -172,6 +174,46 @@ describe('getIsOpenAt()', () => {
     },
   );
 
+  function isPublicHoliday(date: Date): boolean {
+    return date.getMonth() === 3 && date.getDate() === 1;
+  }
+
+  function isSchoolHoliday(date: Date): boolean {
+    return date.getMonth() === 5 || date.getMonth() === 6;
+  }
+
+  const mondayMiddayHoliday = new Date(2022, 5, 1, 12);
+  const mondayEveningHoliday = new Date(2022, 5, 1, 20);
+  const saturdayMiddayHoliday = new Date(2022, 6, 1, 12);
+  const saturdayEveningHoliday = new Date(2022, 6, 1, 18);
+
+  it.each`
+    openingHoursString                 | date                      | expectedResult
+    ${closedOnHolidays.string}         | ${mondayMidday}           | ${true}
+    ${closedOnHolidays.string}         | ${mondayEvening}          | ${false}
+    ${closedOnHolidays.string}         | ${saturdayMidday}         | ${false}
+    ${closedOnHolidays.string}         | ${saturdayEvening}        | ${false}
+    ${closedOnHolidays.string}         | ${mondayMiddayHoliday}    | ${false}
+    ${closedOnHolidays.string}         | ${mondayEveningHoliday}   | ${false}
+    ${closedOnHolidays.string}         | ${saturdayMiddayHoliday}  | ${false}
+    ${closedOnHolidays.string}         | ${saturdayEveningHoliday} | ${false}
+    ${differentHoursOnHolidays.string} | ${mondayMidday}           | ${true}
+    ${differentHoursOnHolidays.string} | ${mondayEvening}          | ${false}
+    ${differentHoursOnHolidays.string} | ${saturdayMidday}         | ${false}
+    ${differentHoursOnHolidays.string} | ${saturdayEvening}        | ${false}
+    ${differentHoursOnHolidays.string} | ${mondayMiddayHoliday}    | ${true}
+    ${differentHoursOnHolidays.string} | ${mondayEveningHoliday}   | ${false}
+    ${differentHoursOnHolidays.string} | ${saturdayMiddayHoliday}  | ${true}
+    ${differentHoursOnHolidays.string} | ${saturdayEveningHoliday} | ${false}
+  `(
+    'returns $expectedResult given $openingHoursString, $date and holiday checkers',
+    ({ openingHoursString, date, expectedResult }) => {
+      const result = getIsOpenAt(openingHoursString, date, { isPublicHoliday, isSchoolHoliday });
+
+      expect(result).toBe(expectedResult);
+    },
+  );
+
   it('returns null given empty string', () => {
     expect(getIsOpenAt('', mondayMorning)).toBe(null);
   });
@@ -190,5 +232,13 @@ describe('getIsOpenAt()', () => {
   `('throws an error given $input', ({ input }) => {
     // @ts-expect-error-next-line
     expect(() => getIsOpenAt(input)).toThrow();
+  });
+
+  it('throws an error given a string with public holidays and no isPublicHoliday function', () => {
+    expect(() => getIsOpenAt(closedOnHolidays.string, mondayMorning)).toThrow();
+  });
+
+  it('throws an error given a string with school holidays and no isSchoolHoliday function', () => {
+    expect(() => getIsOpenAt(closedOnHolidays.string, mondayMorning)).toThrow();
   });
 });
