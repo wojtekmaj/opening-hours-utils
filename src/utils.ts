@@ -46,6 +46,8 @@ export function isValidHour(hour: unknown): hour is Hour {
   return hour.match(/^(0?[0-9]|[123][0-9]|4[0-8]):[0-5][0-9]$/) !== null;
 }
 
+const weekdayNamesValues = Object.values(WEEKDAY_NAMES);
+
 export function isValidWeekdayName(weekday: unknown): weekday is WeekdayName {
-  return Object.values(WEEKDAY_NAMES).includes(weekday as WeekdayName);
+  return weekdayNamesValues.includes(weekday as WeekdayName);
 }
