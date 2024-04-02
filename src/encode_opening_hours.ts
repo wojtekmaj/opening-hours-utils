@@ -19,10 +19,6 @@ function isValidHourGroup(hourGroup: HourGroup): hourGroup is HourGroup {
 }
 
 function toHourRange(hourGroup: HourGroup): HourRange {
-  if (!isValidHourGroup(hourGroup)) {
-    throw new Error('Invalid hour object');
-  }
-
   if (!hourGroup.to) {
     return `${hourGroup.from}+`;
   }
