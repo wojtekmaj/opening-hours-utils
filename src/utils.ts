@@ -43,12 +43,7 @@ export function isValidHour(hour: unknown): hour is Hour {
     return false;
   }
 
-  const [hoursString, minutesString] = hour.split(':');
-
-  const hours = Number(hoursString);
-  const minutes = Number(minutesString);
-
-  return hours >= 0 && hours <= 48 && minutes >= 0 && minutes <= 59;
+  return hour.match(/^(0?[0-9]|[123][0-9]|4[0-8]):[0-5][0-9]$/) !== null;
 }
 
 export function isValidWeekdayName(weekday: unknown): weekday is WeekdayName {
