@@ -19,7 +19,7 @@ function getDailyOpeningHours(openingHoursString: string): DayGroups | null {
 
   const dailyOpeningHoursMap = new Map<WeekdayName, HourGroups>();
 
-  openingHoursArray.forEach((dayGroup) => {
+  for (const dayGroup of openingHoursArray) {
     const from = getWeekday(dayGroup.from);
     const to = getWeekday(dayGroup.to);
 
@@ -31,7 +31,7 @@ function getDailyOpeningHours(openingHoursString: string): DayGroups | null {
 
       dailyOpeningHoursMap.set(getWeekdayName(day), dayGroup.hours);
     }
-  });
+  }
 
   const dailyOpeningHoursArray = [];
 

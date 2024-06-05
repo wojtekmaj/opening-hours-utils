@@ -61,7 +61,7 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
 
     const weekdayRanges = joinedWeekdayRanges.split(/,\s*/);
 
-    weekdayRanges.forEach((weekdayRange) => {
+    for (const weekdayRange of weekdayRanges) {
       const [fromWeekday, toWeekday = fromWeekday] = weekdayRange.split('-');
 
       if (!isValidWeekdayName(fromWeekday) || !isValidWeekdayName(toWeekday)) {
@@ -89,7 +89,7 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
         to: toWeekday,
         hours: hourGroups,
       });
-    });
+    }
   });
 
   return openingHoursArray;

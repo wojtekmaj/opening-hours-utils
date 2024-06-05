@@ -28,13 +28,13 @@ function groupDaysByDaysToOpening(dayGroups: DayGroups, day: Weekday) {
     Array.from({ length: 7 }, (_, index) => [index as ZeroToSix, []]),
   );
 
-  dayGroups.forEach((dayGroup) => {
+  for (const dayGroup of dayGroups) {
     const daysToOpening = getDaysToOpening(dayGroup, day);
 
     const dayArray = groupedDays.get(daysToOpening) as DayGroups;
 
     dayArray.push(dayGroup);
-  });
+  }
 
   return groupedDays;
 }
