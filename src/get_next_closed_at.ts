@@ -35,13 +35,13 @@ function groupDaysByDaysToClosing(dayGroups: DayGroups, day: Weekday) {
     Array.from({ length: 7 }, (_, index: number) => [index as ZeroToSix, []]),
   );
 
-  dayGroups.forEach((dayGroup) => {
+  for (const dayGroup of dayGroups) {
     const daysToClosing = getDaysToClosing(dayGroup, day);
 
     const dayArray = groupedDays.get(daysToClosing) as DayGroups;
 
     dayArray.push(dayGroup);
-  });
+  }
 
   return groupedDays;
 }
