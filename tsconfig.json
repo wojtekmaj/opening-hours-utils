@@ -3,6 +3,7 @@
     "declaration": true,
     "downlevelIteration": true,
     "esModuleInterop": true,
+    "isolatedDeclarations": true,
     "isolatedModules": true,
     "module": "nodenext",
     "noEmit": true,
