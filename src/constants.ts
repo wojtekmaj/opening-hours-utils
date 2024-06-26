@@ -9,11 +9,11 @@ export const WEEKDAYS = {
 } as const;
 
 export const WEEKDAY_NAMES = {
-  [WEEKDAYS.SUNDAY]: 'Su',
-  [WEEKDAYS.MONDAY]: 'Mo',
-  [WEEKDAYS.TUESDAY]: 'Tu',
-  [WEEKDAYS.WEDNESDAY]: 'We',
-  [WEEKDAYS.THURSDAY]: 'Th',
-  [WEEKDAYS.FRIDAY]: 'Fr',
-  [WEEKDAYS.SATURDAY]: 'Sa',
+  0: 'Su',
+  1: 'Mo',
+  2: 'Tu',
+  3: 'We',
+  4: 'Th',
+  5: 'Fr',
+  6: 'Sa',
 } as const;
