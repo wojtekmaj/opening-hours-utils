@@ -51,3 +51,7 @@ const weekdayNamesValues = Object.values(WEEKDAY_NAMES);
 export function isValidWeekdayName(weekday: unknown): weekday is WeekdayName {
   return weekdayNamesValues.includes(weekday as WeekdayName);
 }
+
+export function addMinutes(date: Date, minutes: number) {
+  return new Date(date.getTime() + minutes * 60000);
+}
