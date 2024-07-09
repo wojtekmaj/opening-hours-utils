@@ -36,7 +36,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@biomejs/biome": "^1.8.0",
+    "@biomejs/biome": "^1.8.3",
     "@types/node": "*",
     "husky": "^9.0.0",
     "rimraf": "^3.0.0",
