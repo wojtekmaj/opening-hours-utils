@@ -17,7 +17,9 @@ function toHourGroup(hourRange: HourRange): HourGroup | null {
   if (hourRange.endsWith('+')) {
     const from = (hourRange as FromHourPlus).slice(0, -1) as Hour;
 
-    return { from, to: null };
+    const fromWithLeadingZero = from.padStart(5, '0') as Hour;
+
+    return { from: fromWithLeadingZero, to: null };
   }
 
   const [from, to] = hourRange.split('-') as [Hour, Hour];
@@ -26,7 +28,10 @@ function toHourGroup(hourRange: HourRange): HourGroup | null {
     throw new Error(`Invalid hour range: ${hourRange}`);
   }
 
-  return { from, to };
+  const fromWithLeadingZero = from.padStart(5, '0') as Hour;
+  const toWithLeadingZero = to.padStart(5, '0') as Hour;
+
+  return { from: fromWithLeadingZero, to: toWithLeadingZero };
 }
 
 function getOpeningHours(openingHoursString: ''): null;

@@ -19,6 +19,7 @@ import {
   openOnMondaysAndWednesdays,
   openOnSaturday,
   openOnWeekdays,
+  openOnWeekdaysNoZero,
   openOnWeekends,
   overrideWithDifferentHours,
   overrideWithOff,
@@ -43,6 +44,15 @@ describe('getNextOpenAt()', () => {
     ${openOnWeekdays.string}             | ${mondayMidday}       | ${null}
     ${openOnWeekdays.string}             | ${mondayTwelveThirty} | ${null}
     ${openOnWeekdays.string}             | ${mondayEvening}      | ${'Tu 08:00'}
+    ${openOnWeekdaysNoZero.string}       | ${saturdayMidnight}   | ${'Mo 08:00'}
+    ${openOnWeekdaysNoZero.string}       | ${saturdayEightAm}    | ${'Mo 08:00'}
+    ${openOnWeekdaysNoZero.string}       | ${saturdayMidday}     | ${'Mo 08:00'}
+    ${openOnWeekdaysNoZero.string}       | ${saturdayEvening}    | ${'Mo 08:00'}
+    ${openOnWeekdaysNoZero.string}       | ${mondayMidnight}     | ${'Mo 08:00'}
+    ${openOnWeekdaysNoZero.string}       | ${mondayMorning}      | ${null}
+    ${openOnWeekdaysNoZero.string}       | ${mondayMidday}       | ${null}
+    ${openOnWeekdaysNoZero.string}       | ${mondayTwelveThirty} | ${null}
+    ${openOnWeekdaysNoZero.string}       | ${mondayEvening}      | ${'Tu 08:00'}
     ${openOnMondaysAndWednesdays.string} | ${saturdayMidnight}   | ${'Mo 08:00'}
     ${openOnMondaysAndWednesdays.string} | ${saturdayEightAm}    | ${'Mo 08:00'}
     ${openOnMondaysAndWednesdays.string} | ${saturdayMidday}     | ${'Mo 08:00'}

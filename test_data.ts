@@ -25,6 +25,24 @@ export const openOnWeekdays = {
   ],
 } satisfies TestDataPiece;
 
+export const openOnWeekdaysNoZero = {
+  string: 'Mo-Fr 8:00-17:30',
+  array: [
+    {
+      from: 'Mo',
+      to: 'Fr',
+      hours: [{ from: '08:00', to: '17:30' }],
+    },
+  ],
+  dailyArray: [
+    { day: 'Mo', hours: [{ from: '08:00', to: '17:30' }] },
+    { day: 'Tu', hours: [{ from: '08:00', to: '17:30' }] },
+    { day: 'We', hours: [{ from: '08:00', to: '17:30' }] },
+    { day: 'Th', hours: [{ from: '08:00', to: '17:30' }] },
+    { day: 'Fr', hours: [{ from: '08:00', to: '17:30' }] },
+  ],
+} satisfies TestDataPiece;
+
 export const openOnMondaysAndWednesdays = {
   string: 'Mo,We 08:00-17:30',
   altString: 'Mo 08:00-17:30; We 08:00-17:30',

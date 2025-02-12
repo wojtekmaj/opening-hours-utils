@@ -19,6 +19,7 @@ import {
   openOnMondaysAndWednesdays,
   openOnSaturday,
   openOnWeekdays,
+  openOnWeekdaysNoZero,
   openOnWeekends,
   overrideWithDifferentHours,
   overrideWithOff,
@@ -43,6 +44,15 @@ describe('getIsOpenAt()', () => {
     ${openOnWeekdays.string}             | ${mondayMidday}       | ${true}
     ${openOnWeekdays.string}             | ${mondayTwelveThirty} | ${true}
     ${openOnWeekdays.string}             | ${mondayEvening}      | ${false}
+    ${openOnWeekdaysNoZero.string}       | ${saturdayMidnight}   | ${false}
+    ${openOnWeekdaysNoZero.string}       | ${saturdayEightAm}    | ${false}
+    ${openOnWeekdaysNoZero.string}       | ${saturdayMidday}     | ${false}
+    ${openOnWeekdaysNoZero.string}       | ${saturdayEvening}    | ${false}
+    ${openOnWeekdaysNoZero.string}       | ${mondayMidnight}     | ${false}
+    ${openOnWeekdaysNoZero.string}       | ${mondayMorning}      | ${true}
+    ${openOnWeekdaysNoZero.string}       | ${mondayMidday}       | ${true}
+    ${openOnWeekdaysNoZero.string}       | ${mondayTwelveThirty} | ${true}
+    ${openOnWeekdaysNoZero.string}       | ${mondayEvening}      | ${false}
     ${openOnMondaysAndWednesdays.string} | ${saturdayMidnight}   | ${false}
     ${openOnMondaysAndWednesdays.string} | ${saturdayEightAm}    | ${false}
     ${openOnMondaysAndWednesdays.string} | ${saturdayMidday}     | ${false}

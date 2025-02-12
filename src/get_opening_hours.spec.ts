@@ -12,6 +12,7 @@ import {
   openOnMondaysAndWednesdays,
   openOnSaturday,
   openOnWeekdays,
+  openOnWeekdaysNoZero,
   openOnWeekends,
   unspecifiedClosingTime,
   overrideWithDifferentHours,
@@ -26,6 +27,7 @@ describe('getOpeningHours()', () => {
   it.each`
     input                                | expectedResult
     ${openOnWeekdays.string}             | ${openOnWeekdays.array}
+    ${openOnWeekdaysNoZero.string}       | ${openOnWeekdaysNoZero.array}
     ${openOnMondaysAndWednesdays.string} | ${openOnMondaysAndWednesdays.array}
     ${multipleOpeningIntervals.string}   | ${multipleOpeningIntervals.array}
     ${openOnSaturday.string}             | ${openOnSaturday.array}
