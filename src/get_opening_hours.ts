@@ -17,6 +17,10 @@ function toHourGroup(hourRange: HourRange): HourGroup | null {
   if (hourRange.endsWith('+')) {
     const from = (hourRange as FromHourPlus).slice(0, -1) as Hour;
 
+    if (!isValidHour(from)) {
+      throw new Error(`Invalid hour range: ${hourRange}`);
+    }
+
     const fromWithLeadingZero = from.padStart(5, '0') as Hour;
 
     return { from: fromWithLeadingZero, to: null };

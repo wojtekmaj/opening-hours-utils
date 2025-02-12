@@ -5,6 +5,7 @@ import {
   invalidString1,
   invalidString2,
   invalidString3,
+  invalidString4,
   justHours,
   mondayEvening,
   mondayMidday,
@@ -198,6 +199,7 @@ describe('getNextOpenAt()', () => {
     ${invalidString1}
     ${invalidString2}
     ${invalidString3}
+    ${invalidString4}
   `('throws an error given $input', ({ input }) => {
     // @ts-expect-error-next-line
     expect(() => getNextOpenAt(input)).toThrow();

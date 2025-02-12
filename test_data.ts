@@ -363,6 +363,7 @@ export const incompleteArray1 = [
 export const invalidString1 = 'Fo-Ba 08:00-17:30';
 export const invalidString2 = 'Mo-Fr 08:00-49:00';
 export const invalidString3 = 'Mo-Fr 08:00-17:65';
+export const invalidString4 = 'Mo-Fr lol+';
 
 export const saturdayMidnight = new Date(2022, 0, 1);
 export const saturdayEightAm = new Date(2022, 0, 1, 8);

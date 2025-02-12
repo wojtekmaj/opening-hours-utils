@@ -5,6 +5,7 @@ import {
   invalidString1,
   invalidString2,
   invalidString3,
+  invalidString4,
   multipleOpeningIntervals,
   openFridayToTuesday,
   openNonStop,
@@ -79,6 +80,7 @@ describe('getDailyOpeningHours()', () => {
     ${invalidString1}
     ${invalidString2}
     ${invalidString3}
+    ${invalidString4}
   `('throws an error given $input', ({ input }) => {
     expect(() => getDailyOpeningHours(input)).toThrow();
   });
