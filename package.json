@@ -51,5 +51,5 @@
     "url": "git+https://github.com/wojtekmaj/opening-hours-utils.git"
   },
   "funding": "https://github.com/wojtekmaj/opening-hours-utils?sponsor=1",
-  "packageManager": "yarn@4.3.1"
+  "packageManager": "yarn@4.9.1"
 }
