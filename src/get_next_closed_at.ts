@@ -10,7 +10,15 @@ import {
   getWeekdayName,
 } from './utils.js';
 
-import type { DayGroup, DayGroups, HourGroup, Weekday, ZeroToSix, Hour } from './types.js';
+import type {
+  DayGroup,
+  DayGroups,
+  HourGroup,
+  Weekday,
+  ZeroToSix,
+  Hour,
+  WeekdayName,
+} from './types.js';
 
 type RequiredHourGroup = Required<HourGroup> & {
   to: Hour;
@@ -50,7 +58,10 @@ function addMinutes(date: Date, minutes: number) {
   return new Date(date.getTime() + minutes * 60000);
 }
 
-export default function getNextClosedAt(openingHoursString: string, date: Date): string | null {
+export default function getNextClosedAt(
+  openingHoursString: string,
+  date: Date,
+): `${WeekdayName} ${Hour}` | null {
   if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
     throw new Error('openingHoursString is required');
   }

@@ -9,7 +9,15 @@ import {
   getWeekdayName,
 } from './utils.js';
 
-import type { DayGroup, DayGroups, HourGroup, Weekday, ZeroToSix } from './types.js';
+import type {
+  DayGroup,
+  DayGroups,
+  Hour,
+  HourGroup,
+  Weekday,
+  WeekdayName,
+  ZeroToSix,
+} from './types.js';
 
 function getDaysToOpening(dayGroup: DayGroup, weekday: Weekday): ZeroToSix {
   const from = getWeekday(dayGroup.day);
@@ -39,7 +47,10 @@ function groupDaysByDaysToOpening(dayGroups: DayGroups, day: Weekday) {
   return groupedDays;
 }
 
-export default function getNextOpenAt(openingHoursString: string, date: Date): string | null {
+export default function getNextOpenAt(
+  openingHoursString: string,
+  date: Date,
+): `${WeekdayName} ${Hour}` | null {
   if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
     throw new Error('openingHoursString is required');
   }
@@ -66,7 +77,10 @@ export default function getNextOpenAt(openingHoursString: string, date: Date): s
 
   const daysSortedByDaysToOpening = groupDaysByDaysToOpening(dailyOpeningHoursArray, day);
 
-  function checkDayGroups(dayGroups: DayGroups, letFirstGroup?: boolean) {
+  function checkDayGroups(
+    dayGroups: DayGroups,
+    letFirstGroup?: boolean,
+  ): `${WeekdayName} ${Hour}` | null {
     const firstDayGroup = dayGroups[0];
 
     if (!firstDayGroup) {
@@ -89,6 +103,8 @@ export default function getNextOpenAt(openingHoursString: string, date: Date): s
         return `${getWeekdayName(dayGroupDay)} ${hourGroup.from}`;
       }
     }
+
+    return null;
   }
 
   for (const dayGroups of daysSortedByDaysToOpening.values()) {
