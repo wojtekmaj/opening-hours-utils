@@ -1,5 +1,4 @@
 import getDailyOpeningHours from './get_daily_opening_hours.js';
-
 import {
   getMinutesFromMidnightFromDate,
   getMinutesFromMidnightFromString,

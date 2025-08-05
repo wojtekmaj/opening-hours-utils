@@ -1,6 +1,5 @@
 import getDailyOpeningHours from './get_daily_opening_hours.js';
 import getIsOpenAt from './get_is_open_at.js';
-
 import {
   getHourGroups,
   getMinutesFromMidnightFromDate,

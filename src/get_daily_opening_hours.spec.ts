@@ -1,28 +1,28 @@
 import { describe, expect, it } from 'vitest';
-import getDailyOpeningHours from './get_daily_opening_hours.js';
 
 import {
+  incompleteString1,
   invalidString1,
   invalidString2,
   invalidString3,
   invalidString4,
+  justHours,
   multipleOpeningIntervals,
   openFridayToTuesday,
   openNonStop,
   openNonStopOnWeekends,
+  openNonStopOnWeekends2,
   openOnMondaysAndWednesdays,
   openOnSaturday,
   openOnWeekdays,
   openOnWeekdaysNoZero,
   openOnWeekends,
-  unspecifiedClosingTime,
   overrideWithDifferentHours,
   overrideWithOff,
-  incompleteString1,
   spaces,
-  justHours,
-  openNonStopOnWeekends2,
+  unspecifiedClosingTime,
 } from '../test_data.js';
+import getDailyOpeningHours from './get_daily_opening_hours.js';
 
 describe('getDailyOpeningHours()', () => {
   it.each`

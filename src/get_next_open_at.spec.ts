@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import getNextOpenAt from './get_next_open_at.js';
 
 import {
   invalidString1,
@@ -32,6 +31,7 @@ import {
   tuesdayAfternoon,
   unspecifiedClosingTime,
 } from '../test_data.js';
+import getNextOpenAt from './get_next_open_at.js';
 
 describe('getNextOpenAt()', () => {
   it.each`

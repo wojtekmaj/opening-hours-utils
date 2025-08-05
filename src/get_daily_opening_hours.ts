@@ -1,5 +1,4 @@
 import getOpeningHours from './get_opening_hours.js';
-
 import { getDayDiff, getWeekday, getWeekdayName } from './utils.js';
 
 import type { DayGroups, HourGroups, Weekday, WeekdayName } from './types.js';

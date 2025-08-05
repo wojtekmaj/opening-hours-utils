@@ -1,6 +1,5 @@
 import getDailyOpeningHours from './get_daily_opening_hours.js';
 import getIsOpenAt from './get_is_open_at.js';
-
 import {
   getDayDiff,
   getHourGroups,
@@ -13,11 +12,11 @@ import {
 import type {
   DayGroup,
   DayGroups,
+  Hour,
   HourGroup,
   Weekday,
-  ZeroToSix,
-  Hour,
   WeekdayName,
+  ZeroToSix,
 } from './types.js';
 
 type RequiredHourGroup = Required<HourGroup> & {

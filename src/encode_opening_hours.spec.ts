@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import encodeOpeningHours from './encode_opening_hours.js';
 
 import {
+  incompleteArray1,
+  incompleteString1,
+  justHours,
   multipleOpeningIntervals,
   openFridayToTuesday,
   openNonStop,
@@ -11,14 +13,12 @@ import {
   openOnSaturday,
   openOnWeekdays,
   openOnWeekends,
-  unspecifiedClosingTime,
   overrideWithDifferentHours,
   overrideWithOff,
-  incompleteString1,
-  incompleteArray1,
   spaces,
-  justHours,
+  unspecifiedClosingTime,
 } from '../test_data.js';
+import encodeOpeningHours from './encode_opening_hours.js';
 
 describe('encodeOpeningHours()', () => {
   it.each`
