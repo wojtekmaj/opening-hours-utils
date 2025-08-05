@@ -50,7 +50,6 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
   }
 
   if (openingHoursString === '24/7' || openingHoursString === 'open') {
-    // biome-ignore lint/style/noParameterAssign: This is a valid use case
     openingHoursString = 'Mo-Su 00:00-24:00';
   }
 
@@ -61,7 +60,6 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
   dayGroups.filter(Boolean).map((dayGroup) => {
     // If day group starts with a valid hour range, prepend with 'Mo-Su'
     if (dayGroup.startsWith('off') || dayGroup.startsWith('open') || dayGroup.match(/^\d/)) {
-      // biome-ignore lint/style/noParameterAssign: This is a valid use case
       dayGroup = `Mo-Su ${dayGroup}`;
     }
 
