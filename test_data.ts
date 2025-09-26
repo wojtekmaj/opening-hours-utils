@@ -7,7 +7,7 @@ type TestDataPiece = {
   dailyArray: DayGroups;
 };
 
-export const openOnWeekdays = {
+export const openOnWeekdays: TestDataPiece = {
   string: 'Mo-Fr 08:00-17:30',
   array: [
     {
@@ -25,7 +25,7 @@ export const openOnWeekdays = {
   ],
 } satisfies TestDataPiece;
 
-export const openOnWeekdaysNoZero = {
+export const openOnWeekdaysNoZero: TestDataPiece = {
   string: 'Mo-Fr 8:00-17:30',
   array: [
     {
@@ -62,9 +62,9 @@ export const openOnMondaysAndWednesdays = {
     { day: 'Mo', hours: [{ from: '08:00', to: '17:30' }] },
     { day: 'We', hours: [{ from: '08:00', to: '17:30' }] },
   ],
-} satisfies TestDataPiece;
+} as const;
 
-export const multipleOpeningIntervals = {
+export const multipleOpeningIntervals: TestDataPiece = {
   string: 'Mo-Fr 08:00-12:00,13:00-17:30',
   array: [
     {
@@ -113,9 +113,9 @@ export const multipleOpeningIntervals = {
       ],
     },
   ],
-} satisfies TestDataPiece;
+};
 
-export const openOnSaturday = {
+export const openOnSaturday: TestDataPiece = {
   string: 'Sa 08:00-17:30',
   array: [
     {
@@ -125,9 +125,9 @@ export const openOnSaturday = {
     },
   ],
   dailyArray: [{ day: 'Sa', hours: [{ from: '08:00', to: '17:30' }] }],
-} satisfies TestDataPiece;
+};
 
-export const openOnWeekends = {
+export const openOnWeekends: TestDataPiece = {
   string: 'Sa 08:00-17:30; Su 08:00-12:00',
   array: [
     {
@@ -145,9 +145,9 @@ export const openOnWeekends = {
     { day: 'Sa', hours: [{ from: '08:00', to: '17:30' }] },
     { day: 'Su', hours: [{ from: '08:00', to: '12:00' }] },
   ],
-} satisfies TestDataPiece;
+};
 
-export const openFridayToTuesday = {
+export const openFridayToTuesday: TestDataPiece = {
   string: 'Fr-Tu 08:00-17:30',
   array: [
     {
@@ -163,9 +163,9 @@ export const openFridayToTuesday = {
     { day: 'Mo', hours: [{ from: '08:00', to: '17:30' }] },
     { day: 'Tu', hours: [{ from: '08:00', to: '17:30' }] },
   ],
-} satisfies TestDataPiece;
+};
 
-export const openNonStop = {
+export const openNonStop: TestDataPiece = {
   string: '24/7',
   array: [
     {
@@ -183,9 +183,9 @@ export const openNonStop = {
     { day: 'Sa', hours: [{ from: '00:00', to: '24:00' }] },
     { day: 'Su', hours: [{ from: '00:00', to: '24:00' }] },
   ],
-} satisfies TestDataPiece;
+};
 
-export const openNonStopOnWeekends = {
+export const openNonStopOnWeekends: TestDataPiece = {
   string: 'Sa-Su 00:00-24:00',
   array: [
     {
@@ -198,9 +198,9 @@ export const openNonStopOnWeekends = {
     { day: 'Sa', hours: [{ from: '00:00', to: '24:00' }] },
     { day: 'Su', hours: [{ from: '00:00', to: '24:00' }] },
   ],
-} satisfies TestDataPiece;
+};
 
-export const openNonStopOnWeekends2 = {
+export const openNonStopOnWeekends2: TestDataPiece = {
   string: 'Sa-Su open',
   altString: 'Sa-Su 00:00-24:00',
   array: [
@@ -214,9 +214,9 @@ export const openNonStopOnWeekends2 = {
     { day: 'Sa', hours: [{ from: '00:00', to: '24:00' }] },
     { day: 'Su', hours: [{ from: '00:00', to: '24:00' }] },
   ],
-} satisfies TestDataPiece;
+};
 
-export const unspecifiedClosingTime = {
+export const unspecifiedClosingTime: TestDataPiece = {
   string: 'Sa 10:00+',
   array: [
     {
@@ -228,7 +228,7 @@ export const unspecifiedClosingTime = {
   dailyArray: [{ day: 'Sa', hours: [{ from: '10:00', to: null }] }],
 } satisfies TestDataPiece;
 
-export const overrideWithDifferentHours = {
+export const overrideWithDifferentHours: TestDataPiece = {
   string: 'Mo-Sa 10:00-20:00; Tu 10:00-14:00',
   array: [
     {
@@ -252,7 +252,7 @@ export const overrideWithDifferentHours = {
   ],
 } satisfies TestDataPiece;
 
-export const overrideWithOff = {
+export const overrideWithOff: TestDataPiece = {
   string: 'Mo-Sa 10:00-20:00; Tu off',
   array: [
     {
@@ -276,7 +276,7 @@ export const overrideWithOff = {
   ],
 } satisfies TestDataPiece;
 
-export const spaces = {
+export const spaces: TestDataPiece = {
   string: 'Mo-We, Fr 08:00-12:00, 13:00-17:30',
   altString: 'Mo-We 08:00-12:00,13:00-17:30; Fr 08:00-12:00,13:00-17:30',
   array: [
@@ -329,7 +329,7 @@ export const spaces = {
   ],
 } satisfies TestDataPiece;
 
-export const justHours = {
+export const justHours: TestDataPiece = {
   string: '10:00-20:00',
   altString: 'Mo-Su 10:00-20:00',
   array: [
@@ -352,7 +352,7 @@ export const justHours = {
 
 export const incompleteString1 = 'Mo-We';
 
-export const incompleteArray1 = [
+export const incompleteArray1: unknown = [
   {
     from: 'Mo',
     to: 'We',
@@ -365,15 +365,15 @@ export const invalidString2 = 'Mo-Fr 08:00-49:00';
 export const invalidString3 = 'Mo-Fr 08:00-17:65';
 export const invalidString4 = 'Mo-Fr lol+';
 
-export const saturdayMidnight = new Date(2022, 0, 1);
-export const saturdayEightAm = new Date(2022, 0, 1, 8);
-export const saturdayMidday = new Date(2022, 0, 1, 12);
-export const saturdayEvening = new Date(2022, 0, 1, 18);
+export const saturdayMidnight: Date = new Date(2022, 0, 1);
+export const saturdayEightAm: Date = new Date(2022, 0, 1, 8);
+export const saturdayMidday: Date = new Date(2022, 0, 1, 12);
+export const saturdayEvening: Date = new Date(2022, 0, 1, 18);
 
-export const mondayMidnight = new Date(2022, 0, 3);
-export const mondayMorning = new Date(2022, 0, 3, 8);
-export const mondayMidday = new Date(2022, 0, 3, 12);
-export const mondayTwelveThirty = new Date(2022, 0, 3, 12, 30);
-export const mondayEvening = new Date(2022, 0, 3, 20);
+export const mondayMidnight: Date = new Date(2022, 0, 3);
+export const mondayMorning: Date = new Date(2022, 0, 3, 8);
+export const mondayMidday: Date = new Date(2022, 0, 3, 12);
+export const mondayTwelveThirty: Date = new Date(2022, 0, 3, 12, 30);
+export const mondayEvening: Date = new Date(2022, 0, 3, 20);
 
-export const tuesdayAfternoon = new Date(2022, 0, 4, 16);
+export const tuesdayAfternoon: Date = new Date(2022, 0, 4, 16);
