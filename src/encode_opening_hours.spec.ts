@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  absoluteDays,
   incompleteArray1,
   incompleteString1,
   justHours,
@@ -59,5 +60,13 @@ describe('encodeOpeningHours()', () => {
     ${'some string'}
   `('throws error given $input', ({ input }) => {
     expect(() => encodeOpeningHours(input)).toThrow();
+  });
+
+  describe('absolute days', () => {
+    it('returns proper string given absolute days array', () => {
+      const result = encodeOpeningHours(absoluteDays.array);
+
+      expect(result).toEqual(absoluteDays.string);
+    });
   });
 });

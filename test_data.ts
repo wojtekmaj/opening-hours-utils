@@ -1,11 +1,14 @@
-import type { DayGroups, OpeningHoursArray } from './src/types.js';
+import type { DayGroups, OpeningHoursArray, RecurringOpeningHours } from './src/types.js';
 
-type TestDataPiece = {
+type RecurringTestDataPiece = {
   string: string;
   altString?: string;
-  array: OpeningHoursArray;
+  array: RecurringOpeningHours[];
   dailyArray: DayGroups;
 };
+
+// For backward compatibility, alias it to TestDataPiece
+type TestDataPiece = RecurringTestDataPiece;
 
 export const openOnWeekdays: TestDataPiece = {
   string: 'Mo-Fr 08:00-17:30',
@@ -377,3 +380,39 @@ export const mondayTwelveThirty: Date = new Date(2022, 0, 3, 12, 30);
 export const mondayEvening: Date = new Date(2022, 0, 3, 20);
 
 export const tuesdayAfternoon: Date = new Date(2022, 0, 4, 16);
+
+// Absolute days test data (Polish sunday shopping pattern)
+export const absoluteDays = {
+  string: 'Mo-Sa 09:00-22:00; Jan 26,Apr 13 09:00-19:00',
+  array: [
+    {
+      from: 'Mo',
+      to: 'Sa',
+      hours: [{ from: '09:00', to: '22:00' }],
+    },
+    {
+      date: { month: 'Jan', day: 26 },
+      hours: [{ from: '09:00', to: '19:00' }],
+    },
+    {
+      date: { month: 'Apr', day: 13 },
+      hours: [{ from: '09:00', to: '19:00' }],
+    },
+  ] as OpeningHoursArray,
+};
+
+export const invalidString5 = 'Jan 32 10:00-18:00';
+
+// Dates for testing absolute days
+// January 26, 2025 is a Sunday
+export const jan26_2025_Midnight: Date = new Date(2025, 0, 26);
+export const jan26_2025_Morning: Date = new Date(2025, 0, 26, 9);
+export const jan26_2025_Midday: Date = new Date(2025, 0, 26, 12);
+export const jan26_2025_Evening: Date = new Date(2025, 0, 26, 20);
+
+// January 25, 2025 is a Saturday (regular recurring day)
+export const jan25_2025_Morning: Date = new Date(2025, 0, 25, 10);
+export const jan25_2025_Evening: Date = new Date(2025, 0, 25, 21);
+
+// January 27, 2025 is a Monday (regular recurring day)
+export const jan27_2025_Morning: Date = new Date(2025, 0, 27, 10);

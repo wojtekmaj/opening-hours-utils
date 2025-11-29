@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  absoluteDays,
   incompleteString1,
   invalidString1,
   invalidString2,
   invalidString3,
   invalidString4,
+  invalidString5,
   justHours,
   multipleOpeningIntervals,
   openFridayToTuesday,
@@ -81,7 +83,26 @@ describe('getDailyOpeningHours()', () => {
     ${invalidString2}
     ${invalidString3}
     ${invalidString4}
+    ${invalidString5}
   `('throws an error given $input', ({ input }) => {
     expect(() => getDailyOpeningHours(input)).toThrow();
+  });
+
+  describe('absolute days', () => {
+    it('returns daily array that includes recurring days only (absolute days are handled separately)', () => {
+      // getDailyOpeningHours only returns recurring day groups, not absolute days
+      // Absolute days need to be handled separately using getOpeningHours
+      const result = getDailyOpeningHours(absoluteDays.string);
+
+      // Should return the recurring Mo-Sa opening hours, but not absolute day entries
+      expect(result).toEqual([
+        { day: 'Mo', hours: [{ from: '09:00', to: '22:00' }] },
+        { day: 'Tu', hours: [{ from: '09:00', to: '22:00' }] },
+        { day: 'We', hours: [{ from: '09:00', to: '22:00' }] },
+        { day: 'Th', hours: [{ from: '09:00', to: '22:00' }] },
+        { day: 'Fr', hours: [{ from: '09:00', to: '22:00' }] },
+        { day: 'Sa', hours: [{ from: '09:00', to: '22:00' }] },
+      ]);
+    });
   });
 });

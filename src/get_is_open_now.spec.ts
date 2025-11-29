@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { invalidString1, invalidString2, invalidString3, invalidString4 } from '../test_data.js';
+import {
+  invalidString1,
+  invalidString2,
+  invalidString3,
+  invalidString4,
+  invalidString5,
+} from '../test_data.js';
 import getIsOpenNow from './get_is_open_now.js';
 
 describe('getIsOpenNow()', () => {
@@ -16,6 +22,7 @@ describe('getIsOpenNow()', () => {
     ${invalidString2}
     ${invalidString3}
     ${invalidString4}
+    ${invalidString5}
   `('throws an error given $input', ({ input }) => {
     expect(() => getIsOpenNow(input)).toThrow();
   });

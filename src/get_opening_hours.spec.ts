@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  absoluteDays,
   incompleteString1,
   invalidString1,
   invalidString2,
   invalidString3,
   invalidString4,
+  invalidString5,
   justHours,
   multipleOpeningIntervals,
   openFridayToTuesday,
@@ -74,7 +76,16 @@ describe('getOpeningHours()', () => {
     ${invalidString2}
     ${invalidString3}
     ${invalidString4}
+    ${invalidString5}
   `('throws an error given $input', ({ input }) => {
     expect(() => getOpeningHours(input)).toThrow();
+  });
+
+  describe('absolute days', () => {
+    it('returns proper object given absolute days input', () => {
+      const result = getOpeningHours(absoluteDays.string);
+
+      expect(result).toEqual(absoluteDays.array);
+    });
   });
 });
