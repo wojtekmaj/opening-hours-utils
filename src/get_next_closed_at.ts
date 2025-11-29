@@ -1,5 +1,6 @@
 import getDailyOpeningHours from './get_daily_opening_hours.js';
 import getIsOpenAt from './get_is_open_at.js';
+import getOpeningHours from './get_opening_hours.js';
 import {
   getDayDiff,
   getHourGroups,
@@ -7,15 +8,18 @@ import {
   getMinutesFromMidnightFromString,
   getWeekday,
   getWeekdayName,
+  isAbsoluteOpeningHours,
+  matchesAbsoluteDate,
 } from './utils.js';
 
 import type {
+  AbsoluteOpeningHours,
   DayGroup,
   DayGroups,
   Hour,
   HourGroup,
+  NextTimeResult,
   Weekday,
-  WeekdayName,
   ZeroToSix,
 } from './types.js';
 
@@ -57,10 +61,50 @@ function addMinutes(date: Date, minutes: number) {
   return new Date(date.getTime() + minutes * 60000);
 }
 
+function getAbsoluteClosingTime(
+  absoluteOpeningHours: AbsoluteOpeningHours,
+  date: Date,
+  minutesFromMidnight: number,
+  openingHoursString: string,
+): NextTimeResult | null {
+  if (!matchesAbsoluteDate(date, absoluteOpeningHours.date)) {
+    return null;
+  }
+
+  // Filter hour groups that have a closing time
+  const hourGroupsWithClosing = absoluteOpeningHours.hours.filter(
+    (hg) => hg.to != null,
+  ) as RequiredHourGroups;
+
+  const sortedHourGroups = [...hourGroupsWithClosing].sort((hourGroupA, hourGroupB) => {
+    return (
+      getMinutesToClosing(hourGroupA, minutesFromMidnight) -
+      getMinutesToClosing(hourGroupB, minutesFromMidnight)
+    );
+  });
+
+  for (const hourGroup of sortedHourGroups) {
+    const minutesToClosing = getMinutesToClosing(hourGroup, minutesFromMidnight);
+
+    if (minutesToClosing >= 0) {
+      const closingTime = addMinutes(date, minutesToClosing);
+      const isOpenRightAfterClosing = getIsOpenAt(openingHoursString, addMinutes(closingTime, 1));
+
+      if (isOpenRightAfterClosing) {
+        continue;
+      }
+
+      return `${absoluteOpeningHours.date.month} ${absoluteOpeningHours.date.day} ${hourGroup.to}`;
+    }
+  }
+
+  return null;
+}
+
 export default function getNextClosedAt(
   openingHoursString: string,
   date: Date,
-): `${WeekdayName} ${Hour}` | null {
+): NextTimeResult | null {
   if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
     throw new Error('openingHoursString is required');
   }
@@ -86,10 +130,28 @@ export default function getNextClosedAt(
     return null;
   }
 
+  const minutesFromMidnight = getMinutesFromMidnightFromDate(date);
+
+  // Check for absolute days first
+  const openingHoursArray = getOpeningHours(openingHoursString);
+  for (const openingHours of openingHoursArray) {
+    if (isAbsoluteOpeningHours(openingHours)) {
+      const absoluteClosing = getAbsoluteClosingTime(
+        openingHours,
+        date,
+        minutesFromMidnight,
+        openingHoursString,
+      );
+      if (absoluteClosing) {
+        return absoluteClosing;
+      }
+    }
+  }
+
+  // Fall back to recurring hours
   const dailyOpeningHoursArray = getDailyOpeningHours(openingHoursString);
 
   const day = date.getDay() as Weekday;
-  const minutesFromMidnight = getMinutesFromMidnightFromDate(date);
 
   const daysSortedByDaysToClosing = groupDaysByDaysToClosing(dailyOpeningHoursArray, day);
 

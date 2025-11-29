@@ -57,3 +57,6 @@ export type AbsoluteOpeningHours = {
 export type OpeningHours = RecurringOpeningHours | AbsoluteOpeningHours;
 
 export type OpeningHoursArray = OpeningHours[];
+
+// Return type for getNextOpenAt and getNextClosedAt
+export type NextTimeResult = `${WeekdayName} ${Hour}` | `${MonthName} ${DayOfMonth} ${Hour}`;

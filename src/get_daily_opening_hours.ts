@@ -1,7 +1,13 @@
 import getOpeningHours from './get_opening_hours.js';
-import { getDayDiff, getWeekday, getWeekdayName } from './utils.js';
+import { getDayDiff, getWeekday, getWeekdayName, isRecurringOpeningHours } from './utils.js';
 
-import type { DayGroups, HourGroups, Weekday, WeekdayName } from './types.js';
+import type {
+  DayGroups,
+  HourGroups,
+  RecurringOpeningHours,
+  Weekday,
+  WeekdayName,
+} from './types.js';
 
 function getDailyOpeningHours(openingHoursString: ''): null;
 function getDailyOpeningHours(openingHoursString: string): DayGroups;
@@ -19,8 +25,14 @@ function getDailyOpeningHours(openingHoursString: string): DayGroups | null {
   const dailyOpeningHoursMap = new Map<WeekdayName, HourGroups>();
 
   for (const dayGroup of openingHoursArray) {
-    const from = getWeekday(dayGroup.from);
-    const to = getWeekday(dayGroup.to);
+    // Only process recurring opening hours, skip absolute dates
+    if (!isRecurringOpeningHours(dayGroup)) {
+      continue;
+    }
+
+    const recurringDayGroup = dayGroup as RecurringOpeningHours;
+    const from = getWeekday(recurringDayGroup.from);
+    const to = getWeekday(recurringDayGroup.to);
 
     const dayDiff = getDayDiff(from, to);
     const numberOfDays = dayDiff + 1;
@@ -28,7 +40,7 @@ function getDailyOpeningHours(openingHoursString: string): DayGroups | null {
     for (let i = 0; i < numberOfDays; i++) {
       const day = ((from + i) % 7) as Weekday;
 
-      dailyOpeningHoursMap.set(getWeekdayName(day), dayGroup.hours);
+      dailyOpeningHoursMap.set(getWeekdayName(day), recurringDayGroup.hours);
     }
   }
 

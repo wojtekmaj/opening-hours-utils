@@ -1,18 +1,23 @@
 import getDailyOpeningHours from './get_daily_opening_hours.js';
 import getIsOpenAt from './get_is_open_at.js';
+import getOpeningHours from './get_opening_hours.js';
 import {
   getHourGroups,
   getMinutesFromMidnightFromDate,
   getMinutesFromMidnightFromString,
   getWeekday,
   getWeekdayName,
+  isAbsoluteOpeningHours,
+  matchesAbsoluteDate,
 } from './utils.js';
 
 import type {
+  AbsoluteOpeningHours,
   DayGroup,
   DayGroups,
   Hour,
   HourGroup,
+  NextTimeResult,
   Weekday,
   WeekdayName,
   ZeroToSix,
@@ -46,10 +51,34 @@ function groupDaysByDaysToOpening(dayGroups: DayGroups, day: Weekday) {
   return groupedDays;
 }
 
+function getAbsoluteOpeningTime(
+  absoluteOpeningHours: AbsoluteOpeningHours,
+  date: Date,
+  minutesFromMidnight: number,
+): NextTimeResult | null {
+  if (!matchesAbsoluteDate(date, absoluteOpeningHours.date)) {
+    return null;
+  }
+
+  const sortedHourGroups = [...absoluteOpeningHours.hours].sort(
+    (hourGroupA, hourGroupB) =>
+      getMinutesToOpening(hourGroupA, minutesFromMidnight) -
+      getMinutesToOpening(hourGroupB, minutesFromMidnight),
+  );
+
+  for (const hourGroup of sortedHourGroups) {
+    if (getMinutesToOpening(hourGroup, minutesFromMidnight) > 0) {
+      return `${absoluteOpeningHours.date.month} ${absoluteOpeningHours.date.day} ${hourGroup.from}`;
+    }
+  }
+
+  return null;
+}
+
 export default function getNextOpenAt(
   openingHoursString: string,
   date: Date,
-): `${WeekdayName} ${Hour}` | null {
+): NextTimeResult | null {
   if (typeof openingHoursString === 'undefined' || openingHoursString === null) {
     throw new Error('openingHoursString is required');
   }
@@ -69,10 +98,23 @@ export default function getNextOpenAt(
     return null;
   }
 
+  const minutesFromMidnight = getMinutesFromMidnightFromDate(date);
+
+  // Check for absolute days first
+  const openingHoursArray = getOpeningHours(openingHoursString);
+  for (const openingHours of openingHoursArray) {
+    if (isAbsoluteOpeningHours(openingHours)) {
+      const absoluteOpening = getAbsoluteOpeningTime(openingHours, date, minutesFromMidnight);
+      if (absoluteOpening) {
+        return absoluteOpening;
+      }
+    }
+  }
+
+  // Fall back to recurring hours
   const dailyOpeningHoursArray = getDailyOpeningHours(openingHoursString);
 
   const day = date.getDay() as Weekday;
-  const minutesFromMidnight = getMinutesFromMidnightFromDate(date);
 
   const daysSortedByDaysToOpening = groupDaysByDaysToOpening(dailyOpeningHoursArray, day);
 

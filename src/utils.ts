@@ -1,6 +1,18 @@
-import { WEEKDAY_NAMES } from './constants.js';
+import { MONTH_NAMES, WEEKDAY_NAMES } from './constants.js';
 
-import type { DayGroups, Hour, HourGroups, Weekday, WeekdayName, ZeroToSix } from './types.js';
+import type {
+  AbsoluteDate,
+  AbsoluteOpeningHours,
+  DayGroups,
+  Hour,
+  HourGroups,
+  MonthName,
+  OpeningHours,
+  RecurringOpeningHours,
+  Weekday,
+  WeekdayName,
+  ZeroToSix,
+} from './types.js';
 
 export function getDayDiff(from: Weekday, to: Weekday): ZeroToSix {
   return ((7 + (to - from)) % 7) as ZeroToSix;
@@ -50,4 +62,63 @@ const weekdayNamesValues = Object.values(WEEKDAY_NAMES);
 
 export function isValidWeekdayName(weekday: unknown): weekday is WeekdayName {
   return weekdayNamesValues.includes(weekday as WeekdayName);
+}
+
+const monthNamesValues = Object.values(MONTH_NAMES);
+const monthNamesEntries = Object.entries(MONTH_NAMES);
+
+export function isValidMonthName(month: unknown): month is MonthName {
+  return monthNamesValues.includes(month as MonthName);
+}
+
+export function getMonth(monthName: MonthName): number {
+  const monthNamesEntry = monthNamesEntries.find(([, value]) => value === monthName);
+
+  if (!monthNamesEntry) {
+    throw new Error(`Invalid month name: ${monthName}`);
+  }
+
+  return Number(monthNamesEntry[0]);
+}
+
+// Maximum days per month (for validation, not accounting for leap years)
+const MAX_DAYS_PER_MONTH: Record<MonthName, number> = {
+  Jan: 31,
+  Feb: 29, // Allow 29 for leap years
+  Mar: 31,
+  Apr: 30,
+  May: 31,
+  Jun: 30,
+  Jul: 31,
+  Aug: 31,
+  Sep: 30,
+  Oct: 31,
+  Nov: 30,
+  Dec: 31,
+};
+
+export function isValidDayOfMonth(day: number, month: MonthName): boolean {
+  if (!Number.isInteger(day) || day < 1) {
+    return false;
+  }
+
+  const maxDays = MAX_DAYS_PER_MONTH[month];
+  return day <= maxDays;
+}
+
+export function isRecurringOpeningHours(
+  openingHours: OpeningHours,
+): openingHours is RecurringOpeningHours {
+  return 'from' in openingHours && 'to' in openingHours;
+}
+
+export function isAbsoluteOpeningHours(
+  openingHours: OpeningHours,
+): openingHours is AbsoluteOpeningHours {
+  return 'date' in openingHours;
+}
+
+export function matchesAbsoluteDate(date: Date, absoluteDate: AbsoluteDate): boolean {
+  const month = getMonth(absoluteDate.month);
+  return date.getMonth() === month && date.getDate() === absoluteDate.day;
 }

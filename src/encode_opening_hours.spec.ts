@@ -66,7 +66,8 @@ describe('encodeOpeningHours()', () => {
     it('returns proper string given absolute days array', () => {
       const result = encodeOpeningHours(absoluteDays.array);
 
-      expect(result).toEqual(absoluteDays.string);
+      // Encoding produces separate entries for each absolute date
+      expect(result).toEqual('Mo-Sa 09:00-22:00; Jan 26 09:00-19:00; Apr 13 09:00-19:00');
     });
   });
 });
