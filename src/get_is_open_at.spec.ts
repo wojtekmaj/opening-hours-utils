@@ -7,6 +7,7 @@ import {
   invalidString3,
   invalidString4,
   invalidString5,
+  invalidString6,
   jan25_2025_Evening,
   jan25_2025_Morning,
   jan26_2025_Evening,
@@ -227,6 +228,7 @@ describe('getIsOpenAt()', () => {
     ${invalidString3}
     ${invalidString4}
     ${invalidString5}
+    ${invalidString6}
   `('throws an error given $input', ({ input }) => {
     // @ts-expect-error-next-line
     expect(() => getIsOpenAt(input)).toThrow();

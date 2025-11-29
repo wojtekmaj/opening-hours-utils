@@ -3,6 +3,7 @@ import getIsOpenAt from './get_is_open_at.js';
 import getOpeningHours from './get_opening_hours.js';
 import {
   getHourGroups,
+  getMatchingAbsoluteDate,
   getMinutesFromMidnightFromDate,
   getMinutesFromMidnightFromString,
   getWeekday,
@@ -51,24 +52,6 @@ function groupDaysByDaysToOpening(dayGroups: DayGroups, day: Weekday) {
   return groupedDays;
 }
 
-function getMonth(monthName: string): number {
-  const months: Record<string, number> = {
-    Jan: 0,
-    Feb: 1,
-    Mar: 2,
-    Apr: 3,
-    May: 4,
-    Jun: 5,
-    Jul: 6,
-    Aug: 7,
-    Sep: 8,
-    Oct: 9,
-    Nov: 10,
-    Dec: 11,
-  };
-  return months[monthName] ?? -1;
-}
-
 function getAbsoluteOpeningTime(
   absoluteOpeningHours: AbsoluteOpeningHours,
   date: Date,
@@ -78,9 +61,7 @@ function getAbsoluteOpeningTime(
     return null;
   }
 
-  const matchingDate = absoluteOpeningHours.dates.find(
-    (d) => date.getMonth() === getMonth(d.month) && date.getDate() === d.day,
-  );
+  const matchingDate = getMatchingAbsoluteDate(date, absoluteOpeningHours.dates);
 
   if (!matchingDate) {
     return null;
@@ -94,7 +75,7 @@ function getAbsoluteOpeningTime(
 
   for (const hourGroup of sortedHourGroups) {
     if (getMinutesToOpening(hourGroup, minutesFromMidnight) > 0) {
-      return `${matchingDate.month} ${matchingDate.day} ${hourGroup.from}`;
+      return `${matchingDate} ${hourGroup.from}` as NextTimeResult;
     }
   }
 
@@ -119,6 +100,7 @@ export default function getNextOpenAt(
 
   const isOpenAt = getIsOpenAt(openingHoursString, date);
 
+  // If open or unspecified closing time, return null.
   if (isOpenAt !== false) {
     return null;
   }
@@ -137,6 +119,7 @@ export default function getNextOpenAt(
   }
 
   const dailyOpeningHoursArray = getDailyOpeningHours(openingHoursString);
+
   const day = date.getDay() as Weekday;
   const daysSortedByDaysToOpening = groupDaysByDaysToOpening(dailyOpeningHoursArray, day);
 
@@ -178,7 +161,9 @@ export default function getNextOpenAt(
     }
   }
 
+  // If we got to this point, opening hour must be some time the same day next week
   const firstDayGroups = daysSortedByDaysToOpening.get(0) as DayGroups;
+
   const nextOpenAt = checkDayGroups(firstDayGroups, true);
 
   if (nextOpenAt) {

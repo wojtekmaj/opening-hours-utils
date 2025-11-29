@@ -1,7 +1,6 @@
 import { isValidDayOfMonth, isValidHour, isValidMonthName, isValidWeekdayName } from './utils.js';
 
 import type {
-  AbsoluteDate,
   FromHourPlus,
   Hour,
   HourGroup,
@@ -46,18 +45,18 @@ function toHourGroup(hourRange: HourRange): HourGroup | null {
   return { from: fromWithLeadingZero, to: toWithLeadingZero };
 }
 
-// Pattern to match absolute date like "Jan 26" or "Apr 13"
+// Matches absolute dates like "Jan 26" or "Apr 13"
 const absoluteDatePattern = /^([A-Z][a-z]{2})\s+(\d+)$/;
 
-// Reuse the month pattern from absoluteDatePattern for checking if string starts with absolute date
+// Matches strings starting with absolute dates like "Jan 26"
 const startsWithAbsoluteDatePattern = /^[A-Z][a-z]{2}\s+\d/;
 
 function startsWithAbsoluteDate(dayGroup: string): boolean {
   return startsWithAbsoluteDatePattern.test(dayGroup);
 }
 
-function parseAbsoluteDates(dateRangesStr: string): AbsoluteDate[] {
-  const absoluteDates: AbsoluteDate[] = [];
+function parseAbsoluteDates(dateRangesStr: string): string[] {
+  const absoluteDates: string[] = [];
   const parts = dateRangesStr.split(/,\s*/);
 
   for (const part of parts) {
@@ -80,7 +79,7 @@ function parseAbsoluteDates(dateRangesStr: string): AbsoluteDate[] {
       throw new Error(`Invalid day of month: ${dayStr} for ${monthName}`);
     }
 
-    absoluteDates.push({ month: validMonthName, day });
+    absoluteDates.push(`${validMonthName} ${day}`);
   }
 
   return absoluteDates;

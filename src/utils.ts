@@ -1,7 +1,6 @@
 import { MONTH_NAMES, WEEKDAY_NAMES } from './constants.js';
 
 import type {
-  AbsoluteDate,
   AbsoluteOpeningHours,
   DayGroups,
   Hour,
@@ -71,7 +70,7 @@ export function isValidMonthName(month: unknown): month is MonthName {
   return monthNamesValues.includes(month as MonthName);
 }
 
-export function getMonth(monthName: MonthName): number {
+export function getMonthIndex(monthName: MonthName): number {
   const monthNamesEntry = monthNamesEntries.find(([, value]) => value === monthName);
 
   if (!monthNamesEntry) {
@@ -118,11 +117,23 @@ export function isAbsoluteOpeningHours(
   return 'dates' in openingHours;
 }
 
-export function matchesAbsoluteDate(date: Date, absoluteDate: AbsoluteDate): boolean {
-  const month = getMonth(absoluteDate.month);
-  return date.getMonth() === month && date.getDate() === absoluteDate.day;
+export function matchesAbsoluteDate(date: Date, absoluteDateStr: string): boolean {
+  const match = absoluteDateStr.match(/^([A-Z][a-z]{2})\s+(\d+)$/);
+  if (!match?.[1] || !match[2]) {
+    return false;
+  }
+
+  const monthName = match[1] as MonthName;
+  const day = Number.parseInt(match[2], 10);
+  const month = getMonthIndex(monthName);
+
+  return date.getMonth() === month && date.getDate() === day;
 }
 
-export function matchesAnyAbsoluteDate(date: Date, absoluteDates: AbsoluteDate[]): boolean {
+export function matchesAnyAbsoluteDate(date: Date, absoluteDates: string[]): boolean {
   return absoluteDates.some((absoluteDate) => matchesAbsoluteDate(date, absoluteDate));
+}
+
+export function getMatchingAbsoluteDate(date: Date, absoluteDates: string[]): string | undefined {
+  return absoluteDates.find((absoluteDateStr) => matchesAbsoluteDate(date, absoluteDateStr));
 }

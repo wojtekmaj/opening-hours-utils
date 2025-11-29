@@ -4,6 +4,7 @@ import getOpeningHours from './get_opening_hours.js';
 import {
   getDayDiff,
   getHourGroups,
+  getMatchingAbsoluteDate,
   getMinutesFromMidnightFromDate,
   getMinutesFromMidnightFromString,
   getWeekday,
@@ -71,16 +72,15 @@ function getAbsoluteClosingTime(
     return null;
   }
 
-  const matchingDate = absoluteOpeningHours.dates.find(
-    (d) => date.getMonth() === getMonth(d.month) && date.getDate() === d.day,
-  );
+  const matchingDate = getMatchingAbsoluteDate(date, absoluteOpeningHours.dates);
 
   if (!matchingDate) {
     return null;
   }
 
   const hourGroupsWithClosing = absoluteOpeningHours.hours.filter(
-    (hg): hg is RequiredHourGroup => hg.to !== null && hg.to !== undefined,
+    (hourGroup): hourGroup is RequiredHourGroup =>
+      hourGroup.to !== null && hourGroup.to !== undefined,
   );
 
   const sortedHourGroups = [...hourGroupsWithClosing].sort((hourGroupA, hourGroupB) => {
@@ -101,29 +101,11 @@ function getAbsoluteClosingTime(
         continue;
       }
 
-      return `${matchingDate.month} ${matchingDate.day} ${hourGroup.to}`;
+      return `${matchingDate} ${hourGroup.to}` as NextTimeResult;
     }
   }
 
   return null;
-}
-
-function getMonth(monthName: string): number {
-  const months: Record<string, number> = {
-    Jan: 0,
-    Feb: 1,
-    Mar: 2,
-    Apr: 3,
-    May: 4,
-    Jun: 5,
-    Jul: 6,
-    Aug: 7,
-    Sep: 8,
-    Oct: 9,
-    Nov: 10,
-    Dec: 11,
-  };
-  return months[monthName] ?? -1;
 }
 
 export default function getNextClosedAt(

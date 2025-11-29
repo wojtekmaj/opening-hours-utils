@@ -77,7 +77,7 @@ function encodeAbsoluteOpeningHours(openingHours: AbsoluteOpeningHours): string 
     return null;
   }
 
-  const datesStr = dates.map((date) => `${date.month} ${date.day}`).join(',');
+  const datesStr = dates.join(',');
 
   if (!hours.length) {
     return `${datesStr} off`;

@@ -393,16 +393,14 @@ export const absoluteDays: AbsoluteTestDataPiece = {
       hours: [{ from: '09:00', to: '22:00' }],
     },
     {
-      dates: [
-        { month: 'Jan', day: 26 },
-        { month: 'Apr', day: 13 },
-      ],
+      dates: ['Jan 26', 'Apr 13'],
       hours: [{ from: '09:00', to: '19:00' }],
     },
   ],
 };
 
 export const invalidString5 = 'Jan 32 10:00-18:00';
+export const invalidString6 = 'Foo 14 10:00-18:00';
 
 // Dates for testing absolute days
 // January 26, 2025 is a Sunday
