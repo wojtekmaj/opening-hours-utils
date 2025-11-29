@@ -5,7 +5,7 @@ import {
   getMinutesFromMidnightFromString,
   getWeekday,
   isAbsoluteOpeningHours,
-  matchesAbsoluteDate,
+  matchesAnyAbsoluteDate,
 } from './utils.js';
 
 import type { HourGroups, Weekday } from './types.js';
@@ -19,19 +19,16 @@ function checkHourGroupsForOpenStatus(
 
     const fromMinutes = getMinutesFromMidnightFromString(from);
 
-    // Not yet open
     if (fromMinutes > minutesFromMidnight) {
       continue;
     }
 
-    // Unspecified closing time - we can't be sure if it's open or closed
     if (!to) {
       return null;
     }
 
     const toMinutes = getMinutesFromMidnightFromString(to);
 
-    // Already closed
     if (toMinutes < minutesFromMidnight) {
       continue;
     }
@@ -69,23 +66,20 @@ function getIsOpenAt(openingHoursString: string, date: Date): boolean | null {
   }
 
   const minutesFromMidnight = getMinutesFromMidnightFromDate(date);
-
-  // First, check for absolute dates that match
   const openingHoursArray = getOpeningHours(openingHoursString);
+
   for (const openingHours of openingHoursArray) {
-    if (isAbsoluteOpeningHours(openingHours) && matchesAbsoluteDate(date, openingHours.date)) {
+    if (isAbsoluteOpeningHours(openingHours) && matchesAnyAbsoluteDate(date, openingHours.dates)) {
       const result = checkHourGroupsForOpenStatus(openingHours.hours, minutesFromMidnight);
-      if (result !== false) {
-        return result;
+
+      if (result === true) {
+        return true;
       }
     }
   }
 
-  // If no absolute date matched or it was closed, check recurring hours
   const dailyOpeningHoursArray = getDailyOpeningHours(openingHoursString);
-
   const day = date.getDay() as Weekday;
-
   const dayGroups = dailyOpeningHoursArray.filter((dayGroup) => getWeekday(dayGroup.day) === day);
 
   if (!dayGroups.length) {
@@ -94,6 +88,7 @@ function getIsOpenAt(openingHoursString: string, date: Date): boolean | null {
 
   for (const dayGroup of dayGroups) {
     const result = checkHourGroupsForOpenStatus(dayGroup.hours, minutesFromMidnight);
+
     if (result !== false) {
       return result;
     }

@@ -115,10 +115,14 @@ export function isRecurringOpeningHours(
 export function isAbsoluteOpeningHours(
   openingHours: OpeningHours,
 ): openingHours is AbsoluteOpeningHours {
-  return 'date' in openingHours;
+  return 'dates' in openingHours;
 }
 
 export function matchesAbsoluteDate(date: Date, absoluteDate: AbsoluteDate): boolean {
   const month = getMonth(absoluteDate.month);
   return date.getMonth() === month && date.getDate() === absoluteDate.day;
+}
+
+export function matchesAnyAbsoluteDate(date: Date, absoluteDates: AbsoluteDate[]): boolean {
+  return absoluteDates.some((absoluteDate) => matchesAbsoluteDate(date, absoluteDate));
 }

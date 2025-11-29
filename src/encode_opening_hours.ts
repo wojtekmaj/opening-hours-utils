@@ -71,16 +71,16 @@ function encodeRecurringOpeningHours(openingHours: RecurringOpeningHours): strin
 }
 
 function encodeAbsoluteOpeningHours(openingHours: AbsoluteOpeningHours): string | null {
-  const { date, hours } = openingHours;
+  const { dates, hours } = openingHours;
 
-  if (!date || !hours) {
+  if (!dates || !dates.length || !hours) {
     return null;
   }
 
-  const dateStr = `${date.month} ${date.day}`;
+  const datesStr = dates.map((date) => `${date.month} ${date.day}`).join(',');
 
   if (!hours.length) {
-    return `${dateStr} off`;
+    return `${datesStr} off`;
   }
 
   const validHours = hours.filter(isValidHourGroup);
@@ -89,10 +89,10 @@ function encodeAbsoluteOpeningHours(openingHours: AbsoluteOpeningHours): string 
   const joinedHourRanges = hourRanges.join(',');
 
   if (!joinedHourRanges) {
-    return dateStr;
+    return datesStr;
   }
 
-  return `${dateStr} ${joinedHourRanges}`;
+  return `${datesStr} ${joinedHourRanges}`;
 }
 
 function encodeOpeningHoursEntry(openingHours: OpeningHours): string | null {

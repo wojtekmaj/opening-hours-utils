@@ -8,7 +8,7 @@ import {
   getWeekday,
   getWeekdayName,
   isAbsoluteOpeningHours,
-  matchesAbsoluteDate,
+  matchesAnyAbsoluteDate,
 } from './utils.js';
 
 import type {
@@ -51,12 +51,38 @@ function groupDaysByDaysToOpening(dayGroups: DayGroups, day: Weekday) {
   return groupedDays;
 }
 
+function getMonth(monthName: string): number {
+  const months: Record<string, number> = {
+    Jan: 0,
+    Feb: 1,
+    Mar: 2,
+    Apr: 3,
+    May: 4,
+    Jun: 5,
+    Jul: 6,
+    Aug: 7,
+    Sep: 8,
+    Oct: 9,
+    Nov: 10,
+    Dec: 11,
+  };
+  return months[monthName] ?? -1;
+}
+
 function getAbsoluteOpeningTime(
   absoluteOpeningHours: AbsoluteOpeningHours,
   date: Date,
   minutesFromMidnight: number,
 ): NextTimeResult | null {
-  if (!matchesAbsoluteDate(date, absoluteOpeningHours.date)) {
+  if (!matchesAnyAbsoluteDate(date, absoluteOpeningHours.dates)) {
+    return null;
+  }
+
+  const matchingDate = absoluteOpeningHours.dates.find(
+    (d) => date.getMonth() === getMonth(d.month) && date.getDate() === d.day,
+  );
+
+  if (!matchingDate) {
     return null;
   }
 
@@ -68,7 +94,7 @@ function getAbsoluteOpeningTime(
 
   for (const hourGroup of sortedHourGroups) {
     if (getMinutesToOpening(hourGroup, minutesFromMidnight) > 0) {
-      return `${absoluteOpeningHours.date.month} ${absoluteOpeningHours.date.day} ${hourGroup.from}`;
+      return `${matchingDate.month} ${matchingDate.day} ${hourGroup.from}`;
     }
   }
 
@@ -93,29 +119,25 @@ export default function getNextOpenAt(
 
   const isOpenAt = getIsOpenAt(openingHoursString, date);
 
-  // If open or unspecified closing time, return null.
   if (isOpenAt !== false) {
     return null;
   }
 
   const minutesFromMidnight = getMinutesFromMidnightFromDate(date);
-
-  // Check for absolute days first
   const openingHoursArray = getOpeningHours(openingHoursString);
+
   for (const openingHours of openingHoursArray) {
     if (isAbsoluteOpeningHours(openingHours)) {
       const absoluteOpening = getAbsoluteOpeningTime(openingHours, date, minutesFromMidnight);
+
       if (absoluteOpening) {
         return absoluteOpening;
       }
     }
   }
 
-  // Fall back to recurring hours
   const dailyOpeningHoursArray = getDailyOpeningHours(openingHoursString);
-
   const day = date.getDay() as Weekday;
-
   const daysSortedByDaysToOpening = groupDaysByDaysToOpening(dailyOpeningHoursArray, day);
 
   function checkDayGroups(
@@ -156,9 +178,7 @@ export default function getNextOpenAt(
     }
   }
 
-  // If we got to this point, opening hour must be some time the same day next week
   const firstDayGroups = daysSortedByDaysToOpening.get(0) as DayGroups;
-
   const nextOpenAt = checkDayGroups(firstDayGroups, true);
 
   if (nextOpenAt) {

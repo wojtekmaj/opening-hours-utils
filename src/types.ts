@@ -50,7 +50,7 @@ export type RecurringOpeningHours = {
 };
 
 export type AbsoluteOpeningHours = {
-  date: AbsoluteDate;
+  dates: AbsoluteDate[];
   hours: HourGroups;
 };
 

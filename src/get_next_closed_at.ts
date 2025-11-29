@@ -9,7 +9,7 @@ import {
   getWeekday,
   getWeekdayName,
   isAbsoluteOpeningHours,
-  matchesAbsoluteDate,
+  matchesAnyAbsoluteDate,
 } from './utils.js';
 
 import type {
@@ -67,14 +67,21 @@ function getAbsoluteClosingTime(
   minutesFromMidnight: number,
   openingHoursString: string,
 ): NextTimeResult | null {
-  if (!matchesAbsoluteDate(date, absoluteOpeningHours.date)) {
+  if (!matchesAnyAbsoluteDate(date, absoluteOpeningHours.dates)) {
     return null;
   }
 
-  // Filter hour groups that have a closing time
+  const matchingDate = absoluteOpeningHours.dates.find(
+    (d) => date.getMonth() === getMonth(d.month) && date.getDate() === d.day,
+  );
+
+  if (!matchingDate) {
+    return null;
+  }
+
   const hourGroupsWithClosing = absoluteOpeningHours.hours.filter(
-    (hg) => hg.to != null,
-  ) as RequiredHourGroups;
+    (hg): hg is RequiredHourGroup => hg.to !== null && hg.to !== undefined,
+  );
 
   const sortedHourGroups = [...hourGroupsWithClosing].sort((hourGroupA, hourGroupB) => {
     return (
@@ -94,11 +101,29 @@ function getAbsoluteClosingTime(
         continue;
       }
 
-      return `${absoluteOpeningHours.date.month} ${absoluteOpeningHours.date.day} ${hourGroup.to}`;
+      return `${matchingDate.month} ${matchingDate.day} ${hourGroup.to}`;
     }
   }
 
   return null;
+}
+
+function getMonth(monthName: string): number {
+  const months: Record<string, number> = {
+    Jan: 0,
+    Feb: 1,
+    Mar: 2,
+    Apr: 3,
+    May: 4,
+    Jun: 5,
+    Jul: 6,
+    Aug: 7,
+    Sep: 8,
+    Oct: 9,
+    Nov: 10,
+    Dec: 11,
+  };
+  return months[monthName] ?? -1;
 }
 
 export default function getNextClosedAt(
@@ -131,9 +156,8 @@ export default function getNextClosedAt(
   }
 
   const minutesFromMidnight = getMinutesFromMidnightFromDate(date);
-
-  // Check for absolute days first
   const openingHoursArray = getOpeningHours(openingHoursString);
+
   for (const openingHours of openingHoursArray) {
     if (isAbsoluteOpeningHours(openingHours)) {
       const absoluteClosing = getAbsoluteClosingTime(
@@ -142,17 +166,15 @@ export default function getNextClosedAt(
         minutesFromMidnight,
         openingHoursString,
       );
+
       if (absoluteClosing) {
         return absoluteClosing;
       }
     }
   }
 
-  // Fall back to recurring hours
   const dailyOpeningHoursArray = getDailyOpeningHours(openingHoursString);
-
   const day = date.getDay() as Weekday;
-
   const daysSortedByDaysToClosing = groupDaysByDaysToClosing(dailyOpeningHoursArray, day);
 
   for (const dayGroups of daysSortedByDaysToClosing.values()) {

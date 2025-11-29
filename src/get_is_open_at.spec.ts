@@ -202,6 +202,24 @@ describe('getIsOpenAt()', () => {
   });
 
   it.each`
+    openingHoursString     | date                   | expectedResult
+    ${absoluteDays.string} | ${jan26_2025_Midnight} | ${false}
+    ${absoluteDays.string} | ${jan26_2025_Morning}  | ${true}
+    ${absoluteDays.string} | ${jan26_2025_Midday}   | ${true}
+    ${absoluteDays.string} | ${jan26_2025_Evening}  | ${false}
+    ${absoluteDays.string} | ${jan25_2025_Morning}  | ${true}
+    ${absoluteDays.string} | ${jan25_2025_Evening}  | ${true}
+    ${absoluteDays.string} | ${jan27_2025_Morning}  | ${true}
+  `(
+    'returns $expectedResult for absolute days given $date',
+    ({ openingHoursString, date, expectedResult }) => {
+      const result = getIsOpenAt(openingHoursString, date);
+
+      expect(result).toBe(expectedResult);
+    },
+  );
+
+  it.each`
     input
     ${null}
     ${invalidString1}
@@ -212,25 +230,5 @@ describe('getIsOpenAt()', () => {
   `('throws an error given $input', ({ input }) => {
     // @ts-expect-error-next-line
     expect(() => getIsOpenAt(input)).toThrow();
-  });
-
-  describe('absolute days', () => {
-    it.each`
-      openingHoursString     | date                   | expectedResult
-      ${absoluteDays.string} | ${jan26_2025_Midnight} | ${false}
-      ${absoluteDays.string} | ${jan26_2025_Morning}  | ${true}
-      ${absoluteDays.string} | ${jan26_2025_Midday}   | ${true}
-      ${absoluteDays.string} | ${jan26_2025_Evening}  | ${false}
-      ${absoluteDays.string} | ${jan25_2025_Morning}  | ${true}
-      ${absoluteDays.string} | ${jan25_2025_Evening}  | ${true}
-      ${absoluteDays.string} | ${jan27_2025_Morning}  | ${true}
-    `(
-      'returns $expectedResult given $openingHoursString and $date',
-      ({ openingHoursString, date, expectedResult }) => {
-        const result = getIsOpenAt(openingHoursString, date);
-
-        expect(result).toBe(expectedResult);
-      },
-    );
   });
 });

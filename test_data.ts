@@ -1,14 +1,16 @@
 import type { DayGroups, OpeningHoursArray, RecurringOpeningHours } from './src/types.js';
 
-type RecurringTestDataPiece = {
+type TestDataPiece = {
   string: string;
   altString?: string;
   array: RecurringOpeningHours[];
   dailyArray: DayGroups;
 };
 
-// For backward compatibility, alias it to TestDataPiece
-type TestDataPiece = RecurringTestDataPiece;
+type AbsoluteTestDataPiece = {
+  string: string;
+  array: OpeningHoursArray;
+};
 
 export const openOnWeekdays: TestDataPiece = {
   string: 'Mo-Fr 08:00-17:30',
@@ -382,7 +384,7 @@ export const mondayEvening: Date = new Date(2022, 0, 3, 20);
 export const tuesdayAfternoon: Date = new Date(2022, 0, 4, 16);
 
 // Absolute days test data (Polish sunday shopping pattern)
-export const absoluteDays = {
+export const absoluteDays: AbsoluteTestDataPiece = {
   string: 'Mo-Sa 09:00-22:00; Jan 26,Apr 13 09:00-19:00',
   array: [
     {
@@ -391,14 +393,13 @@ export const absoluteDays = {
       hours: [{ from: '09:00', to: '22:00' }],
     },
     {
-      date: { month: 'Jan', day: 26 },
+      dates: [
+        { month: 'Jan', day: 26 },
+        { month: 'Apr', day: 13 },
+      ],
       hours: [{ from: '09:00', to: '19:00' }],
     },
-    {
-      date: { month: 'Apr', day: 13 },
-      hours: [{ from: '09:00', to: '19:00' }],
-    },
-  ] as OpeningHoursArray,
+  ],
 };
 
 export const invalidString5 = 'Jan 32 10:00-18:00';

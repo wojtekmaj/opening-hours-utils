@@ -68,6 +68,12 @@ describe('getOpeningHours()', () => {
     ]);
   });
 
+  it('returns proper object given absolute days input', () => {
+    const result = getOpeningHours(absoluteDays.string);
+
+    expect(result).toEqual(absoluteDays.array);
+  });
+
   it.each`
     input
     ${undefined}
@@ -79,13 +85,5 @@ describe('getOpeningHours()', () => {
     ${invalidString5}
   `('throws an error given $input', ({ input }) => {
     expect(() => getOpeningHours(input)).toThrow();
-  });
-
-  describe('absolute days', () => {
-    it('returns proper object given absolute days input', () => {
-      const result = getOpeningHours(absoluteDays.string);
-
-      expect(result).toEqual(absoluteDays.array);
-    });
   });
 });

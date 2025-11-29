@@ -19,12 +19,10 @@ function getDailyOpeningHours(openingHoursString: string): DayGroups | null {
   const dailyOpeningHoursMap = new Map<WeekdayName, HourGroups>();
 
   for (const dayGroup of openingHoursArray) {
-    // Only process recurring opening hours, skip absolute dates
     if (!isRecurringOpeningHours(dayGroup)) {
       continue;
     }
 
-    // dayGroup is now narrowed to RecurringOpeningHours by the type guard
     const from = getWeekday(dayGroup.from);
     const to = getWeekday(dayGroup.to);
 

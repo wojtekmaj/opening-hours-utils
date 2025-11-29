@@ -49,54 +49,50 @@ function toHourGroup(hourRange: HourRange): HourGroup | null {
 // Pattern to match absolute date like "Jan 26" or "Apr 13"
 const absoluteDatePattern = /^([A-Z][a-z]{2})\s+(\d+)$/;
 
-// Check if a day group string starts with an absolute date pattern
+// Reuse the month pattern from absoluteDatePattern for checking if string starts with absolute date
+const startsWithAbsoluteDatePattern = /^[A-Z][a-z]{2}\s+\d/;
+
 function startsWithAbsoluteDate(dayGroup: string): boolean {
-  return /^[A-Z][a-z]{2}\s+\d/.test(dayGroup);
+  return startsWithAbsoluteDatePattern.test(dayGroup);
 }
 
 function parseAbsoluteDates(dateRangesStr: string): AbsoluteDate[] {
   const absoluteDates: AbsoluteDate[] = [];
-  const parts = dateRangesStr.split(/,/);
+  const parts = dateRangesStr.split(/,\s*/);
 
   for (const part of parts) {
-    const trimmedPart = part.trim();
-    const match = trimmedPart.match(absoluteDatePattern);
-    if (match?.[1] && match[2]) {
-      const monthName = match[1];
-      const dayStr = match[2];
-      const day = Number.parseInt(dayStr, 10);
+    const match = part.match(absoluteDatePattern);
 
-      if (!isValidMonthName(monthName)) {
-        throw new Error(`Invalid month name: ${monthName}`);
-      }
-
-      // At this point, monthName is validated to be a MonthName
-      const validMonthName = monthName as MonthName;
-
-      if (!isValidDayOfMonth(day, validMonthName)) {
-        throw new Error(`Invalid day of month: ${dayStr} for ${monthName}`);
-      }
-
-      absoluteDates.push({ month: validMonthName, day });
-    } else {
-      throw new Error(`Invalid absolute date format: ${trimmedPart}`);
+    if (!match?.[1] || !match[2]) {
+      throw new Error(`Invalid absolute date format: ${part}`);
     }
+
+    const [, monthName, dayStr] = match;
+    const day = Number.parseInt(dayStr, 10);
+
+    if (!isValidMonthName(monthName)) {
+      throw new Error(`Invalid month name: ${monthName}`);
+    }
+
+    const validMonthName = monthName as MonthName;
+
+    if (!isValidDayOfMonth(day, validMonthName)) {
+      throw new Error(`Invalid day of month: ${dayStr} for ${monthName}`);
+    }
+
+    absoluteDates.push({ month: validMonthName, day });
   }
 
   return absoluteDates;
 }
 
-// Split a day group into date ranges and hour ranges for absolute dates
-// e.g., "Jan 26,Apr 13 09:00-19:00" -> ["Jan 26,Apr 13", "09:00-19:00"]
 function splitAbsoluteDayGroup(dayGroup: string): [string, string | undefined] {
-  // Match patterns like "Jan 26" or "Apr 13" followed by optional hour ranges
-  // Hours start with a digit (time) or keywords like 'off', 'open'
   const hourStartPattern = /\s+(\d{1,2}:\d{2}|off|open)/;
   const match = dayGroup.match(hourStartPattern);
 
   if (match) {
     const hourStartIndex = match.index as number;
-    return [dayGroup.slice(0, hourStartIndex).trim(), dayGroup.slice(hourStartIndex).trim()];
+    return [dayGroup.slice(0, hourStartIndex), dayGroup.slice(hourStartIndex).trim()];
   }
 
   return [dayGroup, undefined];
@@ -130,29 +126,23 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
     // Check if this is an absolute date range (e.g., "Jan 26,Apr 13")
     if (startsWithAbsoluteDate(dayGroup)) {
       const [joinedDayRanges, joinedHourRanges] = splitAbsoluteDayGroup(dayGroup);
-
-      // Parse absolute dates
       const absoluteDates = parseAbsoluteDates(joinedDayRanges);
 
       if (!joinedHourRanges) {
-        for (const absoluteDate of absoluteDates) {
-          openingHoursArray.push({
-            date: absoluteDate,
-            hours: [{ from: '00:00', to: '24:00' }],
-          });
-        }
+        openingHoursArray.push({
+          dates: absoluteDates,
+          hours: [{ from: '00:00', to: '24:00' }],
+        });
         return;
       }
 
       const hourRanges = joinedHourRanges.split(/,\s*/) as HourRange[];
       const hourGroups = hourRanges.map(toHourGroup).filter(Boolean) as HourGroup[];
 
-      for (const absoluteDate of absoluteDates) {
-        openingHoursArray.push({
-          date: absoluteDate,
-          hours: hourGroups,
-        });
-      }
+      openingHoursArray.push({
+        dates: absoluteDates,
+        hours: hourGroups,
+      });
       return;
     }
 

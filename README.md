@@ -49,6 +49,8 @@ encodeOpeningHours([
 
 Parses opening hours string and returns an array of objects with `day` and `hours` properties.
 
+Note: This function only returns recurring day groups (e.g., `Mo-Fr`). Absolute dates (e.g., `Jan 26`) are not included in the result. Use `getOpeningHours()` to access absolute date entries.
+
 #### Sample usage
 
 ```ts
