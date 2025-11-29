@@ -10,7 +10,6 @@ import {
   getWeekday,
   getWeekdayName,
   isAbsoluteOpeningHours,
-  matchesAnyAbsoluteDate,
 } from './utils.js';
 
 import type {
@@ -68,11 +67,7 @@ function getAbsoluteClosingTime(
   minutesFromMidnight: number,
   openingHoursString: string,
 ): NextTimeResult | null {
-  if (!matchesAnyAbsoluteDate(date, absoluteOpeningHours.dates)) {
-    return null;
-  }
-
-  const matchingDate = getMatchingAbsoluteDate(date, absoluteOpeningHours.dates);
+  const matchingDate = getMatchingAbsoluteDate(date, absoluteOpeningHours);
 
   if (!matchingDate) {
     return null;

@@ -31,10 +31,7 @@ export type MonthName = (typeof MONTH_NAMES)[keyof typeof MONTH_NAMES];
 
 export type DayOfMonth = number;
 
-export type AbsoluteDate = {
-  month: MonthName;
-  day: DayOfMonth;
-};
+export type AbsoluteDate = `${MonthName} ${DayOfMonth}`;
 
 export type DayGroup = {
   day: WeekdayName;
@@ -50,7 +47,8 @@ export type RecurringOpeningHours = {
 };
 
 export type AbsoluteOpeningHours = {
-  dates: string[];
+  from: AbsoluteDate;
+  to: AbsoluteDate;
   hours: HourGroups;
 };
 

@@ -1,11 +1,11 @@
 import getDailyOpeningHours from './get_daily_opening_hours.js';
 import getOpeningHours from './get_opening_hours.js';
 import {
+  getMatchingAbsoluteDate,
   getMinutesFromMidnightFromDate,
   getMinutesFromMidnightFromString,
   getWeekday,
   isAbsoluteOpeningHours,
-  matchesAnyAbsoluteDate,
 } from './utils.js';
 
 import type { HourGroups, Weekday } from './types.js';
@@ -69,11 +69,15 @@ function getIsOpenAt(openingHoursString: string, date: Date): boolean | null {
   const openingHoursArray = getOpeningHours(openingHoursString);
 
   for (const openingHours of openingHoursArray) {
-    if (isAbsoluteOpeningHours(openingHours) && matchesAnyAbsoluteDate(date, openingHours.dates)) {
-      const result = checkHourGroupsForOpenStatus(openingHours.hours, minutesFromMidnight);
+    if (isAbsoluteOpeningHours(openingHours)) {
+      const matchingDate = getMatchingAbsoluteDate(date, openingHours);
 
-      if (result === true) {
-        return true;
+      if (matchingDate) {
+        const result = checkHourGroupsForOpenStatus(openingHours.hours, minutesFromMidnight);
+
+        if (result === true) {
+          return true;
+        }
       }
     }
   }

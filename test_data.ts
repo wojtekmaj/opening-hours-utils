@@ -385,7 +385,7 @@ export const tuesdayAfternoon: Date = new Date(2022, 0, 4, 16);
 
 // Absolute days test data (Polish sunday shopping pattern)
 export const absoluteDays: AbsoluteTestDataPiece = {
-  string: 'Mo-Sa 09:00-22:00; Jan 26,Apr 13 09:00-19:00',
+  string: 'Mo-Sa 09:00-22:00; Jan 26-Jan 27 09:00-19:00',
   array: [
     {
       from: 'Mo',
@@ -393,7 +393,8 @@ export const absoluteDays: AbsoluteTestDataPiece = {
       hours: [{ from: '09:00', to: '22:00' }],
     },
     {
-      dates: ['Jan 26', 'Apr 13'],
+      from: 'Jan 26',
+      to: 'Jan 27',
       hours: [{ from: '09:00', to: '19:00' }],
     },
   ],

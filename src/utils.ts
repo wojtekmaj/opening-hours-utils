@@ -1,6 +1,7 @@
 import { MONTH_NAMES, WEEKDAY_NAMES } from './constants.js';
 
 import type {
+  AbsoluteDate,
   AbsoluteOpeningHours,
   DayGroups,
   Hour,
@@ -102,23 +103,42 @@ export function isValidDayOfMonth(day: number, month: MonthName): boolean {
   }
 
   const maxDays = MAX_DAYS_PER_MONTH[month];
+
   return day <= maxDays;
+}
+
+// Pattern to match absolute date strings like "Jan 26" or "Apr 13"
+const absoluteDatePattern = /^([A-Z][a-z]{2})\s+(\d+)$/;
+
+export function isAbsoluteDate(value: string): boolean {
+  return absoluteDatePattern.test(value);
 }
 
 export function isRecurringOpeningHours(
   openingHours: OpeningHours,
 ): openingHours is RecurringOpeningHours {
-  return 'from' in openingHours && 'to' in openingHours;
+  return (
+    'from' in openingHours &&
+    'to' in openingHours &&
+    isValidWeekdayName(openingHours.from) &&
+    isValidWeekdayName(openingHours.to)
+  );
 }
 
 export function isAbsoluteOpeningHours(
   openingHours: OpeningHours,
 ): openingHours is AbsoluteOpeningHours {
-  return 'dates' in openingHours;
+  return (
+    'from' in openingHours &&
+    'to' in openingHours &&
+    isAbsoluteDate(openingHours.from) &&
+    isAbsoluteDate(openingHours.to)
+  );
 }
 
-export function matchesAbsoluteDate(date: Date, absoluteDateStr: string): boolean {
-  const match = absoluteDateStr.match(/^([A-Z][a-z]{2})\s+(\d+)$/);
+export function matchesAbsoluteDate(date: Date, absoluteDate: AbsoluteDate): boolean {
+  const match = absoluteDate.match(absoluteDatePattern);
+
   if (!match?.[1] || !match[2]) {
     return false;
   }
@@ -130,10 +150,17 @@ export function matchesAbsoluteDate(date: Date, absoluteDateStr: string): boolea
   return date.getMonth() === month && date.getDate() === day;
 }
 
-export function matchesAnyAbsoluteDate(date: Date, absoluteDates: string[]): boolean {
-  return absoluteDates.some((absoluteDate) => matchesAbsoluteDate(date, absoluteDate));
-}
+export function getMatchingAbsoluteDate(
+  date: Date,
+  absoluteOpeningHours: AbsoluteOpeningHours,
+): AbsoluteDate | undefined {
+  if (matchesAbsoluteDate(date, absoluteOpeningHours.from)) {
+    return absoluteOpeningHours.from;
+  }
 
-export function getMatchingAbsoluteDate(date: Date, absoluteDates: string[]): string | undefined {
-  return absoluteDates.find((absoluteDateStr) => matchesAbsoluteDate(date, absoluteDateStr));
+  if (matchesAbsoluteDate(date, absoluteOpeningHours.to)) {
+    return absoluteOpeningHours.to;
+  }
+
+  return undefined;
 }

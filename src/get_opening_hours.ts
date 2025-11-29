@@ -1,6 +1,7 @@
 import { isValidDayOfMonth, isValidHour, isValidMonthName, isValidWeekdayName } from './utils.js';
 
 import type {
+  AbsoluteDate,
   FromHourPlus,
   Hour,
   HourGroup,
@@ -55,34 +56,27 @@ function startsWithAbsoluteDate(dayGroup: string): boolean {
   return startsWithAbsoluteDatePattern.test(dayGroup);
 }
 
-function parseAbsoluteDates(dateRangesStr: string): string[] {
-  const absoluteDates: string[] = [];
-  const parts = dateRangesStr.split(/,\s*/);
+function parseAbsoluteDate(dateStr: string): AbsoluteDate {
+  const match = dateStr.match(absoluteDatePattern);
+  const [, monthName, dayStr] = match || [];
 
-  for (const part of parts) {
-    const match = part.match(absoluteDatePattern);
-
-    if (!match?.[1] || !match[2]) {
-      throw new Error(`Invalid absolute date format: ${part}`);
-    }
-
-    const [, monthName, dayStr] = match;
-    const day = Number.parseInt(dayStr, 10);
-
-    if (!isValidMonthName(monthName)) {
-      throw new Error(`Invalid month name: ${monthName}`);
-    }
-
-    const validMonthName = monthName as MonthName;
-
-    if (!isValidDayOfMonth(day, validMonthName)) {
-      throw new Error(`Invalid day of month: ${dayStr} for ${monthName}`);
-    }
-
-    absoluteDates.push(`${validMonthName} ${day}`);
+  if (!monthName || !dayStr) {
+    throw new Error(`Invalid absolute date format: ${dateStr}`);
   }
 
-  return absoluteDates;
+  const day = Number.parseInt(dayStr, 10);
+
+  if (!isValidMonthName(monthName)) {
+    throw new Error(`Invalid month name: ${monthName}`);
+  }
+
+  const validMonthName = monthName as MonthName;
+
+  if (!isValidDayOfMonth(day, validMonthName)) {
+    throw new Error(`Invalid day of month: ${dayStr} for ${monthName}`);
+  }
+
+  return `${validMonthName} ${day}` as AbsoluteDate;
 }
 
 function splitAbsoluteDayGroup(dayGroup: string): [string, string | undefined] {
@@ -122,16 +116,33 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
       dayGroup = `Mo-Su ${dayGroup}`;
     }
 
-    // Check if this is an absolute date range (e.g., "Jan 26,Apr 13")
+    // Check if this is an absolute date range (e.g., "Jan 26" or "Jan 26-Feb 14")
     if (startsWithAbsoluteDate(dayGroup)) {
       const [joinedDayRanges, joinedHourRanges] = splitAbsoluteDayGroup(dayGroup);
-      const absoluteDates = parseAbsoluteDates(joinedDayRanges);
+
+      // Parse the date range (could be "Jan 26" or "Jan 26-Jan 27")
+      // Need to handle "Jan 26-Jan 27" carefully - split on the dash between dates
+      const dateRangeParts = joinedDayRanges.match(
+        /^([A-Z][a-z]{2}\s+\d+)(?:-([A-Z][a-z]{2}\s+\d+))?$/,
+      );
+
+      if (!dateRangeParts?.[1]) {
+        throw new Error(`Invalid absolute date range: ${joinedDayRanges}`);
+      }
+
+      const fromDateStr = dateRangeParts[1];
+      const toDateStr = dateRangeParts[2] || fromDateStr;
+
+      const fromDate = parseAbsoluteDate(fromDateStr);
+      const toDate = parseAbsoluteDate(toDateStr);
 
       if (!joinedHourRanges) {
         openingHoursArray.push({
-          dates: absoluteDates,
+          from: fromDate,
+          to: toDate,
           hours: [{ from: '00:00', to: '24:00' }],
         });
+
         return;
       }
 
@@ -139,9 +150,11 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
       const hourGroups = hourRanges.map(toHourGroup).filter(Boolean) as HourGroup[];
 
       openingHoursArray.push({
-        dates: absoluteDates,
+        from: fromDate,
+        to: toDate,
         hours: hourGroups,
       });
+
       return;
     }
 
@@ -171,6 +184,7 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
             },
           ],
         });
+
         return;
       }
 
