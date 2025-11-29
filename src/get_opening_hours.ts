@@ -70,11 +70,14 @@ function parseAbsoluteDates(dateRangesStr: string): AbsoluteDate[] {
         throw new Error(`Invalid month name: ${monthName}`);
       }
 
-      if (!isValidDayOfMonth(day, monthName as MonthName)) {
+      // At this point, monthName is validated to be a MonthName
+      const validMonthName = monthName as MonthName;
+
+      if (!isValidDayOfMonth(day, validMonthName)) {
         throw new Error(`Invalid day of month: ${dayStr} for ${monthName}`);
       }
 
-      absoluteDates.push({ month: monthName as MonthName, day });
+      absoluteDates.push({ month: validMonthName, day });
     } else {
       throw new Error(`Invalid absolute date format: ${trimmedPart}`);
     }
