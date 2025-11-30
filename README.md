@@ -56,7 +56,7 @@ Note: This function only returns recurring day groups (e.g., `Mo-Fr`). Absolute 
 ```ts
 import { getDailyOpeningHours } from '@wojtekmaj/opening-hours-utils';
 
-getDailyOpeningHours('Mo-Fr 08:00-17:30');
+getDailyOpeningHours('Mo-Fr 08:00-17:30; Jan 26 10:00-14:00');
 /**
  * [
  *   { day: 'Mo', hours: [{ from: '08:00', to: '17:30' }] },
@@ -65,6 +65,7 @@ getDailyOpeningHours('Mo-Fr 08:00-17:30');
  *   { day: 'Th', hours: [{ from: '08:00', to: '17:30' }] },
  *   { day: 'Fr', hours: [{ from: '08:00', to: '17:30' }] },
  * ]
+ * // Note: the absolute date entry `Jan 26 10:00-14:00` is ignored here.
  */
 ```
 
@@ -78,6 +79,8 @@ Checks if place is open at a given date.
 import { getIsOpenAt } from '@wojtekmaj/opening-hours-utils';
 
 getIsOpenAt('Mo-Fr 08:00-17:30', mondayNoon); // true
+getIsOpenAt('Jan 26 10:00-14:00', new Date('2025-01-26T11:00:00')); // true
+getIsOpenAt('Feb 01-Feb 14 10:00-14:00', new Date('2025-02-01T09:00:00')); // false
 ```
 
 ### `getIsOpenNow()`
@@ -90,6 +93,7 @@ Checks if place is open.
 import { getIsOpenNow } from '@wojtekmaj/opening-hours-utils';
 
 getIsOpenNow('Mo-Fr 08:00-17:30'); // true
+getIsOpenNow('Jan 26 10:00-14:00'); // depends on current date and time
 ```
 
 ### `getNextClosedAt()`
@@ -102,6 +106,7 @@ Gets the next closing time for a given date. Returns null if for a given date pl
 import { getNextClosedAt } from '@wojtekmaj/opening-hours-utils';
 
 getNextClosedAt('Mo-Fr 08:00-17:30', mondayNoon); // 'Mo 17:30'
+getNextClosedAt('Jan 26 10:00-14:00', new Date('2025-01-26T11:00:00')); // 'Jan 26 14:00'
 ```
 
 ### `getNextClosedNow()`
@@ -114,6 +119,7 @@ Gets the next closing time. Returns null if place is currently closed.
 import { getNextClosedNow } from '@wojtekmaj/opening-hours-utils';
 
 getNextClosedNow('Mo-Fr 08:00-17:30'); // 'Mo 17:30'
+getNextClosedNow('Jan 26 10:00-14:00'); // depends on current date and time
 ```
 
 ### `getNextOpenAt()`
@@ -126,6 +132,7 @@ Gets the next opening time for a given date. Returns null if for a given date pl
 import { getNextOpenAt } from '@wojtekmaj/opening-hours-utils';
 
 getNextOpenAt('Mo-Fr 08:00-17:30', saturdayNoon); // 'Mo 08:00'
+getNextOpenAt('Feb 01-Feb 14 10:00-14:00', new Date('2025-01-31T12:00:00')); // 'Feb 01 10:00'
 ```
 
 ### `getNextOpenNow()`
@@ -138,6 +145,7 @@ Gets the next opening time. Returns null if place is currently open.
 import { getNextOpenNow } from '@wojtekmaj/opening-hours-utils';
 
 getNextOpenNow('Mo-Fr 08:00-17:30'); // 'Mo 08:00'
+getNextOpenNow('Feb 01-Feb 14 10:00-14:00'); // depends on current date and time
 ```
 
 ### `getOpeningHours()`
@@ -149,13 +157,23 @@ Parses opening hours string and returns an array of objects with `from`, `to`, a
 ```ts
 import { getOpeningHours } from '@wojtekmaj/opening-hours-utils';
 
-getOpeningHours('Mo-Fr 08:00-17:30');
+getOpeningHours('Mo-Fr 08:00-17:30; Jan 26 10:00-14:00; Feb 01-Feb 14 10:00-14:00');
 /**
  * [
  *   {
  *     from: 'Mo',
  *     to: 'Fr',
  *     hours: [{ from: '08:00', to: '17:30' }],
+ *   },
+ *   {
+ *     from: 'Jan 26',
+ *     to: 'Jan 26',
+ *     hours: [{ from: '10:00', to: '14:00' }],
+ *   },
+ *   {
+ *     from: 'Feb 01',
+ *     to: 'Feb 14',
+ *     hours: [{ from: '10:00', to: '14:00' }],
  *   },
  * ]
  */
