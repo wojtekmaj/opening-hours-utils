@@ -6,6 +6,7 @@ import {
   invalidString3,
   invalidString4,
   invalidString5,
+  invalidString6,
 } from '../test_data.js';
 import getNextOpenNow from './get_next_open_now.js';
 
@@ -23,6 +24,7 @@ describe('getNextOpenNow()', () => {
     ${invalidString3}
     ${invalidString4}
     ${invalidString5}
+    ${invalidString6}
   `('throws an error given $input', ({ input }) => {
     expect(() => getNextOpenNow(input)).toThrow();
   });

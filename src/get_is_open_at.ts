@@ -69,16 +69,21 @@ function getIsOpenAt(openingHoursString: string, date: Date): boolean | null {
   const openingHoursArray = getOpeningHours(openingHoursString);
 
   for (const openingHours of openingHoursArray) {
-    if (isAbsoluteOpeningHours(openingHours)) {
-      const matchingDate = getMatchingAbsoluteDate(date, openingHours);
+    if (!isAbsoluteOpeningHours(openingHours)) {
+      continue;
+    }
 
-      if (matchingDate) {
-        const result = checkHourGroupsForOpenStatus(openingHours.hours, minutesFromMidnight);
+    const matchingDate = getMatchingAbsoluteDate(date, openingHours);
 
-        if (result === true) {
-          return true;
-        }
-      }
+    if (!matchingDate) {
+      continue;
+    }
+
+    const result = checkHourGroupsForOpenStatus(openingHours.hours, minutesFromMidnight);
+
+    // If absolute hours are found, return true early, otherwise continue to check recurring hours
+    if (result) {
+      return result;
     }
   }
 
@@ -93,9 +98,7 @@ function getIsOpenAt(openingHoursString: string, date: Date): boolean | null {
   for (const dayGroup of dayGroups) {
     const result = checkHourGroupsForOpenStatus(dayGroup.hours, minutesFromMidnight);
 
-    if (result !== false) {
-      return result;
-    }
+    return result;
   }
 
   return false;

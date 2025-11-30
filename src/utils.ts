@@ -117,23 +117,13 @@ export function isAbsoluteDate(value: string): boolean {
 export function isRecurringOpeningHours(
   openingHours: OpeningHours,
 ): openingHours is RecurringOpeningHours {
-  return (
-    'from' in openingHours &&
-    'to' in openingHours &&
-    isValidWeekdayName(openingHours.from) &&
-    isValidWeekdayName(openingHours.to)
-  );
+  return isValidWeekdayName(openingHours.from) && isValidWeekdayName(openingHours.to);
 }
 
 export function isAbsoluteOpeningHours(
   openingHours: OpeningHours,
 ): openingHours is AbsoluteOpeningHours {
-  return (
-    'from' in openingHours &&
-    'to' in openingHours &&
-    isAbsoluteDate(openingHours.from) &&
-    isAbsoluteDate(openingHours.to)
-  );
+  return isAbsoluteDate(openingHours.from) && isAbsoluteDate(openingHours.to);
 }
 
 export function matchesAbsoluteDate(date: Date, absoluteDate: AbsoluteDate): boolean {

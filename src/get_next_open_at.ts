@@ -70,7 +70,7 @@ function getAbsoluteOpeningTime(
 
   for (const hourGroup of sortedHourGroups) {
     if (getMinutesToOpening(hourGroup, minutesFromMidnight) > 0) {
-      return `${matchingDate} ${hourGroup.from}` as NextTimeResult;
+      return `${matchingDate} ${hourGroup.from}`;
     }
   }
 
@@ -104,12 +104,14 @@ export default function getNextOpenAt(
   const openingHoursArray = getOpeningHours(openingHoursString);
 
   for (const openingHours of openingHoursArray) {
-    if (isAbsoluteOpeningHours(openingHours)) {
-      const absoluteOpening = getAbsoluteOpeningTime(openingHours, date, minutesFromMidnight);
+    if (!isAbsoluteOpeningHours(openingHours)) {
+      continue;
+    }
 
-      if (absoluteOpening) {
-        return absoluteOpening;
-      }
+    const absoluteOpening = getAbsoluteOpeningTime(openingHours, date, minutesFromMidnight);
+
+    if (absoluteOpening) {
+      return absoluteOpening;
     }
   }
 

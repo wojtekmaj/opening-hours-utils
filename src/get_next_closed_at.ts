@@ -74,8 +74,7 @@ function getAbsoluteClosingTime(
   }
 
   const hourGroupsWithClosing = absoluteOpeningHours.hours.filter(
-    (hourGroup): hourGroup is RequiredHourGroup =>
-      hourGroup.to !== null && hourGroup.to !== undefined,
+    (hourGroup): hourGroup is RequiredHourGroup => Boolean(hourGroup.to),
   );
 
   const sortedHourGroups = [...hourGroupsWithClosing].sort((hourGroupA, hourGroupB) => {
@@ -96,7 +95,7 @@ function getAbsoluteClosingTime(
         continue;
       }
 
-      return `${matchingDate} ${hourGroup.to}` as NextTimeResult;
+      return `${matchingDate} ${hourGroup.to}`;
     }
   }
 
@@ -136,21 +135,24 @@ export default function getNextClosedAt(
   const openingHoursArray = getOpeningHours(openingHoursString);
 
   for (const openingHours of openingHoursArray) {
-    if (isAbsoluteOpeningHours(openingHours)) {
-      const absoluteClosing = getAbsoluteClosingTime(
-        openingHours,
-        date,
-        minutesFromMidnight,
-        openingHoursString,
-      );
+    if (!isAbsoluteOpeningHours(openingHours)) {
+      continue;
+    }
 
-      if (absoluteClosing) {
-        return absoluteClosing;
-      }
+    const absoluteClosing = getAbsoluteClosingTime(
+      openingHours,
+      date,
+      minutesFromMidnight,
+      openingHoursString,
+    );
+
+    if (absoluteClosing) {
+      return absoluteClosing;
     }
   }
 
   const dailyOpeningHoursArray = getDailyOpeningHours(openingHoursString);
+
   const day = date.getDay() as Weekday;
   const daysSortedByDaysToClosing = groupDaysByDaysToClosing(dailyOpeningHoursArray, day);
 

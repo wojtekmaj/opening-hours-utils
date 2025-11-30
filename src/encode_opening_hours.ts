@@ -10,7 +10,6 @@ import type {
   AbsoluteOpeningHours,
   HourGroup,
   HourRange,
-  OpeningHours,
   OpeningHoursArray,
   RecurringOpeningHours,
 } from './types.js';
@@ -91,26 +90,23 @@ function encodeAbsoluteOpeningHours(openingHours: AbsoluteOpeningHours): string 
   return `${dateRange} ${joinedHourRanges}`;
 }
 
-function encodeOpeningHoursEntry(openingHours: OpeningHours): string | null {
-  if (isAbsoluteOpeningHours(openingHours)) {
-    return encodeAbsoluteOpeningHours(openingHours);
-  }
-
-  if (isRecurringOpeningHours(openingHours)) {
-    return encodeRecurringOpeningHours(openingHours);
-  }
-
-  return null;
-}
-
 export default function encodeOpeningHours(openingHoursArray: OpeningHoursArray): string {
-  if (typeof openingHoursArray === 'undefined' || openingHoursArray === null) {
-    throw new Error('openingHoursArray is required');
-  }
-
   if (!openingHoursArray.length) {
     return '';
   }
 
-  return openingHoursArray.map(encodeOpeningHoursEntry).filter(Boolean).join('; ');
+  return openingHoursArray
+    .map((openingHours) => {
+      if (isAbsoluteOpeningHours(openingHours)) {
+        return encodeAbsoluteOpeningHours(openingHours);
+      }
+
+      if (isRecurringOpeningHours(openingHours)) {
+        return encodeRecurringOpeningHours(openingHours);
+      }
+
+      return null;
+    })
+    .filter(Boolean)
+    .join('; ');
 }

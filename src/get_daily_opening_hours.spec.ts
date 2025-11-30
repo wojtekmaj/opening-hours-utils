@@ -76,6 +76,37 @@ describe('getDailyOpeningHours()', () => {
     ]);
   });
 
+  it('returns array with recurring days only given weekday range with both recurring and absolute hours', () => {
+    const result = getDailyOpeningHours(absoluteDays.string);
+
+    expect(result).toEqual([
+      {
+        day: 'Mo',
+        hours: [{ from: '09:00', to: '22:00' }],
+      },
+      {
+        day: 'Tu',
+        hours: [{ from: '09:00', to: '22:00' }],
+      },
+      {
+        day: 'We',
+        hours: [{ from: '09:00', to: '22:00' }],
+      },
+      {
+        day: 'Th',
+        hours: [{ from: '09:00', to: '22:00' }],
+      },
+      {
+        day: 'Fr',
+        hours: [{ from: '09:00', to: '22:00' }],
+      },
+      {
+        day: 'Sa',
+        hours: [{ from: '09:00', to: '22:00' }],
+      },
+    ]);
+  });
+
   it.each`
     input
     ${undefined}
@@ -88,18 +119,5 @@ describe('getDailyOpeningHours()', () => {
     ${invalidString6}
   `('throws an error given $input', ({ input }) => {
     expect(() => getDailyOpeningHours(input)).toThrow();
-  });
-
-  it('returns daily array that includes recurring days only', () => {
-    const result = getDailyOpeningHours(absoluteDays.string);
-
-    expect(result).toEqual([
-      { day: 'Mo', hours: [{ from: '09:00', to: '22:00' }] },
-      { day: 'Tu', hours: [{ from: '09:00', to: '22:00' }] },
-      { day: 'We', hours: [{ from: '09:00', to: '22:00' }] },
-      { day: 'Th', hours: [{ from: '09:00', to: '22:00' }] },
-      { day: 'Fr', hours: [{ from: '09:00', to: '22:00' }] },
-      { day: 'Sa', hours: [{ from: '09:00', to: '22:00' }] },
-    ]);
   });
 });
