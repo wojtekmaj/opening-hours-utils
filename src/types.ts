@@ -1,4 +1,4 @@
-import type { WEEKDAY_NAMES, WEEKDAYS } from './constants.js';
+import type { MONTH_NAMES, WEEKDAY_NAMES, WEEKDAYS } from './constants.js';
 
 export type ZeroToSix = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -27,6 +27,12 @@ export type WeekdayName = (typeof WEEKDAY_NAMES)[keyof typeof WEEKDAY_NAMES];
 
 export type WeekdayRange = `${WeekdayName}-${WeekdayName}` | WeekdayName;
 
+export type MonthName = (typeof MONTH_NAMES)[keyof typeof MONTH_NAMES];
+
+export type DayOfMonth = number;
+
+export type AbsoluteDate = `${MonthName} ${DayOfMonth}`;
+
 export type DayGroup = {
   day: WeekdayName;
   hours: HourGroups;
@@ -34,10 +40,21 @@ export type DayGroup = {
 
 export type DayGroups = DayGroup[];
 
-export type OpeningHours = {
+export type RecurringOpeningHours = {
   from: WeekdayName;
   to: WeekdayName;
   hours: HourGroups;
 };
 
+export type AbsoluteOpeningHours = {
+  from: AbsoluteDate;
+  to: AbsoluteDate;
+  hours: HourGroups;
+};
+
+export type OpeningHours = RecurringOpeningHours | AbsoluteOpeningHours;
+
 export type OpeningHoursArray = OpeningHours[];
+
+// Return type for getNextOpenAt and getNextClosedAt
+export type NextTimeResult = `${WeekdayName} ${Hour}` | `${MonthName} ${DayOfMonth} ${Hour}`;

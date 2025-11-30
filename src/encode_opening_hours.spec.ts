@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  absoluteDays,
   incompleteArray1,
   incompleteString1,
   justHours,
@@ -50,6 +51,12 @@ describe('encodeOpeningHours()', () => {
   it('returns weekday range without hours given array with no "from" value', () => {
     // @ts-expect-error-next-line
     expect(encodeOpeningHours(incompleteArray1)).toBe(incompleteString1);
+  });
+
+  it('returns proper string given absolute days array', () => {
+    const result = encodeOpeningHours(absoluteDays.array);
+
+    expect(result).toEqual(absoluteDays.string);
   });
 
   it.each`

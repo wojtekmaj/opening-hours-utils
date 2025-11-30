@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  absoluteDays,
   incompleteString1,
   invalidString1,
   invalidString2,
   invalidString3,
   invalidString4,
+  invalidString5,
+  invalidString6,
   justHours,
   multipleOpeningIntervals,
   openFridayToTuesday,
@@ -73,6 +76,37 @@ describe('getDailyOpeningHours()', () => {
     ]);
   });
 
+  it('returns array with recurring days only given weekday range with both recurring and absolute hours', () => {
+    const result = getDailyOpeningHours(absoluteDays.string);
+
+    expect(result).toEqual([
+      {
+        day: 'Mo',
+        hours: [{ from: '09:00', to: '22:00' }],
+      },
+      {
+        day: 'Tu',
+        hours: [{ from: '09:00', to: '22:00' }],
+      },
+      {
+        day: 'We',
+        hours: [{ from: '09:00', to: '22:00' }],
+      },
+      {
+        day: 'Th',
+        hours: [{ from: '09:00', to: '22:00' }],
+      },
+      {
+        day: 'Fr',
+        hours: [{ from: '09:00', to: '22:00' }],
+      },
+      {
+        day: 'Sa',
+        hours: [{ from: '09:00', to: '22:00' }],
+      },
+    ]);
+  });
+
   it.each`
     input
     ${undefined}
@@ -81,6 +115,8 @@ describe('getDailyOpeningHours()', () => {
     ${invalidString2}
     ${invalidString3}
     ${invalidString4}
+    ${invalidString5}
+    ${invalidString6}
   `('throws an error given $input', ({ input }) => {
     expect(() => getDailyOpeningHours(input)).toThrow();
   });

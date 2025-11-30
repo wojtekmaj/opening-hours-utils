@@ -1,6 +1,18 @@
-import { getDayDiff, getWeekday, isValidHour } from './utils.js';
+import {
+  getDayDiff,
+  getWeekday,
+  isAbsoluteOpeningHours,
+  isRecurringOpeningHours,
+  isValidHour,
+} from './utils.js';
 
-import type { HourGroup, HourRange, OpeningHoursArray } from './types.js';
+import type {
+  AbsoluteOpeningHours,
+  HourGroup,
+  HourRange,
+  OpeningHoursArray,
+  RecurringOpeningHours,
+} from './types.js';
 
 function isValidHourGroup(hourGroup: HourGroup): hourGroup is HourGroup {
   if (typeof hourGroup !== 'object' || hourGroup === null) {
@@ -26,43 +38,74 @@ function toHourRange(hourGroup: HourGroup): HourRange {
   return `${hourGroup.from}-${hourGroup.to}`;
 }
 
-export default function encodeOpeningHours(openingHoursArray: OpeningHoursArray): string {
-  if (typeof openingHoursArray === 'undefined' || openingHoursArray === null) {
-    throw new Error('openingHoursArray is required');
+function encodeRecurringOpeningHours(openingHours: RecurringOpeningHours): string | null {
+  const { from, to = from, hours } = openingHours;
+
+  if (!from || !hours) {
+    return null;
   }
 
+  const weekdayRange = from === to ? from : `${from}-${to}`;
+
+  if (!hours.length) {
+    return `${weekdayRange} off`;
+  }
+
+  const validHours = hours.filter(isValidHourGroup);
+
+  const hourRanges = validHours.map(toHourRange);
+  const joinedHourRanges = hourRanges.join(',');
+
+  const dayDiff = getDayDiff(getWeekday(from), getWeekday(to));
+
+  if (dayDiff === 6 && joinedHourRanges === '00:00-24:00') {
+    return '24/7';
+  }
+
+  if (!joinedHourRanges) {
+    return weekdayRange;
+  }
+
+  return `${weekdayRange} ${joinedHourRanges}`;
+}
+
+function encodeAbsoluteOpeningHours(openingHours: AbsoluteOpeningHours): string | null {
+  const { from, to = from, hours } = openingHours;
+
+  const dateRange = from === to ? from : `${from}-${to}`;
+
+  if (!hours.length) {
+    return `${dateRange} off`;
+  }
+
+  const validHours = hours.filter(isValidHourGroup);
+
+  const hourRanges = validHours.map(toHourRange);
+  const joinedHourRanges = hourRanges.join(',');
+
+  if (!joinedHourRanges) {
+    return dateRange;
+  }
+
+  return `${dateRange} ${joinedHourRanges}`;
+}
+
+export default function encodeOpeningHours(openingHoursArray: OpeningHoursArray): string {
   if (!openingHoursArray.length) {
     return '';
   }
 
   return openingHoursArray
-    .map(({ from, to = from, hours }) => {
-      if (!from || !hours) {
-        return null;
+    .map((openingHours) => {
+      if (isAbsoluteOpeningHours(openingHours)) {
+        return encodeAbsoluteOpeningHours(openingHours);
       }
 
-      const weekdayRange = from === to ? from : `${from}-${to}`;
-
-      if (!hours.length) {
-        return `${weekdayRange} off`;
+      if (isRecurringOpeningHours(openingHours)) {
+        return encodeRecurringOpeningHours(openingHours);
       }
 
-      const validHours = hours.filter(isValidHourGroup);
-
-      const hourRanges = validHours.map(toHourRange);
-      const joinedHourRanges = hourRanges.join(',');
-
-      const dayDiff = getDayDiff(getWeekday(from), getWeekday(to));
-
-      if (dayDiff === 6 && joinedHourRanges === '00:00-24:00') {
-        return '24/7';
-      }
-
-      if (!joinedHourRanges) {
-        return weekdayRange;
-      }
-
-      return `${weekdayRange} ${joinedHourRanges}`;
+      return null;
     })
     .filter(Boolean)
     .join('; ');

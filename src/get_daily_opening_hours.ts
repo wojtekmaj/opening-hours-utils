@@ -1,5 +1,5 @@
 import getOpeningHours from './get_opening_hours.js';
-import { getDayDiff, getWeekday, getWeekdayName } from './utils.js';
+import { getDayDiff, getWeekday, getWeekdayName, isRecurringOpeningHours } from './utils.js';
 
 import type { DayGroups, HourGroups, Weekday, WeekdayName } from './types.js';
 
@@ -19,6 +19,10 @@ function getDailyOpeningHours(openingHoursString: string): DayGroups | null {
   const dailyOpeningHoursMap = new Map<WeekdayName, HourGroups>();
 
   for (const dayGroup of openingHoursArray) {
+    if (!isRecurringOpeningHours(dayGroup)) {
+      continue;
+    }
+
     const from = getWeekday(dayGroup.from);
     const to = getWeekday(dayGroup.to);
 

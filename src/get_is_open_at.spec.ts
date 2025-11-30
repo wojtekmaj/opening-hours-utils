@@ -1,10 +1,20 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  absoluteDays,
   invalidString1,
   invalidString2,
   invalidString3,
   invalidString4,
+  invalidString5,
+  invalidString6,
+  jan25_2025_Evening,
+  jan25_2025_Morning,
+  jan26_2025_Evening,
+  jan26_2025_Midday,
+  jan26_2025_Midnight,
+  jan26_2025_Morning,
+  jan27_2025_Morning,
   justHours,
   mondayEvening,
   mondayMidday,
@@ -193,12 +203,32 @@ describe('getIsOpenAt()', () => {
   });
 
   it.each`
+    openingHoursString     | date                   | expectedResult
+    ${absoluteDays.string} | ${jan26_2025_Midnight} | ${false}
+    ${absoluteDays.string} | ${jan26_2025_Morning}  | ${true}
+    ${absoluteDays.string} | ${jan26_2025_Midday}   | ${true}
+    ${absoluteDays.string} | ${jan26_2025_Evening}  | ${false}
+    ${absoluteDays.string} | ${jan25_2025_Morning}  | ${true}
+    ${absoluteDays.string} | ${jan25_2025_Evening}  | ${true}
+    ${absoluteDays.string} | ${jan27_2025_Morning}  | ${true}
+  `(
+    'returns $expectedResult for absolute days given $date',
+    ({ openingHoursString, date, expectedResult }) => {
+      const result = getIsOpenAt(openingHoursString, date);
+
+      expect(result).toBe(expectedResult);
+    },
+  );
+
+  it.each`
     input
     ${null}
     ${invalidString1}
     ${invalidString2}
     ${invalidString3}
     ${invalidString4}
+    ${invalidString5}
+    ${invalidString6}
   `('throws an error given $input', ({ input }) => {
     // @ts-expect-error-next-line
     expect(() => getIsOpenAt(input)).toThrow();

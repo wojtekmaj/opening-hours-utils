@@ -1,10 +1,20 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  absoluteDays,
   invalidString1,
   invalidString2,
   invalidString3,
   invalidString4,
+  invalidString5,
+  invalidString6,
+  jan25_2025_Evening,
+  jan25_2025_Morning,
+  jan26_2025_Evening,
+  jan26_2025_Midday,
+  jan26_2025_Midnight,
+  jan26_2025_Morning,
+  jan27_2025_Morning,
   justHours,
   mondayEvening,
   mondayMidday,
@@ -193,6 +203,24 @@ describe('getNextOpenAt()', () => {
   });
 
   it.each`
+    openingHoursString     | date                   | expectedResult
+    ${absoluteDays.string} | ${jan26_2025_Midnight} | ${'Jan 26 09:00'}
+    ${absoluteDays.string} | ${jan26_2025_Morning}  | ${null}
+    ${absoluteDays.string} | ${jan26_2025_Midday}   | ${null}
+    ${absoluteDays.string} | ${jan26_2025_Evening}  | ${'Mo 09:00'}
+    ${absoluteDays.string} | ${jan25_2025_Morning}  | ${null}
+    ${absoluteDays.string} | ${jan25_2025_Evening}  | ${null}
+    ${absoluteDays.string} | ${jan27_2025_Morning}  | ${null}
+  `(
+    'returns $expectedResult for absolute days given $date',
+    ({ openingHoursString, date, expectedResult }) => {
+      const result = getNextOpenAt(openingHoursString, date);
+
+      expect(result).toBe(expectedResult);
+    },
+  );
+
+  it.each`
     input
     ${undefined}
     ${null}
@@ -200,6 +228,8 @@ describe('getNextOpenAt()', () => {
     ${invalidString2}
     ${invalidString3}
     ${invalidString4}
+    ${invalidString5}
+    ${invalidString6}
   `('throws an error given $input', ({ input }) => {
     // @ts-expect-error-next-line
     expect(() => getNextOpenAt(input)).toThrow();
