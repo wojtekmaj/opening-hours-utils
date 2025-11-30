@@ -109,9 +109,14 @@ export function isValidDayOfMonth(day: number, month: MonthName): boolean {
 
 // Pattern to match absolute date strings like "Jan 26" or "Apr 13"
 const absoluteDatePattern = /^([A-Z][a-z]{2})\s+(\d+)$/;
+const absoluteDateStartPattern = /^[A-Z][a-z]{2}\s+\d/;
 
 export function isAbsoluteDate(value: string): boolean {
   return absoluteDatePattern.test(value);
+}
+
+export function startsWithAbsoluteDate(value: string): boolean {
+  return absoluteDateStartPattern.test(value);
 }
 
 export function isRecurringOpeningHours(

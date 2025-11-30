@@ -1,4 +1,10 @@
-import { isValidDayOfMonth, isValidHour, isValidMonthName, isValidWeekdayName } from './utils.js';
+import {
+  isValidDayOfMonth,
+  isValidHour,
+  isValidMonthName,
+  isValidWeekdayName,
+  startsWithAbsoluteDate,
+} from './utils.js';
 
 import type {
   AbsoluteDate,
@@ -48,38 +54,43 @@ function toHourGroup(hourRange: HourRange): HourGroup | null {
 
 // Matches absolute dates like "Jan 26" or "Apr 13"
 const absoluteDatePattern = /^([A-Z][a-z]{2})\s+(\d+)$/;
-
-// Matches strings starting with absolute dates like "Jan 26"
-const startsWithAbsoluteDatePattern = /^[A-Z][a-z]{2}\s+\d/;
+const absoluteDateRangePattern = /^([A-Z][a-z]{2}\s+\d+)(?:-([A-Z][a-z]{2}\s+\d+))?$/;
 
 // Matches hour start patterns like " 09:00", " off", or " open"
 const hourStartPattern = /\s+(\d{1,2}:\d{2}|off|open)/;
 
-function startsWithAbsoluteDate(dayGroup: string): boolean {
-  return startsWithAbsoluteDatePattern.test(dayGroup);
-}
-
 function parseAbsoluteDate(dateStr: string): AbsoluteDate {
   const match = dateStr.match(absoluteDatePattern);
-  const [, monthName, dayStr] = match || [];
+  const monthName = match?.[1] as MonthName | undefined;
+  const dayStr = match?.[2];
 
   if (!monthName || !dayStr) {
     throw new Error(`Invalid absolute date format: ${dateStr}`);
   }
 
-  const day = Number.parseInt(dayStr, 10);
-
   if (!isValidMonthName(monthName)) {
     throw new Error(`Invalid month name: ${monthName}`);
   }
 
-  const validMonthName = monthName as MonthName;
+  const day = Number.parseInt(dayStr, 10);
 
-  if (!isValidDayOfMonth(day, validMonthName)) {
+  if (!isValidDayOfMonth(day, monthName)) {
     throw new Error(`Invalid day of month: ${dayStr} for ${monthName}`);
   }
 
-  return `${validMonthName} ${day}` as AbsoluteDate;
+  return `${monthName} ${day}` as AbsoluteDate;
+}
+
+function parseAbsoluteDateRange(range: string): [AbsoluteDate, AbsoluteDate] {
+  const match = range.match(absoluteDateRangePattern);
+  const fromDate = match?.[1];
+  const toDate = match?.[2] ?? fromDate;
+
+  if (!fromDate || !toDate) {
+    throw new Error(`Invalid absolute date range: ${range}`);
+  }
+
+  return [parseAbsoluteDate(fromDate), parseAbsoluteDate(toDate)];
 }
 
 function splitAbsoluteDayGroup(dayGroup: string): [string, string?] {
@@ -91,6 +102,16 @@ function splitAbsoluteDayGroup(dayGroup: string): [string, string?] {
   }
 
   return [dayGroup, undefined];
+}
+
+function parseHourGroups(joinedHourRanges?: string): HourGroup[] {
+  if (!joinedHourRanges) {
+    return [{ from: '00:00', to: '24:00' }];
+  }
+
+  const hourRanges = joinedHourRanges.split(/,\s*/) as HourRange[];
+
+  return hourRanges.map(toHourGroup).filter(Boolean) as HourGroup[];
 }
 
 function getOpeningHours(openingHoursString: ''): null;
@@ -122,30 +143,13 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
     if (startsWithAbsoluteDate(dayGroup)) {
       const [joinedWeekdayRanges, joinedHourRanges] = splitAbsoluteDayGroup(dayGroup);
 
-      // Parse the date range (could be e.g., "Jan 26" or "Jan 26-Feb 14")
-      const [, fromDateStr, toDateStr = fromDateStr] = joinedWeekdayRanges.match(
-        /^([A-Z][a-z]{2}\s+\d+)(?:-([A-Z][a-z]{2}\s+\d+))?$/,
-      ) as [string, string, string?];
+      const [fromDate, toDate] = parseAbsoluteDateRange(joinedWeekdayRanges);
 
-      const fromDate = parseAbsoluteDate(fromDateStr);
-      const toDate = parseAbsoluteDate(toDateStr);
-
-      if (joinedHourRanges) {
-        const hourRanges = joinedHourRanges.split(/,\s*/) as HourRange[];
-        const hourGroups = hourRanges.map(toHourGroup).filter(Boolean) as HourGroup[];
-
-        openingHoursArray.push({
-          from: fromDate,
-          to: toDate,
-          hours: hourGroups,
-        });
-      } else {
-        openingHoursArray.push({
-          from: fromDate,
-          to: toDate,
-          hours: [{ from: '00:00', to: '24:00' }],
-        });
-      }
+      openingHoursArray.push({
+        from: fromDate,
+        to: toDate,
+        hours: parseHourGroups(joinedHourRanges),
+      });
     } else {
       // Handle recurring weekday ranges
       const [joinedDayRanges, joinedHourRanges] = dayGroup.split(/\b\s+/) as [string, string?];
@@ -159,22 +163,11 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
           throw new Error(`Invalid weekday range: ${weekdayRange}`);
         }
 
-        if (joinedHourRanges) {
-          const hourRanges = joinedHourRanges.split(/,\s*/) as HourRange[];
-          const hourGroups = hourRanges.map(toHourGroup).filter(Boolean) as HourGroup[];
-
-          openingHoursArray.push({
-            from: fromWeekday,
-            to: toWeekday,
-            hours: hourGroups,
-          });
-        } else {
-          openingHoursArray.push({
-            from: fromWeekday,
-            to: toWeekday,
-            hours: [{ from: '00:00', to: '24:00' }],
-          });
-        }
+        openingHoursArray.push({
+          from: fromWeekday,
+          to: toWeekday,
+          hours: parseHourGroups(joinedHourRanges),
+        });
       }
     }
   });
