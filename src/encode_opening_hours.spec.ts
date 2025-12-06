@@ -5,6 +5,8 @@ import {
   incompleteArray1,
   incompleteString1,
   justHours,
+  missingAbsoluteHoursArray,
+  missingRecurringHoursArray,
   multipleOpeningIntervals,
   openFridayToTuesday,
   openNonStop,
@@ -51,6 +53,16 @@ describe('encodeOpeningHours()', () => {
   it('returns weekday range without hours given array with no "from" value', () => {
     // @ts-expect-error-next-line
     expect(encodeOpeningHours(incompleteArray1)).toBe(incompleteString1);
+  });
+
+  it('skips over missing recurring hours', () => {
+    // @ts-expect-error-next-line
+    expect(encodeOpeningHours(missingRecurringHoursArray)).toBe('');
+  });
+
+  it('skips over missing absolute hours', () => {
+    // @ts-expect-error-next-line
+    expect(encodeOpeningHours(missingAbsoluteHoursArray)).toBe('');
   });
 
   it('returns proper string given absolute days array', () => {

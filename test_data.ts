@@ -365,6 +365,20 @@ export const incompleteArray1: unknown = [
   },
 ];
 
+export const missingRecurringHoursArray: unknown = [
+  {
+    from: 'Mo',
+    to: 'We',
+  },
+];
+
+export const missingAbsoluteHoursArray: unknown = [
+  {
+    from: 'Jan 26',
+    to: 'Jan 27',
+  },
+];
+
 export const invalidString1 = 'Fo-Ba 08:00-17:30';
 export const invalidString2 = 'Mo-Fr 08:00-49:00';
 export const invalidString3 = 'Mo-Fr 08:00-17:65';

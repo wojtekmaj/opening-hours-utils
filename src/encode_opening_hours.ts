@@ -72,6 +72,10 @@ function encodeRecurringOpeningHours(openingHours: RecurringOpeningHours): strin
 function encodeAbsoluteOpeningHours(openingHours: AbsoluteOpeningHours): string | null {
   const { from, to = from, hours } = openingHours;
 
+  if (!from || !hours) {
+    return null;
+  }
+
   const dateRange = from === to ? from : `${from}-${to}`;
 
   if (!hours.length) {
