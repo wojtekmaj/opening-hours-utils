@@ -78,7 +78,7 @@ function parseAbsoluteDate(dateStr: string): AbsoluteDate {
     throw new Error(`Invalid day of month: ${dayStr} for ${monthName}`);
   }
 
-  return `${monthName} ${day}` as AbsoluteDate;
+  return `${monthName} ${day}`;
 }
 
 function parseAbsoluteDateRange(range: string): [AbsoluteDate, AbsoluteDate] {
