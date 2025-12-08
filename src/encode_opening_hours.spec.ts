@@ -5,6 +5,7 @@ import {
   incompleteArray1,
   incompleteString1,
   justHours,
+  leadingZeroAbsoluteDays,
   missingAbsoluteHoursArray,
   missingRecurringHoursArray,
   multipleOpeningIntervals,
@@ -69,6 +70,12 @@ describe('encodeOpeningHours()', () => {
     const result = encodeOpeningHours(absoluteDays.array);
 
     expect(result).toEqual(absoluteDays.string);
+  });
+
+  it('returns proper string given leading zero absolute days array', () => {
+    const result = encodeOpeningHours(leadingZeroAbsoluteDays.array);
+
+    expect(result).toEqual(leadingZeroAbsoluteDays.string);
   });
 
   it.each`

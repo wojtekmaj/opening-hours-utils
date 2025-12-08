@@ -414,6 +414,17 @@ export const absoluteDays: AbsoluteTestDataPiece = {
   ],
 };
 
+export const leadingZeroAbsoluteDays: AbsoluteTestDataPiece = {
+  string: 'Jan 06-Jan 07 09:00-19:00',
+  array: [
+    {
+      from: 'Jan 06',
+      to: 'Jan 07',
+      hours: [{ from: '09:00', to: '19:00' }],
+    },
+  ],
+};
+
 export const invalidString5 = 'Jan 32 10:00-18:00';
 export const invalidString6 = 'Foo 14 10:00-18:00';
 

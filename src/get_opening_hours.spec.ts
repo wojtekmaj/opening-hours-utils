@@ -10,6 +10,7 @@ import {
   invalidString5,
   invalidString6,
   justHours,
+  leadingZeroAbsoluteDays,
   multipleOpeningIntervals,
   openFridayToTuesday,
   openNonStop,
@@ -73,6 +74,12 @@ describe('getOpeningHours()', () => {
     const result = getOpeningHours(absoluteDays.string);
 
     expect(result).toEqual(absoluteDays.array);
+  });
+
+  it('returns proper object given leading zero absolute days input', () => {
+    const result = getOpeningHours(leadingZeroAbsoluteDays.string);
+
+    expect(result).toEqual(leadingZeroAbsoluteDays.array);
   });
 
   it.each`

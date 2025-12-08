@@ -50,12 +50,35 @@ export function getWeekdayName(weekday: Weekday): WeekdayName {
   return WEEKDAY_NAMES[weekday];
 }
 
+// Matches absolute dates like "Jan 26" or "Apr 13"
+const absoluteDatePattern = /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d+)$/;
+
+export function isValidAbsoluteDate(date: unknown): date is AbsoluteDate {
+  if (!date || typeof date !== 'string') {
+    return false;
+  }
+
+  const match = date.match(absoluteDatePattern);
+
+  if (!match) {
+    return false;
+  }
+
+  const [, monthName, dayStr] = match as [string, MonthName, string];
+
+  const day = Number.parseInt(dayStr, 10);
+
+  return isValidDayOfMonth(day, monthName);
+}
+
+const hourPattern = /^(0?[0-9]|[123][0-9]|4[0-8]):[0-5][0-9]$/;
+
 export function isValidHour(hour: unknown): hour is Hour {
   if (!hour || typeof hour !== 'string') {
     return false;
   }
 
-  return hour.match(/^(0?[0-9]|[123][0-9]|4[0-8]):[0-5][0-9]$/) !== null;
+  return hourPattern.test(hour);
 }
 
 const weekdayNamesValues = Object.values(WEEKDAY_NAMES);
@@ -64,12 +87,7 @@ export function isValidWeekdayName(weekday: unknown): weekday is WeekdayName {
   return weekdayNamesValues.includes(weekday as WeekdayName);
 }
 
-const monthNamesValues = Object.values(MONTH_NAMES);
 const monthNamesEntries = Object.entries(MONTH_NAMES);
-
-export function isValidMonthName(month: unknown): month is MonthName {
-  return monthNamesValues.includes(month as MonthName);
-}
 
 export function getMonthIndex(monthName: MonthName): number {
   const monthNamesEntry = monthNamesEntries.find(([, value]) => value === monthName);
@@ -107,8 +125,6 @@ export function isValidDayOfMonth(day: number, month: MonthName): boolean {
   return day <= maxDays;
 }
 
-// Pattern to match absolute date strings like "Jan 26" or "Apr 13"
-const absoluteDatePattern = /^([A-Z][a-z]{2})\s+(\d+)$/;
 const absoluteDateStartPattern = /^[A-Z][a-z]{2}\s+\d/;
 
 export function isAbsoluteDate(value: string): boolean {
@@ -133,13 +149,14 @@ export function isAbsoluteOpeningHours(
 
 export function matchesAbsoluteDate(date: Date, absoluteDate: AbsoluteDate): boolean {
   const match = absoluteDate.match(absoluteDatePattern);
+  const monthName = match?.[1] as MonthName | undefined;
+  const dayStr = match?.[2];
 
-  if (!match?.[1] || !match[2]) {
+  if (!monthName || !dayStr) {
     return false;
   }
 
-  const monthName = match[1] as MonthName;
-  const day = Number.parseInt(match[2], 10);
+  const day = Number.parseInt(dayStr, 10);
   const month = getMonthIndex(monthName);
 
   return date.getMonth() === month && date.getDate() === day;
