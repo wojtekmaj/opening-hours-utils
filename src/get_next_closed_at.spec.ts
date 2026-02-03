@@ -211,7 +211,7 @@ describe('getNextClosedAt()', () => {
     ${absoluteDays.string} | ${jan26_2025_Evening}  | ${null}
     ${absoluteDays.string} | ${jan25_2025_Morning}  | ${'Sa 22:00'}
     ${absoluteDays.string} | ${jan25_2025_Evening}  | ${'Sa 22:00'}
-    ${absoluteDays.string} | ${jan27_2025_Morning}  | ${'Mo 22:00'}
+    ${absoluteDays.string} | ${jan27_2025_Morning}  | ${'Jan 27 19:00'}
   `(
     'returns $expectedResult for absolute days given $date',
     ({ openingHoursString, date, expectedResult }) => {

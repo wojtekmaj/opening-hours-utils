@@ -81,8 +81,8 @@ function getIsOpenAt(openingHoursString: string, date: Date): boolean | null {
 
     const result = checkHourGroupsForOpenStatus(openingHours.hours, minutesFromMidnight);
 
-    // If absolute hours are found, return true early, otherwise continue to check recurring hours
-    if (result) {
+    // If absolute hours are found, return boolean early, otherwise continue to check recurring hours
+    if (result !== null) {
       return result;
     }
   }
