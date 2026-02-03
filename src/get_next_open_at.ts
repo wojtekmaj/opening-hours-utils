@@ -167,5 +167,6 @@ export default function getNextOpenAt(
     return nextOpenAt;
   }
 
-  throw new Error('Could not find opening time');
+  // Never opens
+  return null;
 }

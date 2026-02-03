@@ -196,5 +196,6 @@ export default function getNextClosedAt(
     }
   }
 
-  throw new Error('Could not find closing time');
+  // Never closes
+  return null;
 }
