@@ -109,6 +109,10 @@ function getOpeningHours(openingHoursString: string): OpeningHoursArray | null {
   const openingHoursArray: OpeningHoursArray = [];
 
   dayGroups.filter(Boolean).forEach((dayGroup) => {
+    if (dayGroup === '24/7' || dayGroup === 'open') {
+      dayGroup = 'Mo-Su 00:00-24:00';
+    }
+
     // If day group starts with a valid hour range, prepend with 'Mo-Su'
     if (dayGroup.startsWith('off') || dayGroup.startsWith('open') || dayGroup.match(/^\d/)) {
       dayGroup = `Mo-Su ${dayGroup}`;

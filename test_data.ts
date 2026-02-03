@@ -9,6 +9,7 @@ type TestDataPiece = {
 
 type AbsoluteTestDataPiece = {
   string: string;
+  altString?: string;
   array: OpeningHoursArray;
 };
 
@@ -187,6 +188,23 @@ export const openNonStop: TestDataPiece = {
     { day: 'Fr', hours: [{ from: '00:00', to: '24:00' }] },
     { day: 'Sa', hours: [{ from: '00:00', to: '24:00' }] },
     { day: 'Su', hours: [{ from: '00:00', to: '24:00' }] },
+  ],
+};
+
+export const openNonStopWithAbsoluteDay: AbsoluteTestDataPiece = {
+  string: '24/7; Jan 25',
+  altString: '24/7; Jan 25 00:00-24:00',
+  array: [
+    {
+      from: 'Mo',
+      to: 'Su',
+      hours: [{ from: '00:00', to: '24:00' }],
+    },
+    {
+      from: 'Jan 25',
+      to: 'Jan 25',
+      hours: [{ from: '00:00', to: '24:00' }],
+    },
   ],
 };
 

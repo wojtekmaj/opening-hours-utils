@@ -26,6 +26,7 @@ import {
   openNonStop,
   openNonStopOnWeekends,
   openNonStopOnWeekends2,
+  openNonStopWithAbsoluteDay,
   openOnMondaysAndWednesdays,
   openOnSaturday,
   openOnWeekdays,
@@ -118,6 +119,9 @@ describe('getIsOpenAt()', () => {
     ${openNonStop.string}                | ${mondayMidday}       | ${true}
     ${openNonStop.string}                | ${mondayTwelveThirty} | ${true}
     ${openNonStop.string}                | ${mondayEvening}      | ${true}
+    ${openNonStopWithAbsoluteDay.string} | ${jan25_2025_Morning} | ${true}
+    ${openNonStopWithAbsoluteDay.string} | ${jan25_2025_Evening} | ${true}
+    ${openNonStopWithAbsoluteDay.string} | ${jan27_2025_Morning} | ${true}
     ${openNonStopOnWeekends.string}      | ${saturdayMidnight}   | ${true}
     ${openNonStopOnWeekends.string}      | ${saturdayEightAm}    | ${true}
     ${openNonStopOnWeekends.string}      | ${saturdayMidday}     | ${true}
