@@ -8,6 +8,18 @@ import getNextOpenAt from './get_next_open_at.js';
 import getNextOpenNow from './get_next_open_now.js';
 import getOpeningHours from './get_opening_hours.js';
 
+export type {
+  AbsoluteDate,
+  AbsoluteOpeningHours,
+  HourGroup,
+  HourGroups,
+  MonthName,
+  OpeningHours,
+  OpeningHoursArray,
+  RecurringOpeningHours,
+  WeekdayName,
+} from './types.js';
+
 export {
   encodeOpeningHours,
   getDailyOpeningHours,
