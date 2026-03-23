@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "downlevelIteration": true,
     "esModuleInterop": true,
     "isolatedDeclarations": true,
     "isolatedModules": true,
@@ -11,7 +10,6 @@
     "noUncheckedIndexedAccess": true,
     "outDir": "dist",
     "skipLibCheck": true,
-    "strict": true,
     "target": "es2018",
     "verbatimModuleSyntax": true
   },
