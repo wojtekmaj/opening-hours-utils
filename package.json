@@ -36,7 +36,7 @@
     "@types/node": "*",
     "husky": "^9.0.0",
     "typescript": "^6.0.2",
-    "vitest": "^4.0.1"
+    "vitest": "^4.1.0"
   },
   "publishConfig": {
     "access": "public",
