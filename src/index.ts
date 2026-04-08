@@ -19,7 +19,6 @@ export type {
   RecurringOpeningHours,
   WeekdayName,
 } from './types.js';
-
 export {
   encodeOpeningHours,
   getDailyOpeningHours,
