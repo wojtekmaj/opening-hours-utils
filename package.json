@@ -35,7 +35,7 @@
     "@biomejs/biome": "2.4.10",
     "@types/node": "*",
     "husky": "^9.0.0",
-    "typescript": "^6.0.2",
+    "typescript": "^7.0.2",
     "vitest": "^4.1.8"
   },
   "publishConfig": {
