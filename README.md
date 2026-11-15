@@ -9,6 +9,7 @@ A collection of opening hours-related utilities.
 - Install by executing `npm install @wojtekmaj/opening-hours-utils` or `yarn add @wojtekmaj/opening-hours-utils`.
 - Import by adding `import * as openingHoursUtils from '@wojtekmaj/opening-hours-utils'`.
 - Do stuff with it!
+
   ```ts
   const openingHours = getOpeningHours('Mo-Fr 08:00-18:00;Sa 08:00-12:00');
   ```
